@@ -1,0 +1,21 @@
+---
+interface Props {
+	href: string;
+    iconName: string;
+}
+
+const { href, iconName } = Astro.props;
+const formatedName = '/icons/icono-'+ iconName + '.png'
+
+const formatedId = "link-"+ iconName
+---
+
+<a id={formatedId} class="w-16 h-16 flex flex-col justify-center items-center sombreado" target="_blank" href={href}>
+    <img class="rounded-xl p-1" src={formatedName} alt={iconName}>
+</a>
+
+<style>
+    .sombreado {
+		filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.534));
+	}
+</style>

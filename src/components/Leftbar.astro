@@ -1,0 +1,95 @@
+---
+---
+
+<nav class="bg-slate-500 sm:min-h-dvh custom-nav">
+    <section class="flex flex-col items-center relative bg-slate-400 p-8 lg:p-5 pb-6 rounded-[40px]">
+        <h1 class="md:text-2xl lg:text-lg">Mirko Sergei Pasten Carcamo</h1>
+        <div class="border border-white rounded-3xl overflow-hidden shadow-lg my-2">
+            <img class="sm:h-52 md:h-56 lg:h-40" src="/images/mirko-pasten-lite-removebg.png" alt="">
+        </div>
+        <h3 class="text-xl lg:text-sm">Desarrollador Fullstack Junior</h2>
+        <div class="w-full flex justify-between p-2">
+            <a class="link_redes shadow-sm shadow-white rounded-md hover:shadow-none hover:opacity-85" href="mailto:mirko.pasten.dev@gmail.com">
+                <img class="w-12 lg:w-9" src="/icons/logo-email.png" alt="">
+            </a>
+            <a class="link_redes shadow-sm shadow-white rounded-md hover:shadow-none hover:opacity-85" href="https://wa.me/56940550785?text=Hola%20me%20gustaría%20saber%20más%20sobre%20sus%20servicios">
+                <img class="w-12 lg:w-9" src="/icons/logo-whatsapp.png" alt="">
+            </a>
+            <a class="link_redes shadow-sm shadow-white rounded-md hover:shadow-none hover:opacity-85" href="https://www.linkedin.com/in/mirko-pasten-carcamo/">
+                <img class="w-12 lg:w-9" src="/icons/logo-linkedin.png" alt="">
+            </a>
+            <a class="link_redes shadow-sm shadow-white rounded-md hover:shadow-none hover:opacity-85" href="https://github.com/Mirkopantufla">
+                <img class="w-12 lg:w-9" src="/icons/logo-github.png" alt="">
+            </a>
+        </div>
+        
+    </section>
+    <a class="w-64 h-16 rounded-lg link_custom text-3xl font-light" href="#quien-soy">
+        Quien soy
+    </a>
+    <a class="w-64 h-16 rounded-lg link_custom text-3xl font-light" href="#proyectos">
+        Proyectos
+    </a>
+    <a class="w-64 h-16 rounded-lg link_custom text-3xl font-light" href="#contacto">
+        Contacto
+    </a>
+</nav>
+
+<style>
+    nav {
+        box-shadow: inset 0 0 8px 0.2px rgb(0, 0, 0);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+
+    .link_redes:hover {
+        transform: scale(0.95);
+    }
+
+    .link_redes:active {
+        transform: scale(0.95);
+    }
+
+    .link_custom {
+        position: relative;
+        background-color: rgba(255, 255, 255, 0.37);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* box-shadow: 1px 1px 2px 0.3px black; */
+    }
+
+    .link_custom:hover {
+        font-weight: normal;
+    }
+
+    .link_custom:active {
+        transform: scale(0.97);
+    }
+
+    .link_custom::before {
+        padding-right: 5px;
+        content: '—';
+        color: rgba(255, 255, 255, 0.3);
+    }
+
+    .link_custom::after {
+        padding-left: 5px;
+        content: '—';
+        color: rgba(255, 255, 255, 0.3);
+    }
+
+    .link_custom:hover::after {
+        padding-left: 5px;
+        content: '—';
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    .link_custom:hover::before {
+        padding-right: 5px;
+        content: '—';
+        color: rgba(255, 255, 255, 0.8);
+    }
+</style>
