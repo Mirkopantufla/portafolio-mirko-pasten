@@ -1,16 +1,45 @@
 ---
+import ExpositorImagenes from "./ExpositorImagenes.astro"
+import { battleship, inmuebles_miki, only_flans, pajaros_chilenos, tic_tac_toe } from "../data/imagenes.ts"
 
 ---
 
-<section id="proyectos" class="h-[100vh] bg-slate-400 snap-center grid grid-rows-12 grid-cols-12">
-    <div class="row-span-6 col-span-12">
-        <div class="">
-            JAJA
-        </div>
+<section id="proyectos" class="min-h-[100vh] bg-slate-400 snap-center grid grid-rows-11 grid-cols-12 gap-x-5">
+    <div class="row-start-2 row-span-3 col-start-2 col-span-10 md:col-start-2 md:col-span-5 relative">
+        <a href="https://inmobiliarias-miki.onrender.com/" target="_blank">
+            <h1 class="bg-white rounded-t-lg text-center">Inmuebles Miki</h1>
+            <ExpositorImagenes identificador="inmuebles_miki" urlImagenes={inmuebles_miki}/>
+        </a>
     </div>
-    <div class="row-span-6 col-span-12">
-        <div class="">
-            Hola
-        </div>
+    <div class="row-start-2 row-span-3 col-start-7 md:col-start-7 md:col-span-5 col-span-10 relative">
+        <a href="https://ambrosine.pythonanywhere.com/" target="_blank">
+            <h1 class="bg-white rounded-t-lg text-center">Only Flans</h1>
+            <ExpositorImagenes identificador="only_flans" urlImagenes={only_flans}/>
+        </a>
+    </div>
+    <div class="row-start-5 row-span-3 col-start-2 col-span-5 relative">
+        <a href="https://api-pajaros-chilenos.vercel.app/" target="_blank">
+            <h1 class="bg-white rounded-t-lg text-center">Pajaros Chilenos</h1>
+            <ExpositorImagenes identificador="pajaros_chilenos" urlImagenes={pajaros_chilenos}/>
+        </a>
+    </div>
+    <div class="row-start-5 row-span-3 col-start-7 col-span-5 relative">
+        <a href="https://battle-ship-react.vercel.app/" target="_blank">
+            <h1 class="bg-white rounded-t-lg text-center">Battleship</h1>
+            <ExpositorImagenes identificador="battleship" urlImagenes={battleship}/>
+        </a>
+    </div>
+    <div class="row-start-8 row-span-3 col-start-2 col-span-5 relative">
+        <a href="https://tic-tac-toe-mu-amber.vercel.app/" target="_blank">
+            <h1 class="bg-white rounded-t-lg text-center">Tic-Tac-Toe</h1>
+            <ExpositorImagenes identificador="tic_tac_toe" urlImagenes={tic_tac_toe}/>
+        </a>
+    </div>
+    <div class="row-start-8 row-span-3 col-start-7 col-span-5 relative">
+        <!-- <ExpositorImagenes urlImagenes={tic_tac_toe}/> -->
     </div>
 </section>
+
+<script>
+    
+</script>

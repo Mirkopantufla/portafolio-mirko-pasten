@@ -1,0 +1,54 @@
+---
+interface Props {
+	urlImagenes: string[];
+	identificador: string;
+}
+
+const { urlImagenes, identificador } = Astro.props;
+---
+
+<div id={identificador} class="relative overflow-hidden cursor-pointer">
+	<!-- Carousel wrapper -->
+	<div id=`contenedor-imagenes` class="flex max-h-52 transition ease-out duration-[1000ms] carousel-imagenes" data-project={identificador}>
+		{
+			urlImagenes.map((urlImagen) => (
+				<img src={"/images/" + urlImagen} class="flex-[1_0_100%] snap-start rounded-b-lg object-fill" alt="..." />
+			))
+		}
+	</div>
+</div>
+
+<style>
+
+</style>
+
+<script>
+	const contenedorImagenes = document.querySelectorAll(".carousel-imagenes")
+	contenedorImagenes.forEach(elemento => {
+		const imagenes = elemento?.querySelectorAll("img")
+		let contador = 0;
+
+		const nextImage = () => {
+			if (imagenes?.length == contador) {
+				contador = 0
+			}
+			elemento.style.transform = `translateX(-${contador * 100}%)`
+			contador += 1
+		}
+
+		let intervalo: any = null;
+		
+		elemento.addEventListener("mouseenter", e => {
+			if (!intervalo) {
+				intervalo = setInterval(nextImage, 2000)
+			}
+		})
+		elemento.addEventListener("mouseleave", e => {
+			clearInterval(intervalo)
+			intervalo = null
+		})
+	})
+
+	// 
+
+</script>

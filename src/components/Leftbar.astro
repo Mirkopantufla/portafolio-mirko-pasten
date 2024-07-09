@@ -1,13 +1,13 @@
 ---
 ---
 
-<nav class="bg-slate-500 sm:min-h-dvh custom-nav">
-    <section class="flex flex-col items-center relative bg-slate-400 p-8 lg:p-5 pb-6 rounded-[40px]">
-        <h1 class="md:text-2xl lg:text-lg">Mirko Sergei Pasten Carcamo</h1>
-        <div class="border border-white rounded-3xl overflow-hidden shadow-lg my-2">
-            <img class="sm:h-52 md:h-56 lg:h-40" src="/images/mirko-pasten-lite-removebg.png" alt="">
+<nav class="bg-slate-500 md:min-h-dvh custom-nav">
+    <section class="flex flex-col items-center relative bg-slate-400 p-2 lg:p-3 xl:p-4 pb-6 rounded-[40px]">
+        <h1 class="text-center md:text-lg lg:text-lg xl:text-2xl">Mirko Sergei Pasten Carcamo</h1>
+        <div class="border border-white rounded-3xl overflow-hidden shadow-lg my-2 xl:my-4">
+            <img class="h-56 md:h-48 lg:h-56 xl:h-60 2xl:h-64" src="/images/mirko-pasten-lite-removebg.png" alt="">
         </div>
-        <h3 class="text-xl lg:text-sm">Desarrollador Fullstack Junior</h2>
+        <h3 class="text-center text-xl lg:text-sm xl:text-xl 2xl:text-2xl">Desarrollador Fullstack Junior</h2>
         <div class="w-full flex justify-between p-2">
             <a class="link_redes shadow-sm shadow-white rounded-md hover:shadow-none hover:opacity-85" href="mailto:mirko.pasten.dev@gmail.com">
                 <img class="w-12 lg:w-9" src="/icons/logo-email.png" alt="">
@@ -24,13 +24,13 @@
         </div>
         
     </section>
-    <a class="w-64 h-16 rounded-lg link_custom text-3xl font-light" href="#quien-soy">
+    <a class="hidden md:flex w-64 h-16 rounded-lg justify-center items-center link_custom text-3xl font-light" href="#quien-soy">
         Quien soy
     </a>
-    <a class="w-64 h-16 rounded-lg link_custom text-3xl font-light" href="#proyectos">
+    <a class="hidden md:flex w-64 h-16 rounded-lg justify-center items-center link_custom text-3xl font-light" href="#proyectos">
         Proyectos
     </a>
-    <a class="w-64 h-16 rounded-lg link_custom text-3xl font-light" href="#contacto">
+    <a class="hidden md:flex w-64 h-16 rounded-lg justify-center items-center link_custom text-3xl font-light" href="#contacto">
         Contacto
     </a>
 </nav>
@@ -53,12 +53,7 @@
     }
 
     .link_custom {
-        position: relative;
         background-color: rgba(255, 255, 255, 0.37);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        /* box-shadow: 1px 1px 2px 0.3px black; */
     }
 
     .link_custom:hover {

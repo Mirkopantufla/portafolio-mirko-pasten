@@ -4,27 +4,33 @@ import LanguageIcon from '../components/LanguageIcon.astro';
 ---
 
 <section id="quien-soy" class="h-[100vh] flex flex-col justify-evenly bg-slate-500 snap-center">
-    <div class="flex flex-col justify-center items-center">
+    <div class="flex flex-col w-11/12 bg-slate-400 justify-center items-center py-10 mx-auto relative">
         <h1 class="text-5xl">
             Soy un programador
         </h1>
         <p>
             Apasionado por los juegos y el desarrollo web
         </p>
-		<p>
-			
+		<p class="text-center">
+			Que le gusta cocinar
+			<br>
+			Y tambien los animales!
 		</p>
     </div>
-    <div id="icon-container" class="flex justify-evenly bg-slate-400 py-6">
-        <LanguageIcon href='https://www.w3schools.com/html/' iconName='html-5'/>
+    <div id="icon-container" class="grid grid-rows-2 gap-y-5 bg-slate-400 py-6">
+        <div class="row-span-1 flex justify-evenly">
+			<LanguageIcon href='https://www.w3schools.com/html/' iconName='html-5'/>
         <LanguageIcon href='https://www.w3schools.com/css/' iconName='css-3'/>
         <LanguageIcon href='https://www.w3schools.com/js/' iconName='js'/>
         <LanguageIcon href='https://react.dev/' iconName='react'/>
         <LanguageIcon href='https://docs.python.org/3.11/' iconName='python'/>
-        <LanguageIcon href='https://flask.palletsprojects.com/en/3.0.x/' iconName='flask'/>
+		</div>
+        <div class="row-span-1 flex justify-evenly">
+			<LanguageIcon href='https://flask.palletsprojects.com/en/3.0.x/' iconName='flask'/>
         <LanguageIcon href='https://docs.djangoproject.com/en/4.2/' iconName='django'/>
         <LanguageIcon href='https://docs.sqlalchemy.org/en/14/' iconName='sqlAlchemy'/>
         <LanguageIcon href='https://www.postgresql.org/' iconName='postgresql'/>
+		</div>
     </div>
  </section>
 
