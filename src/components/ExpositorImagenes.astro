@@ -23,7 +23,7 @@ const { urlImagenes, identificador } = Astro.props;
 </style>
 
 <script>
-	const contenedorImagenes = document.querySelectorAll(".carousel-imagenes")
+	const contenedorImagenes = document.querySelectorAll<HTMLInputElement>(".carousel-imagenes")
 	contenedorImagenes.forEach(elemento => {
 		const imagenes = elemento?.querySelectorAll("img")
 		let contador = 0;
