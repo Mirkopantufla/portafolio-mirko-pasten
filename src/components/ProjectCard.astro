@@ -1,5 +1,6 @@
 ---
 import ExpositorImagenes from "./ExpositorImagenes.astro";
+import IconoNombre from "./IconoNombre.astro";
 import { type Proyectos } from "../data/proyectos.ts";
 
 interface Props {
@@ -10,33 +11,19 @@ const { proyecto } = Astro.props;
 ---
 
 <a href={proyecto.link} target="_blank">
-    <div class="bg-white rounded-lg">
-        <h1 class=" text-center">{proyecto.nombre}</h1>
+    <div class="bg-slate-200 rounded-lg">
+        <div class="grid grid-cols-7 py-2">
+            <h1 class="col-start-2 col-span-5 text-center">{proyecto.nombre}</h1>
+            <div class={`col-start-7 col-span-1 justify-self-end`}>
+                <span class=`${proyecto.deployed ? "bg-blue-300" : "bg-red-400"} rounded-md p-1 px-2 me-2`>
+                    {proyecto.deployed ? "Online" : "Offline"}
+                </span>
+            </div>
+        </div>
         <ExpositorImagenes
             identificador={proyecto.id}
             urlImagenes={proyecto.imagenes}
         />
-        <div class="p-2 flex justify-evenly">
-            {
-                proyecto?.stack?.map((item) => (
-                    <div class=" overflow-hidden">
-                        <div class="max-h-10 flex flex-col items-center hover:-translate-y-full transition ease-out duration-[500ms]">
-                            <img
-                                class="flex-[1_0_100%]"
-                                width="40px"
-                                height="40px"
-                                src={`/icons/icono-${item.iconos}.png`}
-                                alt=""
-                            />
-                            <div class="min-h-10 flex-[1_0_100%] flex justify-center items-center text-center">
-                                <span class="text-sm">
-                                    {item.nombre}
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                ))
-            }
-        </div>
+        <IconoNombre stack={proyecto.stack}/>
     </div>
 </a>
