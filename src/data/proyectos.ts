@@ -14,20 +14,6 @@ export interface Proyectos {
 
 export const proyectosDisponibles: Proyectos[] = [
     {
-        id: "battleship",
-        nombre: "Juego Battleship",
-        link: "https://battle-ship-react.vercel.app/",
-        imagenes: ["battleship/battleship-1.JPG", "battleship/battleship-2.JPG", "battleship/battleship-3.JPG", "battleship/battleship-4.JPG", "battleship/battleship-4.JPG"],
-        stack: [
-            { iconos: "html-5", nombre: "HTML 5" },
-            { iconos: "js", nombre: "JavaScript" },
-            { iconos: "css-3", nombre: "CSS 3" },
-            { iconos: "bootstrap", nombre: "Bootstrap" },
-            { iconos: "react", nombre: "React JS" },
-        ],
-        deployed: true
-    },
-    {
         id: "inmuebles_miki",
         nombre: "Inmuebles MIKI",
         link: "https://inmobiliarias-miki.onrender.com/",
@@ -60,6 +46,20 @@ export const proyectosDisponibles: Proyectos[] = [
         deployed: true
     },
     {
+        id: "battleship",
+        nombre: "Juego Battleship",
+        link: "https://battle-ship-react.vercel.app/",
+        imagenes: ["battleship/battleship-1.JPG", "battleship/battleship-2.JPG", "battleship/battleship-3.JPG", "battleship/battleship-4.JPG", "battleship/battleship-4.JPG"],
+        stack: [
+            { iconos: "html-5", nombre: "HTML 5" },
+            { iconos: "js", nombre: "JavaScript" },
+            { iconos: "css-3", nombre: "CSS 3" },
+            { iconos: "bootstrap", nombre: "Bootstrap" },
+            { iconos: "react", nombre: "React JS" },
+        ],
+        deployed: true
+    },
+    {
         id: "pajaros_chilenos",
         nombre: "Guia de Pajaros Chilenos",
         link: "https://api-pajaros-chilenos.vercel.app/",
@@ -86,5 +86,23 @@ export const proyectosDisponibles: Proyectos[] = [
             { iconos: "react", nombre: "React JS" },
         ],
         deployed: true
+    },
+    {
+        id: "fake_store",
+        nombre: "E-commerce Fake Store",
+        link: "https://github.com/Mirkopantufla/nextjs-tailwind-fake-store",
+        imagenes: ["tic_tac/tic_tac-1.JPG"],
+        stack: [
+            { iconos: "html-5", nombre: "HTML 5" },
+            { iconos: "js", nombre: "JavaScript" },
+            { iconos: "css-3", nombre: "CSS 3" },
+            { iconos: "tailwind", nombre: "Tailwind" },
+            { iconos: "react", nombre: "React JS" },
+            { iconos: "python", nombre: "Python" },
+            { iconos: "sqlAlchemy", nombre: "SqlAlchemy" },
+            { iconos: "flask", nombre: "Flask" },
+            { iconos: "postgresql", nombre: "PostgreSQL" },
+        ],
+        deployed: false
     }
 ]

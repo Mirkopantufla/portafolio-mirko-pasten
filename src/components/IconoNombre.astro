@@ -13,15 +13,14 @@ const { stack } = Astro.props
         stack.map((item) => (
             <div class="overflow-y-clip">
                 <div class="max-h-9 max-w-9 flex flex-col items-center hover:-translate-y-full transition ease-out duration-[500ms]">
-                    <img
-                        class="flex-[1_0_100%]"
-                        width="36px"
-                        height="36px"
+                    <div class="flex-1 flex justify-center items-center min-w-9 max-w-9 min-h-9 max-h-9">
+                        <img
                         src={`/icons/icono-${item.iconos}.png`}
                         alt=""
                     />
-                    <div class="min-h-9 flex-[1_0_100%] flex justify-center items-center text-center whitespace-nowrap">
-                        <span class="text-sm">
+                    </div>
+                    <div class="min-h-9 flex-1 flex justify-center items-center text-center whitespace-nowrap">
+                        <span class="text-sm bg-slate-200 rounded-md border border-1 border-slate-400 p-1">
                             {item.nombre}
                         </span>
                     </div>
