@@ -1,0 +1,32 @@
+---
+import type {  Stack } from '../data/proyectos'
+
+interface Props {
+    stack: Stack[]
+}
+
+const { stack } = Astro.props
+---
+
+<div class="p-2 flex justify-evenly">
+    {
+        stack.map((item) => (
+            <div class="overflow-y-clip">
+                <div class="max-h-9 max-w-9 flex flex-col items-center hover:-translate-y-full transition ease-out duration-[500ms]">
+                    <img
+                        class="flex-[1_0_100%]"
+                        width="36px"
+                        height="36px"
+                        src={`/icons/icono-${item.iconos}.png`}
+                        alt=""
+                    />
+                    <div class="min-h-9 flex-[1_0_100%] flex justify-center items-center text-center whitespace-nowrap">
+                        <span class="text-sm">
+                            {item.nombre}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        ))
+    }
+</div>
