@@ -2,7 +2,7 @@
 ---
 
 <nav class="bg-slate-500 md:min-h-dvh custom-nav">
-    <section class="flex flex-col items-center relative bg-slate-400 p-2 lg:p-3 xl:p-4 pb-6 rounded-[40px]">
+    <section class="flex flex-col items-center bg-slate-400 p-2 lg:p-3 xl:p-4 pb-6 rounded-[40px] z-10">
         <h1 class="text-center md:text-lg lg:text-lg xl:text-2xl">Mirko Sergei Pasten Carcamo</h1>
         <div class="border border-white rounded-3xl overflow-hidden shadow-lg my-2 xl:my-4">
             <img class="h-56 md:h-48 lg:h-56 xl:h-60 2xl:h-64" src="/images/mirko-pasten-lite-removebg.png" alt="">
@@ -24,13 +24,13 @@
         </div>
         
     </section>
-    <a class="hidden md:flex w-64 h-16 rounded-lg justify-center items-center link_custom text-3xl font-light" href="#quien-soy">
+    <a class="hidden md:flex w-64 h-16 rounded-lg justify-center items-center bg-slate-400 text-3xl font-light z-10 link_custom" href="#quien-soy">
         Quien soy
     </a>
-    <a class="hidden md:flex w-64 h-16 rounded-lg justify-center items-center link_custom text-3xl font-light" href="#proyectos">
+    <a class="hidden md:flex w-64 h-16 rounded-lg justify-center items-center bg-slate-400 text-3xl font-light z-10 link_custom" href="#proyectos">
         Proyectos
     </a>
-    <a class="hidden md:flex w-64 h-16 rounded-lg justify-center items-center link_custom text-3xl font-light" href="#contacto">
+    <a class="hidden md:flex w-64 h-16 rounded-lg justify-center items-center bg-slate-400 text-3xl font-light z-10 link_custom" href="#contacto">
         Contacto
     </a>
 </nav>
@@ -50,10 +50,6 @@
 
     .link_redes:active {
         transform: scale(0.95);
-    }
-
-    .link_custom {
-        background-color: rgba(255, 255, 255, 0.37);
     }
 
     .link_custom:hover {

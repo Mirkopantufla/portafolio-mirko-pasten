@@ -2,20 +2,63 @@
 interface Props {
 	href: string;
     iconName: string;
+	shadow: string;
 }
 
-const { href, iconName } = Astro.props;
-const formatedName = '/icons/icono-'+ iconName + '.png'
-
-const formatedId = "link-"+ iconName
+const { href, iconName, shadow } = Astro.props;
 ---
 
-<a id={formatedId} class="w-16 lg:w-24 h-16 lg:h-24 flex flex-col justify-center items-center sombreado" target="_blank" href={href}>
-    <img class="rounded-xl p-1" src={formatedName} alt={iconName}>
+<a id={`link-${iconName}`} name="icono-animado" class={`w-16 lg:w-24 h-16 lg:h-24 flex flex-col justify-center items-center ${shadow}`} target="_blank" href={href}>
+    <img class="rounded-xl p-1" src={`/icons/icono-${iconName}.png`} alt={iconName}>
 </a>
 
 <style>
-    .sombreado {
+    .sombreado-negro {
 		filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.534));
 	}
+
+	.sombreado-blanco {
+		filter: drop-shadow(1px 1px 4px rgba(255, 255, 255, 0.534));
+	}
 </style>
+
+<script>
+	const imagenes = document.querySelectorAll<HTMLInputElement>('a[name="icono-animado"]');
+
+	imagenes?.forEach((imagen) => {
+		imagen?.addEventListener("mousemove", (e) => {
+			let top = imagen.offsetTop;
+			let left = imagen.offsetLeft;
+
+			let ancho = imagen.clientWidth;
+			let alto = imagen.clientHeight;
+
+			let relativeX = e.pageX - left;
+			let relativeY = e.pageY - top;
+
+			if (relativeX >= ancho / 2 && relativeY >= alto / 2) {
+				imagen.style.transform = "rotate3d(-1,-1,0,25deg)";
+				// console.log("AbajoDerecha")
+			}
+
+			if (relativeX <= ancho / 2 && relativeY >= alto / 2) {
+				imagen.style.transform = "rotate3d(1,-1,0,25deg)";
+				// console.log("AbajoIzquierda")
+			}
+
+			if (relativeX >= ancho / 2 && relativeY <= alto / 2) {
+				imagen.style.transform = "rotate3d(-1,3,-1,-25deg)";
+				// console.log("ArribaDerecha")
+			}
+
+			if (relativeX <= ancho / 2 && relativeY <= alto / 2) {
+				imagen.style.transform = "rotate3d(1,3,1,-25deg)";
+				// console.log("ArribaIzquierda")
+			}
+		});
+		imagen?.addEventListener(
+			"mouseout",
+			(e) => (imagen.style.transform = "rotate3d(0,0,0,0)"),
+		);
+	});
+</script>

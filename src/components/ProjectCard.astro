@@ -1,0 +1,42 @@
+---
+import ExpositorImagenes from "./ExpositorImagenes.astro";
+import { type Proyectos } from "../data/proyectos.ts";
+
+interface Props {
+    proyecto: Proyectos;
+}
+
+const { proyecto } = Astro.props;
+---
+
+<a href={proyecto.link} target="_blank">
+    <div class="bg-white rounded-lg">
+        <h1 class=" text-center">{proyecto.nombre}</h1>
+        <ExpositorImagenes
+            identificador={proyecto.id}
+            urlImagenes={proyecto.imagenes}
+        />
+        <div class="p-2 flex justify-evenly">
+            {
+                proyecto?.stack?.map((item) => (
+                    <div class=" overflow-hidden">
+                        <div class="max-h-10 flex flex-col items-center hover:-translate-y-full transition ease-out duration-[500ms]">
+                            <img
+                                class="flex-[1_0_100%]"
+                                width="40px"
+                                height="40px"
+                                src={`/icons/icono-${item.iconos}.png`}
+                                alt=""
+                            />
+                            <div class="min-h-10 flex-[1_0_100%] flex justify-center items-center text-center">
+                                <span class="text-sm">
+                                    {item.nombre}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                ))
+            }
+        </div>
+    </div>
+</a>

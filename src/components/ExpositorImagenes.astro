@@ -7,20 +7,15 @@ interface Props {
 const { urlImagenes, identificador } = Astro.props;
 ---
 
-<div id={identificador} class="relative overflow-hidden cursor-pointer">
-	<!-- Carousel wrapper -->
-	<div id=`contenedor-imagenes` class="flex max-h-52 transition ease-out duration-[1000ms] carousel-imagenes" data-project={identificador}>
+<div id={identificador} class="overflow-hidden cursor-pointer">
+	<div id=`contenedor-imagenes` class="flex max-h-60 transition ease-out duration-[500ms] carousel-imagenes" data-project={identificador}>
 		{
 			urlImagenes.map((urlImagen) => (
-				<img src={"/images/" + urlImagen} class="flex-[1_0_100%] snap-start rounded-b-lg object-fill" alt="..." />
+				<img src={"/images/" + urlImagen} class="flex-[1_0_100%] snap-start object-fill" alt="..." />
 			))
 		}
 	</div>
 </div>
-
-<style>
-
-</style>
 
 <script>
 	const contenedorImagenes = document.querySelectorAll<HTMLInputElement>(".carousel-imagenes")
@@ -43,6 +38,7 @@ const { urlImagenes, identificador } = Astro.props;
 				intervalo = setInterval(nextImage, 2000)
 			}
 		})
+
 		elemento.addEventListener("mouseleave", e => {
 			clearInterval(intervalo)
 			intervalo = null

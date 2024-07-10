@@ -30,7 +30,9 @@ const { title } = Astro.props;
 	:root{
 		color-scheme: light dark;
 		--primary-color: black;
-		--secondary-color: white;
+		--secondary-color: rgba(255, 255, 255);
+		--base-color: rgba(148, 163, 184, 0.1);
+		--accent-base-color: rgba(100, 116, 139, 1);
 	}
 	html {
 		font-family: 'Roboto Slab Variable', serif;
@@ -38,4 +40,12 @@ const { title } = Astro.props;
 	body {
 		
 	}
+
+	.bg_transparent-slate-400 {
+		background-color: var(--base-color);	}
+
+	.bg_transparent-slate-500 {
+		background-color: var(--accent-base-color);
+	}
+
 </style>

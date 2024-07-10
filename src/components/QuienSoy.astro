@@ -1,80 +1,84 @@
 ---
-import LanguageIcon from '../components/LanguageIcon.astro';
-
+import LanguageIcon from "../components/LanguageIcon.astro";
 ---
 
-<section id="quien-soy" class="h-[100vh] flex flex-col justify-evenly bg-slate-500 snap-center">
-    <div class="flex flex-col w-11/12 bg-slate-400 justify-center items-center py-10 mx-auto relative">
-        <h1 class="text-5xl">
-            Soy un programador
-        </h1>
-        <p>
-            Apasionado por los juegos y el desarrollo web
-        </p>
+<section
+	id="quien-soy"
+	class="h-[100vh] flex flex-col justify-evenly bg-slate-500 snap-center"
+>
+	<div
+		class="flex flex-col w-11/12 bg-slate-400 justify-center items-center py-10 mx-auto z-10"
+	>
+		<h1 class="text-5xl">Soy un programador</h1>
+		<p>Apasionado por los juegos y el desarrollo web</p>
 		<p class="text-center">
 			Que le gusta cocinar
-			<br>
+			<br />
 			Y tambien los animales!
 		</p>
-    </div>
-    <div id="icon-container" class="grid grid-rows-2 gap-y-5 bg-slate-400 py-6">
-        <div class="row-span-1 flex justify-evenly">
-			<LanguageIcon href='https://www.w3schools.com/html/' iconName='html-5'/>
-        <LanguageIcon href='https://www.w3schools.com/css/' iconName='css-3'/>
-        <LanguageIcon href='https://www.w3schools.com/js/' iconName='js'/>
-        <LanguageIcon href='https://react.dev/' iconName='react'/>
-        <LanguageIcon href='https://docs.python.org/3.11/' iconName='python'/>
+	</div>
+	<div
+		id="icon-container"
+		class="grid grid-rows-2 gap-y-5 bg-slate-400 py-6 z-10"
+	>
+		<div class="row-span-1 flex justify-evenly">
+			<LanguageIcon
+				href="https://www.w3schools.com/html/"
+				iconName="html-5"
+				shadow="sombreado-blanco"
+			/>
+			<LanguageIcon 
+				href="https://www.w3schools.com/js/" 
+				iconName="js"
+				shadow="sombreado-blanco"
+			/>
+			<LanguageIcon 
+				href="https://react.dev/" 
+				iconName="react"
+				shadow="sombreado-negro"
+			/>
+			<LanguageIcon
+				href="https://www.w3schools.com/css/"
+				iconName="css-3"
+				shadow="sombreado-blanco"
+			/>
+			<LanguageIcon
+				href="https://getbootstrap.com/docs/5.3/getting-started/introduction/"
+				iconName="bootstrap"
+				shadow="sombreado-blanco"
+			/>
+			<LanguageIcon
+				href="https://tailwindcss.com/docs/installation"
+				iconName="tailwind"
+				shadow="sombreado-negro"
+			/>
 		</div>
-        <div class="row-span-1 flex justify-evenly">
-			<LanguageIcon href='https://flask.palletsprojects.com/en/3.0.x/' iconName='flask'/>
-        <LanguageIcon href='https://docs.djangoproject.com/en/4.2/' iconName='django'/>
-        <LanguageIcon href='https://docs.sqlalchemy.org/en/14/' iconName='sqlAlchemy'/>
-        <LanguageIcon href='https://www.postgresql.org/' iconName='postgresql'/>
+		<div class="row-span-1 flex justify-evenly">
+			<LanguageIcon
+				href="https://docs.python.org/3.11/"
+				iconName="python"
+				shadow="sombreado-negro"
+			/>
+			<LanguageIcon
+				href="https://flask.palletsprojects.com/en/3.0.x/"
+				iconName="flask"
+				shadow="sombreado-blanco"
+			/>
+			<LanguageIcon
+				href="https://docs.djangoproject.com/en/4.2/"
+				iconName="django"
+				shadow="sombreado-blanco"
+			/>
+			<LanguageIcon
+				href="https://docs.sqlalchemy.org/en/14/"
+				iconName="sqlAlchemy"
+				shadow="sombreado-blanco"
+			/>
+			<LanguageIcon
+				href="https://www.postgresql.org/"
+				iconName="postgresql"
+				shadow="sombreado-negro"
+			/>
 		</div>
-    </div>
- </section>
-
- <script>
-	const container = document.querySelector("#icon-container")
-	const imagenes = container?.querySelectorAll("a")
-
-	imagenes?.forEach((imagen) => {
-		imagen?.addEventListener('mousemove', (e) => {
-			let top = imagen.offsetTop;
-			let left = imagen.offsetLeft;
-			let ancho = imagen.clientWidth
-			let alto = imagen.clientHeight
-
-			let relativeX = (e.pageX - left)
-			let relativeY = (e.pageY - top)
-
-			let children = imagen.firstElementChild as HTMLInputElement
-
-			if (relativeX >= ancho / 2 && relativeY >= alto / 2) {
-				imagen.style.transform = "rotate3d(-1,-1,0,25deg)"
-				// console.log("AbajoDerecha")
-			}
-			
-			if (relativeX <= ancho / 2 && relativeY >= alto / 2) {
-				
-				imagen.style.transform = "rotate3d(1,-1,0,25deg)"
-				// console.log("AbajoIzquierda")
-			}
-
-			if (relativeX >= ancho / 2 && relativeY <= alto / 2) {
-				imagen.style.transform = "rotate3d(-1,3,-1,-25deg)"
-				// console.log("ArribaDerecha")
-			}
-
-			if (relativeX <= ancho / 2 && relativeY <= alto / 2) {
-				imagen.style.transform = "rotate3d(1,3,1,-25deg)"
-				// console.log("ArribaIzquierda")
-			}
-
-
-		})
-		imagen?.addEventListener("mouseout", (e) => imagen.style.transform = "rotate3d(0,0,0,0)")
-	}
-		
-	)
-</script>
+	</div>
+</section>
