@@ -91,7 +91,7 @@ export const proyectosDisponibles: Proyectos[] = [
         id: "fake_store",
         nombre: "E-commerce Fake Store",
         link: "https://github.com/Mirkopantufla/nextjs-tailwind-fake-store",
-        imagenes: ["tic_tac/tic_tac-1.JPG"],
+        imagenes: ["fake_store/fake_store-1.JPG", "fake_store/fake_store-2.JPG", "fake_store/fake_store-3.JPG", "fake_store/fake_store-4.JPG", "fake_store/fake_store-5.JPG", "fake_store/fake_store-6.JPG"],
         stack: [
             { iconos: "html-5", nombre: "HTML 5" },
             { iconos: "js", nombre: "JavaScript" },
