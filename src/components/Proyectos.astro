@@ -1,27 +1,15 @@
 ---
-import ExpositorImagenes from "./ExpositorImagenes.astro"
 import ProjectCard from "./ProjectCard.astro"
-import { battleship, inmuebles_miki, only_flans, pajaros_chilenos, tic_tac_toe } from "../data/proyectos.ts"
+import { proyectosDisponibles } from "../data/proyectos.ts"
 
 ---
 
-<section id="proyectos" class="min-h-[100vh] bg-slate-400 snap-center grid grid-rows-auto grid-cols-12 py-20">
-    <div class="row-span-3 col-span-5 col-start-2 z-10 p-4">
-        <ProjectCard proyecto={inmuebles_miki}/>
-    </div>
-    <div class="row-span-3 col-span-5 col-start-7 z-10 p-4">
-        <ProjectCard proyecto={only_flans}/>
-    </div>
-    <div class="row-span-3 col-span-5 col-start-2 z-10 p-4">
-        <ProjectCard proyecto={pajaros_chilenos}/>
-    </div>
-    <div class="row-span-3 col-span-5 col-start-7 z-10 p-4">
-        <ProjectCard proyecto={battleship}/>
-    </div>
-    <div class="row-span-3 col-span-5 col-start-2 z-10 p-4">
-        <ProjectCard proyecto={tic_tac_toe}/>
-    </div>
-    <div class="row-span-3 col-span-5 col-start-7 z-10 p-4">
-        <!-- <ExpositorImagenes urlImagenes={tic_tac_toe}/> -->
-    </div>
+<section id="proyectos" class="min-h-[100vh] bg-slate-400 snap-center grid grid-rows-auto grid-cols-12 place-items-center gap-10 p-5 md:p-10 lg:p-12 xl:p-16 2xl:p-24">
+    {
+        proyectosDisponibles.map(proyecto => 
+            <div class="row-span-3 col-span-12 lg:col-span-6 z-10">
+                <ProjectCard proyecto={proyecto}/>
+            </div>
+        )
+    }
 </section>
