@@ -1,0 +1,12 @@
+---
+interface Props {
+    src: string,
+    href: string
+}
+
+const { src, href } = Astro.props
+---
+
+<a class="link_redes shadow-md shadow-amber-50 rounded-lg hover:shadow-none hover:opacity-85" href={href}>
+    <img class="w-12 lg:w-9 invert" src={src} alt="">
+</a>

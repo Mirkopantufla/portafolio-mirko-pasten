@@ -1,36 +1,28 @@
 ---
+import IconoRedes from "./Leftbar/IconoRedes.astro"
 ---
 
-<nav class="bg-slate-500 md:min-h-dvh custom-nav">
-    <section class="flex flex-col items-center bg-slate-400 p-2 lg:p-3 xl:p-4 pb-6 rounded-[40px] z-10">
-        <h1 class="text-center md:text-lg lg:text-lg xl:text-2xl">Mirko Sergei Pasten Carcamo</h1>
-        <div class="border border-white rounded-3xl overflow-hidden shadow-lg my-2 xl:my-4">
+<nav class="bg-black md:min-h-dvh custom-nav snap-center">
+    <section class="flex flex-col items-center bg-black p-2 lg:p-3 xl:p-4 pb-6 rounded-[40px] border border-amber-50 text-white z-10">
+        <h1 class="text-center md:text-lg lg:text-lg xl:text-2xl ">Mirko Sergei Pasten Carcamo</h1>
+        <div class="border border-amber-50 rounded-3xl overflow-hidden shadow-md shadow-amber-50 my-2 xl:my-4">
             <img class="h-56 md:h-48 lg:h-56 xl:h-60 2xl:h-64" src="/images/mirko-pasten-lite-removebg.png" alt="">
         </div>
-        <h3 class="text-center text-xl lg:text-sm xl:text-xl 2xl:text-2xl">Desarrollador Fullstack Junior</h2>
-        <div class="w-full flex justify-between p-2">
-            <a class="link_redes shadow-sm shadow-white rounded-md hover:shadow-none hover:opacity-85" href="mailto:mirko.pasten.dev@gmail.com">
-                <img class="w-12 lg:w-9" src="/icons/logo-email.png" alt="">
-            </a>
-            <a class="link_redes shadow-sm shadow-white rounded-md hover:shadow-none hover:opacity-85" href="https://wa.me/56940550785?text=Hola%20me%20gustaría%20saber%20más%20sobre%20sus%20servicios">
-                <img class="w-12 lg:w-9" src="/icons/logo-whatsapp.png" alt="">
-            </a>
-            <a class="link_redes shadow-sm shadow-white rounded-md hover:shadow-none hover:opacity-85" href="https://www.linkedin.com/in/mirko-pasten-carcamo/">
-                <img class="w-12 lg:w-9" src="/icons/logo-linkedin.png" alt="">
-            </a>
-            <a class="link_redes shadow-sm shadow-white rounded-md hover:shadow-none hover:opacity-85" href="https://github.com/Mirkopantufla">
-                <img class="w-12 lg:w-9" src="/icons/logo-github.png" alt="">
-            </a>
+        <h3 class="text-center text-xl lg:text-sm xl:text-xl 2xl:text-2xl ">Desarrollador Fullstack</h2>
+        <div class="w-full flex justify-around p-2">
+            <IconoRedes src="/icons/logo-email.png" href="mailto:mirko.pasten.dev@gmail.com"/>
+            <IconoRedes src="/icons/logo-whatsapp.png" href="https://wa.me/56940550785?text=Hola%20me%20gustaría%20saber%20más%20sobre%20sus%20servicios"/>
+            <IconoRedes src="/icons/logo-linkedin.png" href="https://www.linkedin.com/in/mirko-pasten-carcamo/"/>
+            <IconoRedes src="/icons/logo-github.png" href="https://github.com/Mirkopantufla"/>
         </div>
-        
     </section>
-    <a class="hidden md:flex w-64 h-16 rounded-lg justify-center items-center bg-slate-400 text-3xl font-light z-10 link_custom" href="#quien-soy">
+    <a class="hidden md:flex w-64 h-16 rounded-lg justify-center items-center bg-amber-50 text-3xl font-light z-10 link_custom" href="#quien-soy">
         Quien soy
     </a>
-    <a class="hidden md:flex w-64 h-16 rounded-lg justify-center items-center bg-slate-400 text-3xl font-light z-10 link_custom" href="#proyectos">
+    <a class="hidden md:flex w-64 h-16 rounded-lg justify-center items-center bg-amber-50 text-3xl font-light z-10 link_custom" href="#proyectos">
         Proyectos
     </a>
-    <a class="hidden md:flex w-64 h-16 rounded-lg justify-center items-center bg-slate-400 text-3xl font-light z-10 link_custom" href="#contacto">
+    <a class="hidden md:flex w-64 h-16 rounded-lg justify-center items-center bg-amber-50 text-3xl font-light z-10 link_custom" href="#contacto">
         Contacto
     </a>
 </nav>
@@ -44,14 +36,6 @@
         align-items: center;
     }
 
-    .link_redes:hover {
-        transform: scale(0.95);
-    }
-
-    .link_redes:active {
-        transform: scale(0.95);
-    }
-
     .link_custom:hover {
         font-weight: normal;
     }
@@ -63,24 +47,24 @@
     .link_custom::before {
         padding-right: 5px;
         content: '—';
-        color: rgba(255, 255, 255, 0.3);
+        color: black;
     }
 
     .link_custom::after {
         padding-left: 5px;
         content: '—';
-        color: rgba(255, 255, 255, 0.3);
+        color: black;
     }
 
     .link_custom:hover::after {
         padding-left: 5px;
         content: '—';
-        color: rgba(255, 255, 255, 0.8);
+        color: black;
     }
 
     .link_custom:hover::before {
         padding-right: 5px;
         content: '—';
-        color: rgba(255, 255, 255, 0.8);
+        color: black;
     }
 </style>

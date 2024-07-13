@@ -106,3 +106,23 @@ export const proyectosDisponibles: Proyectos[] = [
         deployed: false
     }
 ]
+
+// interface MiStack {
+//     href: string,
+//     icono: string,
+//     className: string
+// }
+
+// const iconosStack: MiStack[] = [
+//     { href: "https://www.w3schools.com/html/", icono: "html-5", className: "sombreado-blanco"},
+//     { href: "https://www.w3schools.com/js/", icono: "js", className: "sombreado-blanco"},
+//     { href: "https://react.dev/", icono: "react", className: "sombreado-blanco"},
+//     { href: "https://www.w3schools.com/css/", icono: "css-3", className: "sombreado-blanco"},
+//     { href: "https://getbootstrap.com/docs/5.3/getting-started/introduction/", icono: "bootstrap", className: "z-10"},
+//     { href: "https://tailwindcss.com/docs/installation", icono: "tailwind", className: "sombreado-blanco"},
+//     { href: "https://docs.python.org/3.11/", icono: "python", className: "sombreado-blanco"},
+//     { href: "https://flask.palletsprojects.com/en/3.0.x/", icono: "flask", className: "invert"},
+//     { href: "https://docs.djangoproject.com/en/4.2/", icono: "django", className: "invert"},
+//     { href: "https://docs.sqlalchemy.org/en/14/", icono: "sqlAlchemy", className: ""},
+//     { href: "https://www.postgresql.org/", icono: "postgresql", className: "sombreado-blanco"},
+// ]

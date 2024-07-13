@@ -4,10 +4,10 @@ import LanguageIcon from "../components/LanguageIcon.astro";
 
 <section
 	id="quien-soy"
-	class="h-[100vh] flex flex-col justify-evenly bg-slate-500 snap-center"
+	class="h-[100vh] flex flex-col justify-evenly bg-black snap-center"
 >
 	<div
-		class="flex flex-col w-11/12 bg-slate-400 justify-center items-center py-10 mx-auto z-10"
+		class="flex flex-col w-11/12 bg-white-transparent justify-center items-center py-10 mx-auto z-10 text-white rounded-ee-full rounded-tl-full"
 	>
 		<h1 class="text-5xl">Soy un programador</h1>
 		<p>Apasionado por los juegos y el desarrollo web</p>
@@ -19,65 +19,65 @@ import LanguageIcon from "../components/LanguageIcon.astro";
 	</div>
 	<div
 		id="icon-container"
-		class="grid grid-rows-2 gap-y-5 bg-slate-400 py-6 z-10"
+		class="grid grid-rows-2 gap-y-5 bg-black py-6"
 	>
 		<div class="row-span-1 flex justify-evenly">
 			<LanguageIcon
 				href="https://www.w3schools.com/html/"
 				iconName="html-5"
-				shadow="sombreado-blanco"
+				className="sombreado-blanco"
 			/>
 			<LanguageIcon 
 				href="https://www.w3schools.com/js/" 
 				iconName="js"
-				shadow="sombreado-blanco"
+				className="sombreado-blanco"
 			/>
 			<LanguageIcon 
 				href="https://react.dev/" 
 				iconName="react"
-				shadow="sombreado-negro"
+				className="sombreado-blanco"
 			/>
 			<LanguageIcon
 				href="https://www.w3schools.com/css/"
 				iconName="css-3"
-				shadow="sombreado-blanco"
+				className="sombreado-blanco"
 			/>
 			<LanguageIcon
 				href="https://getbootstrap.com/docs/5.3/getting-started/introduction/"
 				iconName="bootstrap"
-				shadow="sombreado-blanco"
+				className="z-10"
 			/>
 			<LanguageIcon
 				href="https://tailwindcss.com/docs/installation"
 				iconName="tailwind"
-				shadow="sombreado-negro"
+				className="sombreado-blanco"
 			/>
 		</div>
 		<div class="row-span-1 flex justify-evenly">
 			<LanguageIcon
 				href="https://docs.python.org/3.11/"
 				iconName="python"
-				shadow="sombreado-negro"
+				className="sombreado-blanco"
 			/>
 			<LanguageIcon
 				href="https://flask.palletsprojects.com/en/3.0.x/"
 				iconName="flask"
-				shadow="sombreado-blanco"
+				className="invert"
 			/>
 			<LanguageIcon
 				href="https://docs.djangoproject.com/en/4.2/"
 				iconName="django"
-				shadow="sombreado-blanco"
+				className="invert"
 			/>
 			<LanguageIcon
 				href="https://docs.sqlalchemy.org/en/14/"
 				iconName="sqlAlchemy"
-				shadow="sombreado-blanco"
+				className=""
 			/>
 			<LanguageIcon
 				href="https://www.postgresql.org/"
 				iconName="postgresql"
-				shadow="sombreado-negro"
+				className="sombreado-blanco"
 			/>
 		</div>
 	</div>

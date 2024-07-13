@@ -2,23 +2,23 @@
 interface Props {
 	href: string;
     iconName: string;
-	shadow: string;
+	className: string;
 }
 
-const { href, iconName, shadow } = Astro.props;
+const { className, href, iconName } = Astro.props
 ---
 
-<a id={`link-${iconName}`} name="icono-animado" class={`w-16 lg:w-24 h-16 lg:h-24 flex flex-col justify-center items-center transition ease-out duration-[80ms] ${shadow}`} target="_blank" href={href}>
-    <img class="rounded-xl p-1" src={`/icons/icono-${iconName}.png`} alt={iconName}>
+<a id={`link-${iconName}`} name="icono-animado" class={`w-16 lg:w-24 h-16 lg:h-24 flex flex-col justify-center items-center transition ease-out duration-[80ms]`} target="_blank" href={href}>
+    <img class:list={[`rounded-xl p-1`, className]} src={`/icons/icono-${iconName}.png`} alt={iconName}>
 </a>
 
 <style>
     .sombreado-negro {
-		filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.534));
+		filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.4));
 	}
 
 	.sombreado-blanco {
-		filter: drop-shadow(1px 1px 4px rgba(255, 255, 255, 0.534));
+		filter: drop-shadow(1px 1px 4px rgba(255, 255, 255, 0.4));
 	}
 </style>
 
