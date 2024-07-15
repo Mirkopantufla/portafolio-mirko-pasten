@@ -1,14 +1,13 @@
 ---
 import LanguageIcon from "../components/LanguageIcon.astro";
+import { iconosStack } from "../data/proyectos.ts"
 ---
 
 <section
 	id="quien-soy"
-	class="h-[100vh] flex flex-col justify-evenly bg-black snap-center"
+	class="h-[100vh] flex flex-col justify-evenly bg-black"
 >
-	<div
-		class="flex flex-col w-11/12 bg-white-transparent justify-center items-center py-10 mx-auto z-10 text-white rounded-ee-full rounded-tl-full"
-	>
+	<div class="flex flex-col w-11/12 bg-white-transparent justify-center items-center py-10 mx-auto z-10 text-white rounded-ee-full rounded-tl-full">
 		<h1 class="text-5xl">Soy un programador</h1>
 		<p>Apasionado por los juegos y el desarrollo web</p>
 		<p class="text-center">
@@ -17,68 +16,36 @@ import LanguageIcon from "../components/LanguageIcon.astro";
 			Y tambien los animales!
 		</p>
 	</div>
-	<div
-		id="icon-container"
-		class="grid grid-rows-2 gap-y-5 bg-black py-6"
-	>
+	<div id="icon-container" class="grid grid-rows-2 gap-y-5 bg-black py-6">
 		<div class="row-span-1 flex justify-evenly">
-			<LanguageIcon
-				href="https://www.w3schools.com/html/"
-				iconName="html-5"
-				className="sombreado-blanco"
-			/>
-			<LanguageIcon 
-				href="https://www.w3schools.com/js/" 
-				iconName="js"
-				className="sombreado-blanco"
-			/>
-			<LanguageIcon 
-				href="https://react.dev/" 
-				iconName="react"
-				className="sombreado-blanco"
-			/>
-			<LanguageIcon
-				href="https://www.w3schools.com/css/"
-				iconName="css-3"
-				className="sombreado-blanco"
-			/>
-			<LanguageIcon
-				href="https://getbootstrap.com/docs/5.3/getting-started/introduction/"
-				iconName="bootstrap"
-				className="z-10"
-			/>
-			<LanguageIcon
-				href="https://tailwindcss.com/docs/installation"
-				iconName="tailwind"
-				className="sombreado-blanco"
-			/>
+		{
+			iconosStack.map((icono) => {
+				if (icono.section === "front-end") {
+					return(
+					<LanguageIcon
+							href={icono.href}
+							iconName={icono.icono}
+							className={icono.className}
+						/>
+					)
+				}
+			})
+		}
 		</div>
 		<div class="row-span-1 flex justify-evenly">
-			<LanguageIcon
-				href="https://docs.python.org/3.11/"
-				iconName="python"
-				className="sombreado-blanco"
-			/>
-			<LanguageIcon
-				href="https://flask.palletsprojects.com/en/3.0.x/"
-				iconName="flask"
-				className="invert"
-			/>
-			<LanguageIcon
-				href="https://docs.djangoproject.com/en/4.2/"
-				iconName="django"
-				className="invert"
-			/>
-			<LanguageIcon
-				href="https://docs.sqlalchemy.org/en/14/"
-				iconName="sqlAlchemy"
-				className=""
-			/>
-			<LanguageIcon
-				href="https://www.postgresql.org/"
-				iconName="postgresql"
-				className="sombreado-blanco"
-			/>
+			{
+				iconosStack.map((icono) => {
+					if (icono.section === "back-end") {
+						return(
+						<LanguageIcon
+							href={icono.href}
+							iconName={icono.icono}
+							className={icono.className}
+						/>
+						)
+					}
+				})
+			}
 		</div>
 	</div>
 </section>

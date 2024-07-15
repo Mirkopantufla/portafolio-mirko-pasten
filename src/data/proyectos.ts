@@ -107,22 +107,78 @@ export const proyectosDisponibles: Proyectos[] = [
     }
 ]
 
-// interface MiStack {
-//     href: string,
-//     icono: string,
-//     className: string
-// }
+export interface MiStack {
+    href: string,
+    icono: string,
+    section: string,
+    className: string
+}
 
-// const iconosStack: MiStack[] = [
-//     { href: "https://www.w3schools.com/html/", icono: "html-5", className: "sombreado-blanco"},
-//     { href: "https://www.w3schools.com/js/", icono: "js", className: "sombreado-blanco"},
-//     { href: "https://react.dev/", icono: "react", className: "sombreado-blanco"},
-//     { href: "https://www.w3schools.com/css/", icono: "css-3", className: "sombreado-blanco"},
-//     { href: "https://getbootstrap.com/docs/5.3/getting-started/introduction/", icono: "bootstrap", className: "z-10"},
-//     { href: "https://tailwindcss.com/docs/installation", icono: "tailwind", className: "sombreado-blanco"},
-//     { href: "https://docs.python.org/3.11/", icono: "python", className: "sombreado-blanco"},
-//     { href: "https://flask.palletsprojects.com/en/3.0.x/", icono: "flask", className: "invert"},
-//     { href: "https://docs.djangoproject.com/en/4.2/", icono: "django", className: "invert"},
-//     { href: "https://docs.sqlalchemy.org/en/14/", icono: "sqlAlchemy", className: ""},
-//     { href: "https://www.postgresql.org/", icono: "postgresql", className: "sombreado-blanco"},
-// ]
+export const iconosStack: MiStack[] = [
+    {
+        href: "https://www.w3schools.com/html/",
+        icono: "html-5",
+        section: "front-end",
+        className: "sombreado-blanco"
+    },
+    { 
+        href: "https://www.w3schools.com/js/", 
+        icono: "js", 
+        section: "front-end",
+        className: "sombreado-blanco" 
+    },
+    { 
+        href: "https://react.dev/", 
+        icono: "react",
+        section: "front-end",
+        className: "sombreado-blanco"
+    },
+    { 
+        href: "https://www.w3schools.com/css/", 
+        icono: "css-3",
+        section: "front-end",
+        className: "sombreado-blanco"
+    },
+    { 
+        href: "https://getbootstrap.com/docs/5.3/getting-started/introduction/", 
+        icono: "bootstrap",
+        section: "front-end",
+        className: "" 
+    },
+    { 
+        href: "https://tailwindcss.com/docs/installation", 
+        icono: "tailwind",
+        section: "front-end",
+        className: "sombreado-blanco" 
+    },
+    { 
+        href: "https://docs.python.org/3.11/", 
+        icono: "python", 
+        section: "back-end",
+        className: "sombreado-blanco" 
+    },
+    { 
+        href: "https://flask.palletsprojects.com/en/3.0.x/", 
+        icono: "flask",
+        section: "back-end",
+        className: "invert" 
+    },
+    { 
+        href: "https://docs.djangoproject.com/en/4.2/", 
+        icono: "django",
+        section: "back-end",
+        className: "invert" 
+    },
+    { 
+        href: "https://docs.sqlalchemy.org/en/14/", 
+        icono: "sqlAlchemy",
+        section: "back-end",
+        className: "" 
+    },
+    { 
+        href: "https://www.postgresql.org/", 
+        icono: "postgresql",
+        section: "back-end",
+        className: "sombreado-blanco" 
+    },
+]
