@@ -1,0 +1,972 @@
+---
+import "@fontsource/press-start-2p";
+---
+
+<section id="galaga-container" class="flex flex-col justify-center items-center">
+    <a href="#galaga-container">
+        <button type="button" id="startGame" class="mb-4 galagaButton">
+            Play!
+        </button>
+    </a>
+    <canvas class="hidden mb-6"></canvas>
+</section>
+
+<style>
+    section {
+        background-color: #000;
+    }
+
+    .scoreFont {
+        font-family: "Press Start 2P", system-ui;
+    }
+
+    .galagaButton {
+        background-color: rgba(255, 255, 255, 0.11);
+        font-size: 15px;
+        padding-inline: 40px;
+        padding-block: 5px;
+        margin-bottom: 10px;
+        border: 1px solid gray;
+        border-top-left-radius: 25px;
+        border-bottom-right-radius: 25px;
+        animation: flotating 1.5s linear infinite;
+    }
+
+    @keyframes flotating {
+        0% {
+            translate: 0px 0px;
+            color: red;
+        }
+
+        25% {
+            translate: 0px 2px;
+            color: cyan;
+        }
+
+        50% {
+            translate: 0px 0px;
+            color: green;
+        }
+
+        75% {
+            translate: 0px -2px;
+            color: yellow;
+        }
+
+        100% {
+            translate: 0px 0px;
+            color: orange;
+        }
+    }
+</style>
+
+<script>
+    import {
+        type Monster,
+        type Bullet,
+        type Medal,
+        type MonsterBullet,
+        type Explosion,
+    } from "../data/game.ts";
+    import { monsterSpects, medalsSpects } from "../data/game.ts";
+    //Sprites
+    const SPRITE_SHEET: string = "/sprites/sprites-galaga.png";
+    const SHOOT_SHEET: string = "/sprites/galaga-shoots.png";
+    const EXPLOSION_SHEET: string = "/sprites/alien-explosion.png";
+    const SHIP_EXPLOSION_SHEET: string = "/sprites/ship-explosion.png";
+    const LIFE_BADGES_SHEET: string = "/sprites/life_and_badges.png";
+    const BORDER_WIDTH: number = 1; //Borde imagen
+    const SPACING_WIDTH: number = 2; //Espacio entre sprite
+    const SPRITE_WIDTH: number = 16; //Ancho Sprite
+    const SPRITE_HEIGHT: number = 16; //Alto Sprite
+    const SCREEN_PIXELS: number = SPRITE_HEIGHT * 3; //Alto Sprite o ancho de sprite en pantalla (48px)
+
+    //Animetion & intervals/timeouts
+    let animationFrame: any;
+    let intervaloAnimacion: any;
+    let monsterAtackTimeOut: any = undefined;
+
+    // Tablero
+    let contenedor: any;
+    let btnOpenGame: any;
+    let canvas: any;
+    let context: any;
+    let boardWidth: number = 750;
+    let boardHeigth: number = 880;
+    let openGameWindow: boolean = false;
+    let startGame: boolean = false;
+
+    contenedor = document.querySelector("#galaga-container") as HTMLElement;
+    btnOpenGame = document.getElementById("startGame");
+    canvas = document.querySelector("canvas") as HTMLCanvasElement;
+    context = canvas.getContext("2d") as CanvasRenderingContext2D;
+
+    canvas.width = boardWidth;
+    canvas.height = boardHeigth;
+    canvas.style.backgroundColor = "rgba(255, 255, 255, 0)";
+    canvas.style.border = "2px solid white";
+    canvas.style.zIndex = "10";
+
+    // Player
+    let actualStage: number = 1;
+    let playerScore: number = 0;
+    let playerHighScore: number = 0;
+    let playerLifes: number = 2;
+    let playerMedals: Medal[] = [];
+    let lifeXPosition: number = 20;
+    let lifeYPosition: number = boardHeigth - SCREEN_PIXELS - 10;
+
+    //Earn Lifes
+    let firstLifeMilestone: boolean = false;
+    let secondLifeMilestone: boolean = false;
+    let lastLifeMultiplier: number = 0;
+
+    // Monsters
+    let monsterArray: Monster[] = [];
+    let monsterNumber: number = 44;
+    let monsterSpaceBetween: number = 55;
+    let initialMonsterXPos: number = 80;
+    let initialMonsterYPos: number = 100;
+    let waveDirection: boolean = false; //False = right | True = left
+    let totalMonsterWidth: number = SCREEN_PIXELS + monsterSpaceBetween * 9;
+    let switcher: boolean = false;
+    let indexTargetMonster: number = 0;
+    let MONSTER_VELOCITY: number = 0.5;
+    const DEATH_FRAME_DURATION: number = 3;
+
+    // Monster Bullets
+    let MONSTER_BULLET_VELOCITY: number = 5; //Controla la velocidad de las balas que lanzan los monstruos
+    let MIN_MONSTER_SHOT_ROUNDS: number = 0; //Controla el minimo de balas que lanzan los monstruos
+    let MAX_MONSTER_SHOT_ROUNDS: number = 2;
+    let AFTER_ATACK_DELAY: number = 200; // Menos es mas rapido ataca un monstruo aleatorio
+    let monsterBulletsArray: MonsterBullet[] = [];
+
+    // Ship
+    let shipXPosition: number = boardWidth / 2 - SPRITE_WIDTH;
+    let shipYPosition: number = boardHeigth - 120;
+    const initialShipXPosition: number = boardWidth / 2 - SPRITE_WIDTH;
+    const initialShipYPosition: number = boardHeigth - 120;
+    let shipVelocity: number = 5;
+    let isShipAlive: boolean = true;
+    let shipDeathFrames: number = 0;
+    let SHIP_RESPAWN_FRAMES: number = 300;
+
+    // Ship Bullets
+    const BULLET_LIMIT: number = 2;
+    const BULLET_VELOCITY: number = -12;
+    let bulletsArray: Bullet[] = [];
+
+    // Movimiento
+    let rightPressed: boolean = false;
+    let leftPressed: boolean = false;
+
+    // Animacion
+    let explosionArray: Explosion[] = [];
+
+    function spritePositionToImagePosition(row: number, col: number): any {
+        return {
+            x: BORDER_WIDTH + row * (SPACING_WIDTH + SPRITE_WIDTH),
+            y: BORDER_WIDTH + col * (SPACING_WIDTH + SPRITE_HEIGHT),
+        };
+    }
+
+    function spriteCordinates(col: number, spriteWidth: number) {
+        return {
+            x: BORDER_WIDTH + col * (SPACING_WIDTH + spriteWidth),
+            y: BORDER_WIDTH,
+        };
+    }
+
+    function openGame() {
+        let stars = document.getElementById("stars") as HTMLElement;
+        let stars2 = document.getElementById("stars2") as HTMLElement;
+        let stars3 = document.getElementById("stars3") as HTMLElement;
+        let stars4 = document.getElementById("stars4") as HTMLElement;
+        // Si el usuario apreta el boton, se activa el juego
+        openGameWindow = !openGameWindow;
+
+        if (openGameWindow) {
+            //Cambio la aceleracion de las particulas en el fondo
+            stars.style.animationDuration = "20s";
+            stars2.style.animationDuration = "15s";
+            stars3.style.animationDuration = "20s";
+            stars4.style.animationDuration = "30s";
+
+            //Cambio el mensaje del boton al estar abierto
+            btnOpenGame.innerHTML = "Cerrar";
+
+            //Habilito el contenedor
+            contenedor.style.minHeigth = "100vh";
+            contenedor.style.scrollSnapAlign = "end";
+            canvas.style.display = "block";
+
+            initGameEvents();
+            draw();
+        } else {
+            stars.style.animationDuration = "50s";
+            stars2.style.animationDuration = "100s";
+            stars3.style.animationDuration = "150s";
+            stars4.style.animationDuration = "600s";
+            btnOpenGame.innerHTML = "Play!";
+            contenedor.style.height = "";
+            contenedor.style.scrollSnapAlign = "none";
+            canvas.style.display = "none";
+            endGameEvents();
+        }
+    }
+
+    // Si apretan el boton, se abre el juego
+    btnOpenGame.addEventListener("click", (e: any) => {
+        e.preventDefault();
+        openGame();
+    });
+
+    function initGameEvents() {
+        startGame = true;
+        isShipAlive = true;
+        monsterArray = [];
+        createMonsters(monsterNumber);
+        intervaloAnimacion = setInterval(animate, 1000);
+        playerMedals = [...levelToMedal(actualStage)];
+        document.addEventListener("keydown", keyDownHandler);
+        document.addEventListener("keyup", keyUpHandler);
+    }
+
+    function keyDownHandler(e: any) {
+        const { key } = e;
+
+        if (isShipAlive) {
+            // Si esta presionada la tecla es por que va hacia el lado indicado
+            if (key === "Right" || key === "ArrowRight" || key === "d") {
+                rightPressed = true;
+            } else if (key === "Left" || key === "ArrowLeft" || key === "a") {
+                leftPressed = true;
+            }
+
+            if (key === " ") {
+                e.preventDefault()
+                if (bulletsArray.length < BULLET_LIMIT) {
+                    shipBullet();
+                    playSound("/sounds/galaga-shot-sound.mp3");
+                }
+            }
+        }else{
+            rightPressed = false;
+            leftPressed = false;
+        }
+    }
+
+    function keyUpHandler(e: any) {
+        const { key } = e;
+        
+        if (isShipAlive) {
+            // Si sueltan la tecla es por que quedara quieto
+            if (key === "Right" || key === "ArrowRight" || key === "d") {
+                rightPressed = false;
+            } else if (key === "Left" || key === "ArrowLeft" || key === "a") {
+                leftPressed = false;
+            }
+        }else{
+            rightPressed = false;
+            leftPressed = false;
+        }
+    }
+
+    function endGameEvents() {
+        clearInterval(intervaloAnimacion);
+        playerMedals = [];
+        actualStage = 1;
+        playerLifes = 2;
+        playerScore = 0;
+        monsterArray = [];
+        bulletsArray = [];
+        monsterBulletsArray = [];
+        MONSTER_VELOCITY = 1;
+        shipXPosition = boardWidth / 2 - SPRITE_WIDTH;
+        shipYPosition = boardHeigth - 120;
+        shipVelocity = 5;
+        isShipAlive = false;
+        startGame = false;
+        document.removeEventListener("keydown", keyDownHandler);
+        document.removeEventListener("keyup", keyUpHandler);
+    }
+
+    function drawShip(): any {
+
+        if (isShipAlive) {
+            var shipImage = new Image();
+            shipImage.src = SPRITE_SHEET;
+            shipImage.crossOrigin = "true";
+
+            var position = spritePositionToImagePosition(6, 0);
+
+            // context.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
+            // - sx is the horizontal offset into the source image
+            // - sy is the vertical offset into the source image
+            // - sWidth is the width of the source image
+            // - sHeight is the height of the source image
+            // - dx is the horizontal offset into the destination canvas
+            // - dy is the vertical offset into the destination canvas
+            // - dWidth is the width of the destination canvas
+            // - dHeight is the height of the destination canvas
+
+            context.beginPath();
+            context.drawImage(
+                shipImage,
+                position.x + 0.3,
+                position.y + 0.3,
+                SPRITE_WIDTH - 1.5,
+                SPRITE_HEIGHT - 0.6,
+                shipXPosition,
+                shipYPosition,
+                SCREEN_PIXELS,
+                SCREEN_PIXELS,
+            );
+            context.closePath();
+        }
+        
+    }
+
+    function shipMovement(): any {
+        if (rightPressed && shipXPosition < canvas.width - SCREEN_PIXELS) {
+            shipXPosition += shipVelocity;
+        } else if (leftPressed && shipXPosition - 2 > 0) {
+            shipXPosition -= shipVelocity;
+        }
+    }
+
+    function shipBullet(): any {
+        // En fila 0 y columna 1 esta el sprite de disparos
+        var position = spritePositionToImagePosition(1, 0);
+
+        let bullet: Bullet = {
+            x: shipXPosition,
+            y: shipYPosition,
+            spriteX: position.x,
+            spriteY: position.y,
+            used: false,
+        };
+
+        bulletsArray.push(bullet);
+    }
+
+    function bulletController(): any {
+        for (let i = 0; i < bulletsArray.length; i++) {
+            var bulletImage = new Image();
+            bulletImage.src = SHOOT_SHEET;
+
+            let bullet = bulletsArray[i];
+            bullet.y += BULLET_VELOCITY;
+
+            if (bullet.y <= -SPRITE_HEIGHT || bullet.used === true) {
+                bulletsArray.splice(i, 1);
+            }
+
+            context.beginPath();
+            context.drawImage(
+                bulletImage,
+                bullet.spriteX + 0.3, // Para quitar los bordes de las imagenes, les agrego estas 4 sumas al ancho y alto
+                bullet.spriteY + 0.3,
+                SPRITE_WIDTH - 0.6,
+                SPRITE_HEIGHT - 0.6,
+                bullet.x,
+                bullet.y + SPRITE_HEIGHT,
+                SCREEN_PIXELS,
+                SCREEN_PIXELS,
+            );
+            context.closePath();
+        }
+    }
+
+    function monsterBullet(
+        monsterX: number,
+        monsterY: number,
+        actualXShip: number,
+        actualYShip: number,
+    ): any {
+        // En fila 0 y columna 1 esta el sprite de disparos
+        var position = spritePositionToImagePosition(1, 1);
+
+        let monsterBullet: MonsterBullet = {
+            x: monsterX,
+            y: monsterY,
+            spriteX: position.x,
+            spriteY: position.y,
+            initialX: monsterX,
+            initialY: monsterY,
+            shipXPosition: actualXShip,
+            shipYPosition: actualYShip,
+            used: false,
+        };
+
+        monsterBulletsArray.push(monsterBullet);
+    }
+
+    function monsterBulletController() {
+        for (let i = 0; i < monsterBulletsArray.length; i++) {
+            var monsterbulletImage = new Image();
+            monsterbulletImage.src = SHOOT_SHEET;
+
+            let monsterBullet = monsterBulletsArray[i];
+            monsterBullet.y += MONSTER_BULLET_VELOCITY;
+
+            if (monsterBullet.initialX > monsterBullet.shipXPosition) {
+                //Distancia horizontal y vertical para hacer el calculo de posicion
+                let horizontalSpaceBetween = monsterBullet.initialX - monsterBullet.shipXPosition;
+                let verticalSpaceBetween = monsterBullet.shipYPosition - monsterBullet.initialY
+
+                //Se calcula el tiempo en frames necesarios para que la bala impacte verticalmente
+                let frames = verticalSpaceBetween / MONSTER_BULLET_VELOCITY
+
+                //Se calcula la velocidad horizontal dependiendo de los frames partido en la distancia horizontal
+                let horizontalVelocity = horizontalSpaceBetween / frames
+
+                monsterBullet.x -= horizontalVelocity; //Por intentos, el valor mas cercano para que dispare hacia la posicion de la nave
+            } else {
+                let horizontalSpaceBetween = monsterBullet.shipXPosition - monsterBullet.initialX;
+                let verticalSpaceBetween = monsterBullet.shipYPosition - monsterBullet.initialY
+                let frames = verticalSpaceBetween / MONSTER_BULLET_VELOCITY
+
+                let horizontalVelocity = horizontalSpaceBetween / frames
+                monsterBullet.x += horizontalVelocity;
+            }
+
+            //Controlo que las balas al salir del canvas, salgan del array
+            if (monsterBullet.y >= boardHeigth + SPRITE_HEIGHT || monsterBullet.used === true) {
+                monsterBulletsArray.splice(i, 1);
+            }
+
+            if (isShipAlive) {
+                if (
+                    (monsterBullet.x >= shipXPosition - SPRITE_WIDTH - 2 &&
+                        monsterBullet.x <= shipXPosition + SPRITE_WIDTH + 2 &&
+                        monsterBullet.y >= shipYPosition - SCREEN_PIXELS + 10 &&
+                        monsterBullet.y <= shipYPosition + SPRITE_HEIGHT) ||
+                    (monsterBullet.x >= shipXPosition &&
+                        monsterBullet.x <= shipXPosition &&
+                        monsterBullet.y >= shipYPosition &&
+                        monsterBullet.y <= shipYPosition)
+                ) {
+                    // Si la posision de la bala, mas el ancho del sprite colisionan
+                    // con la posision de la nave mas su ancho del sprite
+                    playerLifes -= 1;
+                    isShipAlive = false;
+                    shipDeathFrames = animationFrame;
+                    monsterBulletsArray.splice(i, 1);
+                }
+            }
+
+            context.beginPath();
+            context.drawImage(
+                monsterbulletImage,
+                monsterBullet.spriteX + 0.3, // Para quitar los bordes de las imagenes, les agrego estas 4 sumas al ancho y alto
+                monsterBullet.spriteY + 0.3,
+                SPRITE_WIDTH - 0.6,
+                SPRITE_HEIGHT - 0.6,
+                monsterBullet.x,
+                monsterBullet.y + SPRITE_HEIGHT,
+                SCREEN_PIXELS,
+                SCREEN_PIXELS,
+            );
+            context.closePath();
+        }
+    }
+
+    function animate() {
+        switcher = !switcher;
+    }
+
+    function drawMonster(monster: Monster): any {
+        var monsterImg = new Image();
+        monsterImg.src = SPRITE_SHEET;
+        monsterImg.crossOrigin = "true";
+
+        // context.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
+        // - sx is the horizontal offset into the source image
+        // - sy is the vertical offset into the source image
+        // - sWidth is the width of the source image
+        // - sHeight is the height of the source image
+        // - dx is the horizontal offset into the destination canvas
+        // - dy is the vertical offset into the destination canvas
+        // - dWidth is the width of the destination canvas
+        // - dHeight is the height of the destination canvas
+
+        let colIncreaser = monster.spriteX;
+
+        // Solo 4 enemigos tienen animaciones para cuando estan en formacion desde pos 2 hasta 5
+        if (switcher && monster.spriteY >= 2 && monster.spriteY <= 5) {
+            colIncreaser += 1;
+        }
+
+        var position = spritePositionToImagePosition(
+            colIncreaser,
+            monster.spriteY,
+        );
+
+        context.drawImage(
+            monsterImg,
+            position.x + 0.3,
+            position.y + 0.3,
+            SPRITE_WIDTH - 0.6,
+            SPRITE_HEIGHT - 0.6,
+            monster.x,
+            monster.y,
+            SCREEN_PIXELS,
+            SCREEN_PIXELS,
+        );
+    }
+
+    function createMonsters(numberOfMonsters: number) {
+        let monsterXPosition = initialMonsterXPos;
+        let monsterYPosition = initialMonsterYPos;
+        let newMonster: Monster;
+        let monsterSwitcher = 0;
+
+        // De esta manera creo los aliens ordenados de la misma manera que el original
+        for (let i = 0; i < numberOfMonsters; i++) {
+            if (i === 0) {
+                monsterSwitcher = 2; // Los primeros 4 deben ser galagas
+                monsterXPosition += monsterSpaceBetween * 4;
+            } else if (i === 4) {
+                monsterSwitcher = 1; // Los 20 posteriores deben ser mariposas
+                monsterXPosition -= monsterSpaceBetween * 6;
+                monsterYPosition += monsterSpaceBetween - SPRITE_HEIGHT;
+            } else if (i === 14 || i === 34) {
+                monsterXPosition -= monsterSpaceBetween * 9;
+                monsterYPosition += monsterSpaceBetween - SPRITE_HEIGHT - 5;
+            } else if (i === 24) {
+                monsterSwitcher = 0; // Los 20 ultimos deben ser abejas
+                monsterXPosition -= monsterSpaceBetween * 9;
+                monsterYPosition += monsterSpaceBetween - SPRITE_HEIGHT - 5;
+            } else {
+                monsterXPosition += monsterSpaceBetween;
+            }
+
+            newMonster = JSON.parse(
+                JSON.stringify(monsterSpects[monsterSwitcher]),
+            );
+            newMonster.x = monsterXPosition;
+            newMonster.y = monsterYPosition;
+            monsterArray.push(newMonster);
+        }
+    }
+
+    function monsterController() {
+        let monsterCuantityChecker = monsterNumber;
+
+        if (monsterAtackTimeOut === undefined) {
+            monsterAtackTimeOut = setTimeout(() => {
+                indexTargetMonster = Math.floor(Math.random() * monsterNumber);
+                monsterAtackTimeOut = undefined;
+            }, AFTER_ATACK_DELAY);
+        }
+
+        if (startGame === false) {
+            monsterArray = [];
+            createMonsters(monsterNumber);
+            startGame = true;
+        }
+
+        for (let i = 0; i < monsterArray.length; i++) {
+            let monster = monsterArray[i];
+
+            if (indexTargetMonster === i && monster.alive && isShipAlive) {
+                let numberOfAtacks = Math.floor(
+                    Math.random() * MAX_MONSTER_SHOT_ROUNDS,
+                );
+
+                if (numberOfAtacks < MIN_MONSTER_SHOT_ROUNDS) {
+                    numberOfAtacks = MIN_MONSTER_SHOT_ROUNDS
+                }
+                
+                for (let i = 0; i < numberOfAtacks; i++) {
+                    setTimeout(() => {
+                        monsterBullet(
+                            monster.x,
+                            monster.y,
+                            shipXPosition,
+                            shipYPosition,
+                        );
+                    }, 150 * i);
+                }
+                indexTargetMonster = -1;
+            }
+
+            if (monsterArray[4].x <= 0) {
+                // Si el primer monstruo del bloque, vivo o muerto, choca con el borde, cambia de direccion
+                waveDirection = false;
+            } else if (monsterArray[4].x + totalMonsterWidth >= canvas.width) {
+                // Si el ultimo monstruo del bloque, vivo o muerto, choca con el borde, cambia de direccion
+                waveDirection = true;
+            }
+
+            // Al cambiar la direccion, muevo a los monstruos por cada render
+            if (waveDirection) {
+                monster.x -= MONSTER_VELOCITY;
+            } else {
+                monster.x += MONSTER_VELOCITY;
+            }
+
+            if (monster.alive) {
+                drawMonster(monster);
+            } else {
+                monsterCuantityChecker -= 1;
+            }
+
+            for (let j = 0; j < bulletsArray.length; j++) {
+                let bulletXSpace = bulletsArray[j].x + SCREEN_PIXELS / 2 - 1; // Hitbox de la bala, seria justo en el centro de la imagen de la bala
+                let bulletYSpace = bulletsArray[j].y + SCREEN_PIXELS / 2 - 2;
+                let bullet = bulletsArray[j];
+
+                // Funcion que compara si la posicion de el monstruo y de las balas coinciden
+                if (bullet.used === false && monster.alive) {
+                    if (
+                        (bulletXSpace >= monster.x &&
+                            bulletXSpace <= monster.x + SCREEN_PIXELS &&
+                            bulletYSpace >= monster.y &&
+                            bulletYSpace <= monster.y + SCREEN_PIXELS) ||
+                        (bulletXSpace + 2 >= monster.x &&
+                            bulletXSpace + 2 <= monster.x + SCREEN_PIXELS &&
+                            bulletYSpace + 4 >= monster.y &&
+                            bulletYSpace + 4 <= monster.y + SCREEN_PIXELS)
+                    ) {
+                        if (monster.name === "Galaga" && monster.life === 2) {
+                            monster.life -= 1;
+                            monster.spriteY = 3;
+                            playSound("/sounds/galaga-first-shot-sound.mp3");
+                            bullet.used = true;
+                        } else if (
+                            monster.name === "Galaga" &&
+                            monster.life === 1
+                        ) {
+                            monster.life -= 1;
+                            bullet.used = true;
+                            monster.alive = false;
+                            playerScore += monster.points;
+                            playSound("/sounds/galaga-second-shot-sound.mp3");
+                            let explosion: Explosion = {
+                                x: monster.x,
+                                y: monster.y,
+                                monterSpriteX: monster.spriteX,
+                                monterSpriteY: monster.spriteY,
+                                frame: animationFrame,
+                            };
+                            explosionArray.push(explosion);
+                        } else {
+                            monster.life -= 1;
+                            monster.name == "Bee"
+                                ? playSound("/sounds/bee-die-sound.mp3")
+                                : playSound("/sounds/butterfly-die-sound.mp3");
+                            monster.alive = false;
+                            bullet.used = true;
+                            playerScore += monster.points;
+                            let explosion: Explosion = {
+                                x: monster.x,
+                                y: monster.y,
+                                monterSpriteX: monster.spriteX,
+                                monterSpriteY: monster.spriteY,
+                                frame: animationFrame,
+                            };
+                            explosionArray.push(explosion);
+                        }
+                    }
+                }
+            }
+
+            if (monsterCuantityChecker === 0 && startGame === true) {
+                startGame = false;
+                actualStage += 1;
+                gameDificulty(actualStage)
+                playerMedals = [...levelToMedal(actualStage)];
+            }
+        }
+    }
+
+    function monsterDeathAnimation() {
+        // Por cada muerte, se origina una explosion y se guarda en explosionArray
+        for (let i = 0; i < explosionArray.length; i++) {
+            let explosion = explosionArray[i];
+            // Para calcular el tiempo en el cual estara en pantalla la animacion,
+            // Tomo en cuenta el frame cuando se origina y el frame actual para calcular la diferencia
+            let frameDiference = animationFrame - explosion.frame;
+
+            if (frameDiference < DEATH_FRAME_DURATION) {
+                var monsterDeathImage = new Image();
+                monsterDeathImage.src = SPRITE_SHEET;
+                monsterDeathImage.crossOrigin = "true";
+
+                var position = spritePositionToImagePosition(
+                    explosion.monterSpriteX + 8,
+                    explosion.monterSpriteY,
+                );
+
+                context.drawImage(
+                    monsterDeathImage,
+                    position.x + 0.3,
+                    position.y + 0.3,
+                    SPRITE_WIDTH - 0.6,
+                    SPRITE_HEIGHT - 0.6,
+                    explosion.x,
+                    explosion.y,
+                    SCREEN_PIXELS,
+                    SCREEN_PIXELS,
+                );
+            } else if (
+                frameDiference >= DEATH_FRAME_DURATION &&
+                frameDiference < DEATH_FRAME_DURATION * 6
+            ) {
+                //Con el autoIncrement puedo ir aumentando la posicion del sprite
+                //Con diferencia de 50 tendria posicion 1 y le resto 1 para obtener pos 0
+                let autoIncrement = Math.floor(
+                    frameDiference / DEATH_FRAME_DURATION,
+                );
+                let explosionPosition = spriteCordinates(autoIncrement - 1, 32);
+
+                var monsterExplosionImage = new Image();
+                monsterExplosionImage.src = EXPLOSION_SHEET;
+                monsterExplosionImage.crossOrigin = "true";
+
+                context.drawImage(
+                    monsterExplosionImage,
+                    explosionPosition.x + 0.3,
+                    explosionPosition.y + 0.3,
+                    SPRITE_WIDTH * 2 - 0.6,
+                    SPRITE_HEIGHT * 2 - 0.6,
+                    explosion.x - SPRITE_WIDTH,
+                    explosion.y - SPRITE_HEIGHT,
+                    SCREEN_PIXELS * 2,
+                    SCREEN_PIXELS * 2,
+                );
+            } else {
+                explosionArray.splice(i, 1);
+            }
+        }
+    }
+
+    function drawShipDeath() {
+        if (!isShipAlive) {
+            let frameDiference = animationFrame - shipDeathFrames;
+
+            if (
+                frameDiference >= DEATH_FRAME_DURATION && frameDiference < DEATH_FRAME_DURATION * 5
+            ) {
+                let autoIncrement = Math.floor(frameDiference / DEATH_FRAME_DURATION);
+                let explosionPosition = spriteCordinates(autoIncrement - 1, 32);
+
+                var shipExplosionImage = new Image();
+                shipExplosionImage.src = SHIP_EXPLOSION_SHEET;
+                shipExplosionImage.crossOrigin = "true";
+
+                context.drawImage(
+                    shipExplosionImage,
+                    explosionPosition.x + 0.3,
+                    explosionPosition.y + 0.3,
+                    SPRITE_WIDTH * 2 - 0.6,
+                    SPRITE_HEIGHT * 2 - 0.6,
+                    shipXPosition - SPRITE_WIDTH,
+                    shipYPosition - SPRITE_HEIGHT,
+                    SCREEN_PIXELS * 2,
+                    SCREEN_PIXELS * 2,
+                );
+            }else if(frameDiference >= SHIP_RESPAWN_FRAMES) {
+                isShipAlive = true;
+                shipDeathFrames = 0;
+                shipXPosition = initialShipXPosition;
+                shipYPosition = initialShipYPosition;
+            }
+        }
+    }
+
+    function playSound(src: string) {
+        let shotAudio = new Audio(src);
+        shotAudio.volume = 0.2;
+        return shotAudio.play();
+    }
+
+    function cleanCanvas(): any {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function drawScore(): any {
+
+        if (playerScore > playerHighScore) {
+            playerHighScore = playerScore
+        }
+        context.font = "20px 'Press Start 2P'";
+        context.fillStyle = "red";
+        context.fillText("1 UP", 50, 30);
+        context.fillText("HIGH SCORE", boardWidth / 2 - 100, 30);
+        context.fillText("LEVEL", boardWidth - 140, 30);
+
+        context.fillStyle = "white";
+        context.fillText(playerScore, 10, 50);
+        context.fillText(playerHighScore, boardWidth / 2 - 100, 50);
+        context.fillText(actualStage, boardWidth - 100, 50);
+    }
+
+    function drawLifes(): any {
+        for (let i = 0; i < playerLifes; i++) {
+            var lifeImage = new Image();
+            lifeImage.src = LIFE_BADGES_SHEET;
+            lifeImage.crossOrigin = "true";
+
+            var position = spriteCordinates(0, 0);
+
+            // context.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
+            // - sx is the horizontal offset into the source image
+            // - sy is the vertical offset into the source image
+            // - sHeight is the height of the source image
+            // - dx is the horizontal offset into the destination canvas
+            // - dy is the vertical offset into the destination canvas
+            // - dWidth is the width of the destination canvas
+            // - dHeight is the height of the destination canvas
+            // - sWidth is the width of the source image
+
+            context.beginPath();
+            context.drawImage(
+                lifeImage,
+                position.x + 0.3,
+                position.y + 0.3,
+                SPRITE_WIDTH - 0.6,
+                SPRITE_HEIGHT - 0.6,
+                lifeXPosition + i * SCREEN_PIXELS,
+                lifeYPosition,
+                SCREEN_PIXELS,
+                SCREEN_PIXELS,
+            );
+            context.closePath();
+        }
+    }
+
+    function levelToMedal(levelNumber: number) {
+        let levelRest = levelNumber;
+        let medals: Medal[] = [];
+
+        //Por cada medalla guardada en medalSpects
+        medalsSpects.map((medal) => {
+            //Saco el cociente para ver si es mayor a uno
+            let cociente = Math.floor(levelRest / medal.value);
+
+            if (cociente >= 1) {
+                //Si es así, hay una medalla de los aspectos actuales
+                //Guardo la cantidad de medallas actuales por cada vuelta en el array
+                for (let j = 0; j < cociente; j++) {
+                    levelRest -= medal.value;
+                    medals.unshift(medal);
+                }
+            }
+        });
+
+        return medals;
+    }
+
+    function drawMedals(): any {
+        let offsetXPosition = 0;
+        for (let i = 0; i < playerMedals.length; i++) {
+            let medalImage = new Image();
+            medalImage.src = LIFE_BADGES_SHEET;
+            medalImage.crossOrigin = "true";
+
+            if (i === 0) {
+                offsetXPosition += playerMedals[i].spriteWidth * 3 + 20;
+            } else {
+                offsetXPosition += playerMedals[i].spriteWidth * 3 + 5;
+            }
+
+            // context.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
+            // - sx is the horizontal offset into the source image
+            // - sy is the vertical offset into the source image
+            // - sWidth is the width of the source image
+            // - sHeight is the height of the source image
+            // - dx is the horizontal offset into the destination canvas
+            // - dy is the vertical offset into the destination canvas
+            // - dWidth is the width of the destination canvas
+            // - dHeight is the height of the destination canvas
+
+            context.beginPath();
+            context.drawImage(
+                medalImage,
+                playerMedals[i].xPosition + 0.3,
+                1 + 0.4,
+                playerMedals[i].spriteWidth - 0.6,
+                SPRITE_HEIGHT - 0.6,
+                boardWidth - offsetXPosition,
+                boardHeigth - SCREEN_PIXELS - 10,
+                playerMedals[i].spriteWidth * 3,
+                SCREEN_PIXELS,
+            );
+            context.closePath();
+        }
+    }
+
+    function gameDificulty(stage: number) {
+        // MONSTER_VELOCITY = 0.5
+        // MONSTER_BULLET_VELOCITY = 5
+        // MIN_MONSTER_SHOT_ROUNDS = 0
+        // MAX_MONSTER_SHOT_ROUNDS = 3
+        // AFTER_ATACK_DELAY = 300
+
+        //Monster buffs por niveles
+        if (stage % 1 == 0) {
+            AFTER_ATACK_DELAY -= 0.5
+        }else if (stage % 5 == 0) {
+            MONSTER_VELOCITY += 0.1
+        }else if(stage % 10 == 0) {
+            MONSTER_BULLET_VELOCITY += 1
+        }else if( stage % 20 == 0) {
+            MAX_MONSTER_SHOT_ROUNDS += 1
+        }else if( stage % 30 == 0) {
+            MIN_MONSTER_SHOT_ROUNDS += 1
+        }
+
+    }
+
+    function playerController() {
+        //Reviso cuantas veces cabe el 70000 en el score actual para sacar el multiplo
+        let currentMultiplier = Math.floor(playerScore / 70000)
+
+        //Si el score actual es mayor o igual a 20000 y la primera vida no ha sido reclamada
+        if (playerScore >= 20000 && !firstLifeMilestone) {
+            //Reclamo la vida y cambio el estado, sumo una vida y reprodusco un sonido
+            firstLifeMilestone = true
+            playerLifes += 1;
+            playSound("/sounds/life-sound.mp3")
+        } else if(playerScore >= 50000 && !secondLifeMilestone){
+            secondLifeMilestone = true
+            playerLifes += 1;
+            playSound("/sounds/life-sound.mp3")
+        }else if(currentMultiplier > lastLifeMultiplier){
+            //Por cada vuelta compruebo si el ultimo multiplicador guardado es menor al numero de veces que cae el 70000 en el score (currentMultiplier)
+            lastLifeMultiplier = currentMultiplier;
+            playerLifes += 1;
+            playSound("/sounds/life-sound.mp3")
+        }
+
+        //Compruebo si no quedan vidas
+        if (playerLifes < 0) {
+            endGameEvents()
+        }
+    }   
+
+    function draw() {
+        cleanCanvas();
+        drawShip();
+        drawScore();
+        drawLifes();
+        drawMedals();
+
+        shipMovement();
+        playerController();
+        bulletController();
+        monsterController();
+        monsterBulletController();
+        monsterDeathAnimation();
+        drawShipDeath();
+
+        if (openGameWindow) {
+            animationFrame = requestAnimationFrame(draw);
+        } else {
+            cancelAnimationFrame(animationFrame);
+        }
+    }
+</script>

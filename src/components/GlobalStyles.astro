@@ -8,7 +8,7 @@
     <div id='stars4'></div>
 </div>
 
-<style>
+<style is:global>
 	.bg-animation {
 		background: var(--secondary-color);
 		position: relative;
@@ -725,7 +725,11 @@
 		-webkit-animation: animStar 50s linear infinite;
 		-moz-animation: animStar 50s linear infinite;
 		-ms-animation: animStar 50s linear infinite;
-		animation: animStar 50s linear infinite;
+		/* animation: animStar 50s linear infinite; */
+		animation-name: animStar;
+		animation-duration: 50s;
+		animation-timing-function: linear;
+		animation-iteration-count: infinite
 	}
 	#stars:after {
 		content: " ";
@@ -1645,7 +1649,11 @@
 		-webkit-animation: animStar 100s linear infinite;
 		-moz-animation: animStar 100s linear infinite;
 		-ms-animation: animStar 100s linear infinite;
-		animation: animStar 100s linear infinite;
+		/* animation: animStar 100s linear infinite; */
+		animation-name: animStar;
+		animation-duration: 100s;
+		animation-timing-function: linear;
+		animation-iteration-count: infinite
 	}
 	#stars2:after {
 		content: " ";
@@ -1965,7 +1973,11 @@
 		-webkit-animation: animStar 150s linear infinite;
 		-moz-animation: animStar 150s linear infinite;
 		-ms-animation: animStar 150s linear infinite;
-		animation: animStar 150s linear infinite;
+		/* animation: animStar 150s linear infinite; */
+		animation-name: animStar;
+		animation-duration: 150s;
+		animation-timing-function: linear;
+		animation-iteration-count: infinite
 	}
 	#stars3:after {
 		content: " ";
@@ -2685,7 +2697,11 @@
 		-webkit-animation: animStar 600s linear infinite;
 		-moz-animation: animStar 600s linear infinite;
 		-ms-animation: animStar 600s linear infinite;
-		animation: animStar 600s linear infinite;
+		/* animation: animStar 600s linear infinite; */
+		animation-name: animStar;
+		animation-duration: 600s;
+		animation-timing-function: linear;
+		animation-iteration-count: infinite
 	}
 	#stars4:after {
 		content: " ";
