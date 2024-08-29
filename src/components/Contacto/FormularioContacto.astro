@@ -2,28 +2,36 @@
 
 ---
 
-<h1 class="text-4xl">Contactame!</h1>
-<div>Puedes hacerlo através del siguiente formulario.</div>
-<form id="contactForm">
-  <div class="">
-    <label for="from_name">Nombre</label>
-    <input type="text" name="from_name" id="from_name" class="text-black" />
-  </div>
-  <div class="">
-    <label for="message_id">Correo</label>
-    <input type="text" name="message_id" id="message_id" class="text-black" />
-  </div>
-  <div class="">
-    <label for="message">Mensaje</label>
-    <textarea name="message" id="message" class="text-black" rows="5"
-    ></textarea>
-  </div>
+<div class="flex flex-col justify-center items-center bg-white-transparent backdrop-blur-sm z-10 p-10 px-20">
+  <div>Puedes contactarme através del siguiente formulario.</div>
+  <form id="contactForm" method="POST" class="flex flex-col items-center">
+    <div class="flex flex-col items-center my-2">
+      <label for="from_name">Nombre</label>
+      <input type="text" name="from_name" id="from_name" class="text-black" />
+      <small class="text-red-400"></small>
+    </div>
+    <div class="flex flex-col items-center my-2">
+      <label for="message_id">Correo</label>
+      <input type="text" name="message_id" id="message_id" class="text-black" />
+      <small class="text-red-400"></small>
+    </div>
+    <div class="flex flex-col items-center my-2">
+      <label for="message">Mensaje</label>
+      <textarea name="message" id="message" class="text-black" rows="5"
+      ></textarea>
+      <small class="text-red-400"></small>
+    </div>
+    <button
+      type="submit"
+      id="buttonForm"
+      class="md:flex w-44 h-8 rounded-lg justify-center items-center bg-amber-50 text-xl font-light text-black link_custom my-2"
+    >
+      Enviar
+    </button>
+  </form>
+  
+</div>
 
-  <button
-    type="submit"
-    id="buttonForm"
-    class="md:flex w-44 h-8 rounded-lg justify-center items-center bg-amber-50 text-xl font-light text-black link_custom"
-  >
-  Enviar Correo
-  </button>
-</form>
+<script>
+
+</script>

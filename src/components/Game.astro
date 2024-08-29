@@ -2,7 +2,10 @@
 import "@fontsource/press-start-2p";
 ---
 
-<section id="galaga-container" class="flex flex-col justify-center items-center">
+<section
+    id="galaga-container"
+    class="flex flex-col justify-center items-center"
+>
     <a href="#galaga-container">
         <button type="button" id="startGame" class="mb-4 galagaButton">
             Play!
@@ -77,9 +80,9 @@ import "@fontsource/press-start-2p";
     const LIFE_BADGES_SHEET: string = "/sprites/life_and_badges.png";
     const BORDER_WIDTH: number = 1; //Borde imagen
     const SPACING_WIDTH: number = 2; //Espacio entre sprite
-    const SPRITE_WIDTH: number = 16; //Ancho Sprite
-    const SPRITE_HEIGHT: number = 16; //Alto Sprite
-    const SCREEN_PIXELS: number = SPRITE_HEIGHT * 3; //Alto Sprite o ancho de sprite en pantalla (48px)
+    let SPRITE_WIDTH: number = 16; //Ancho Sprite
+    let SPRITE_HEIGHT: number = 16; //Alto Sprite
+    let SCREEN_PIXELS: number = SPRITE_HEIGHT * 3; //Alto Sprite o ancho de sprite en pantalla (48px)
 
     //Animetion & intervals/timeouts
     let animationFrame: any;
@@ -115,6 +118,7 @@ import "@fontsource/press-start-2p";
     let playerMedals: Medal[] = [];
     let lifeXPosition: number = 20;
     let lifeYPosition: number = boardHeigth - SCREEN_PIXELS - 10;
+    let scoreFontSize: number = 20;
 
     //Earn Lifes
     let firstLifeMilestone: boolean = false;
@@ -144,16 +148,16 @@ import "@fontsource/press-start-2p";
     // Ship
     let shipXPosition: number = boardWidth / 2 - SPRITE_WIDTH;
     let shipYPosition: number = boardHeigth - 120;
-    const initialShipXPosition: number = boardWidth / 2 - SPRITE_WIDTH;
-    const initialShipYPosition: number = boardHeigth - 120;
+    let initialShipXPosition: number = boardWidth / 2 - SPRITE_WIDTH;
+    let initialShipYPosition: number = boardHeigth - 120;
     let shipVelocity: number = 5;
     let isShipAlive: boolean = true;
     let shipDeathFrames: number = 0;
     let SHIP_RESPAWN_FRAMES: number = 300;
 
     // Ship Bullets
-    const BULLET_LIMIT: number = 2;
-    const BULLET_VELOCITY: number = -12;
+    let BULLET_LIMIT: number = 2;
+    let BULLET_VELOCITY: number = -12;
     let bulletsArray: Bullet[] = [];
 
     // Movimiento
@@ -162,6 +166,39 @@ import "@fontsource/press-start-2p";
 
     // Animacion
     let explosionArray: Explosion[] = [];
+    let scaleFactor = 0.9;
+    const scale = Math.min(window.innerWidth / boardWidth,window.innerHeight / boardHeigth) * scaleFactor;
+
+    function resizeCanvas() {
+
+        //Establecer los altos y anchos de los elementos por la escala
+        boardWidth = boardWidth * scale;
+        boardHeigth = boardHeigth * scale;
+        SCREEN_PIXELS = SCREEN_PIXELS * scale;
+        scoreFontSize = scoreFontSize * scale;
+        initialMonsterYPos = initialMonsterYPos * scale
+        monsterSpaceBetween = monsterSpaceBetween * scale;
+        totalMonsterWidth = SCREEN_PIXELS + monsterSpaceBetween * 9;
+        shipXPosition = boardWidth / 2 - SPRITE_WIDTH * scale;
+        shipYPosition = boardHeigth - 120 * scale;
+        initialShipXPosition = boardWidth / 2 - SPRITE_WIDTH * scale;
+        initialShipYPosition = boardHeigth - 120 * scale;
+        lifeXPosition = 20;
+        lifeYPosition = boardHeigth - SCREEN_PIXELS - 10;
+
+        //Velocidad de las balas tambien disminuye, ya que es menor la distancia requerida
+        MONSTER_BULLET_VELOCITY = MONSTER_BULLET_VELOCITY * scale;
+        BULLET_VELOCITY = BULLET_VELOCITY * scale;
+        shipVelocity = shipVelocity * scale;
+
+        // Establecer el tamaño del canvas basado en la escala
+        canvas.width = boardWidth;
+        canvas.height = boardHeigth;
+
+        // Escalar el contenido
+    }
+
+    resizeCanvas();
 
     function spritePositionToImagePosition(row: number, col: number): any {
         return {
@@ -244,13 +281,13 @@ import "@fontsource/press-start-2p";
             }
 
             if (key === " ") {
-                e.preventDefault()
+                e.preventDefault();
                 if (bulletsArray.length < BULLET_LIMIT) {
                     shipBullet();
                     playSound("/sounds/galaga-shot-sound.mp3");
                 }
             }
-        }else{
+        } else {
             rightPressed = false;
             leftPressed = false;
         }
@@ -258,7 +295,7 @@ import "@fontsource/press-start-2p";
 
     function keyUpHandler(e: any) {
         const { key } = e;
-        
+
         if (isShipAlive) {
             // Si sueltan la tecla es por que quedara quieto
             if (key === "Right" || key === "ArrowRight" || key === "d") {
@@ -266,7 +303,7 @@ import "@fontsource/press-start-2p";
             } else if (key === "Left" || key === "ArrowLeft" || key === "a") {
                 leftPressed = false;
             }
-        }else{
+        } else {
             rightPressed = false;
             leftPressed = false;
         }
@@ -281,10 +318,10 @@ import "@fontsource/press-start-2p";
         monsterArray = [];
         bulletsArray = [];
         monsterBulletsArray = [];
-        MONSTER_VELOCITY = 1;
+        MONSTER_VELOCITY = 0.5 * scale;
         shipXPosition = boardWidth / 2 - SPRITE_WIDTH;
-        shipYPosition = boardHeigth - 120;
-        shipVelocity = 5;
+        shipYPosition = boardHeigth - 120 * scale;
+        shipVelocity = 5 * scale;
         isShipAlive = false;
         startGame = false;
         document.removeEventListener("keydown", keyDownHandler);
@@ -292,7 +329,6 @@ import "@fontsource/press-start-2p";
     }
 
     function drawShip(): any {
-
         if (isShipAlive) {
             var shipImage = new Image();
             shipImage.src = SPRITE_SHEET;
@@ -324,7 +360,6 @@ import "@fontsource/press-start-2p";
             );
             context.closePath();
         }
-        
     }
 
     function shipMovement(): any {
@@ -412,27 +447,34 @@ import "@fontsource/press-start-2p";
 
             if (monsterBullet.initialX > monsterBullet.shipXPosition) {
                 //Distancia horizontal y vertical para hacer el calculo de posicion
-                let horizontalSpaceBetween = monsterBullet.initialX - monsterBullet.shipXPosition;
-                let verticalSpaceBetween = monsterBullet.shipYPosition - monsterBullet.initialY
+                let horizontalSpaceBetween =
+                    monsterBullet.initialX - monsterBullet.shipXPosition;
+                let verticalSpaceBetween =
+                    monsterBullet.shipYPosition - monsterBullet.initialY;
 
                 //Se calcula el tiempo en frames necesarios para que la bala impacte verticalmente
-                let frames = verticalSpaceBetween / MONSTER_BULLET_VELOCITY
+                let frames = verticalSpaceBetween / MONSTER_BULLET_VELOCITY;
 
                 //Se calcula la velocidad horizontal dependiendo de los frames partido en la distancia horizontal
-                let horizontalVelocity = horizontalSpaceBetween / frames
+                let horizontalVelocity = horizontalSpaceBetween / frames;
 
                 monsterBullet.x -= horizontalVelocity; //Por intentos, el valor mas cercano para que dispare hacia la posicion de la nave
             } else {
-                let horizontalSpaceBetween = monsterBullet.shipXPosition - monsterBullet.initialX;
-                let verticalSpaceBetween = monsterBullet.shipYPosition - monsterBullet.initialY
-                let frames = verticalSpaceBetween / MONSTER_BULLET_VELOCITY
+                let horizontalSpaceBetween =
+                    monsterBullet.shipXPosition - monsterBullet.initialX;
+                let verticalSpaceBetween =
+                    monsterBullet.shipYPosition - monsterBullet.initialY;
+                let frames = verticalSpaceBetween / MONSTER_BULLET_VELOCITY;
 
-                let horizontalVelocity = horizontalSpaceBetween / frames
+                let horizontalVelocity = horizontalSpaceBetween / frames;
                 monsterBullet.x += horizontalVelocity;
             }
 
             //Controlo que las balas al salir del canvas, salgan del array
-            if (monsterBullet.y >= boardHeigth + SPRITE_HEIGHT || monsterBullet.used === true) {
+            if (
+                monsterBullet.y >= boardHeigth + SPRITE_HEIGHT ||
+                monsterBullet.used === true
+            ) {
                 monsterBulletsArray.splice(i, 1);
             }
 
@@ -576,9 +618,9 @@ import "@fontsource/press-start-2p";
                 );
 
                 if (numberOfAtacks < MIN_MONSTER_SHOT_ROUNDS) {
-                    numberOfAtacks = MIN_MONSTER_SHOT_ROUNDS
+                    numberOfAtacks = MIN_MONSTER_SHOT_ROUNDS;
                 }
-                
+
                 for (let i = 0; i < numberOfAtacks; i++) {
                     setTimeout(() => {
                         monsterBullet(
@@ -676,7 +718,7 @@ import "@fontsource/press-start-2p";
             if (monsterCuantityChecker === 0 && startGame === true) {
                 startGame = false;
                 actualStage += 1;
-                gameDificulty(actualStage)
+                gameDificulty(actualStage);
                 playerMedals = [...levelToMedal(actualStage)];
             }
         }
@@ -748,9 +790,12 @@ import "@fontsource/press-start-2p";
             let frameDiference = animationFrame - shipDeathFrames;
 
             if (
-                frameDiference >= DEATH_FRAME_DURATION && frameDiference < DEATH_FRAME_DURATION * 5
+                frameDiference >= DEATH_FRAME_DURATION &&
+                frameDiference < DEATH_FRAME_DURATION * 5
             ) {
-                let autoIncrement = Math.floor(frameDiference / DEATH_FRAME_DURATION);
+                let autoIncrement = Math.floor(
+                    frameDiference / DEATH_FRAME_DURATION,
+                );
                 let explosionPosition = spriteCordinates(autoIncrement - 1, 32);
 
                 var shipExplosionImage = new Image();
@@ -768,7 +813,7 @@ import "@fontsource/press-start-2p";
                     SCREEN_PIXELS * 2,
                     SCREEN_PIXELS * 2,
                 );
-            }else if(frameDiference >= SHIP_RESPAWN_FRAMES) {
+            } else if (frameDiference >= SHIP_RESPAWN_FRAMES) {
                 isShipAlive = true;
                 shipDeathFrames = 0;
                 shipXPosition = initialShipXPosition;
@@ -788,20 +833,25 @@ import "@fontsource/press-start-2p";
     }
 
     function drawScore(): any {
-
+        let yPosition = 0;
         if (playerScore > playerHighScore) {
-            playerHighScore = playerScore
+            playerHighScore = playerScore;
         }
-        context.font = "20px 'Press Start 2P'";
+        
+        //Posicion de indicadores de valores
+        yPosition = 30 * scale;
+        context.font = `${scoreFontSize}px 'Press Start 2P'`;
         context.fillStyle = "red";
-        context.fillText("1 UP", 50, 30);
-        context.fillText("HIGH SCORE", boardWidth / 2 - 100, 30);
-        context.fillText("LEVEL", boardWidth - 140, 30);
-
+        context.fillText("1 UP", 50* scale, yPosition);
+        context.fillText("HIGH SCORE", boardWidth / 2 - 100 * scale, yPosition);
+        context.fillText("LEVEL", boardWidth - 140 * scale, yPosition);
+        
+        //Posicion de valores
+        yPosition = 50 * scale;
         context.fillStyle = "white";
-        context.fillText(playerScore, 10, 50);
-        context.fillText(playerHighScore, boardWidth / 2 - 100, 50);
-        context.fillText(actualStage, boardWidth - 100, 50);
+        context.fillText(playerScore, 10* scale, yPosition);
+        context.fillText(playerHighScore, boardWidth / 2 - 100 * scale, yPosition);
+        context.fillText(actualStage, boardWidth - 100 * scale, yPosition);
     }
 
     function drawLifes(): any {
@@ -867,10 +917,12 @@ import "@fontsource/press-start-2p";
             medalImage.src = LIFE_BADGES_SHEET;
             medalImage.crossOrigin = "true";
 
+            let adaptedWidth = playerMedals[i].spriteWidth * scale;
+
             if (i === 0) {
-                offsetXPosition += playerMedals[i].spriteWidth * 3 + 20;
+                offsetXPosition += adaptedWidth * 3 + 20 * scale;
             } else {
-                offsetXPosition += playerMedals[i].spriteWidth * 3 + 5;
+                offsetXPosition += adaptedWidth * 3 + 5 * scale;
             }
 
             // context.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
@@ -892,7 +944,7 @@ import "@fontsource/press-start-2p";
                 SPRITE_HEIGHT - 0.6,
                 boardWidth - offsetXPosition,
                 boardHeigth - SCREEN_PIXELS - 10,
-                playerMedals[i].spriteWidth * 3,
+                adaptedWidth * 3,
                 SCREEN_PIXELS,
             );
             context.closePath();
@@ -908,45 +960,44 @@ import "@fontsource/press-start-2p";
 
         //Monster buffs por niveles
         if (stage % 1 == 0) {
-            AFTER_ATACK_DELAY -= 0.5
-        }else if (stage % 5 == 0) {
-            MONSTER_VELOCITY += 0.1
-        }else if(stage % 10 == 0) {
-            MONSTER_BULLET_VELOCITY += 1
-        }else if( stage % 20 == 0) {
-            MAX_MONSTER_SHOT_ROUNDS += 1
-        }else if( stage % 30 == 0) {
-            MIN_MONSTER_SHOT_ROUNDS += 1
+            AFTER_ATACK_DELAY -= 0.5;
+        } else if (stage % 5 == 0) {
+            MONSTER_VELOCITY += 0.1;
+        } else if (stage % 10 == 0) {
+            MONSTER_BULLET_VELOCITY += 1;
+        } else if (stage % 20 == 0) {
+            MAX_MONSTER_SHOT_ROUNDS += 1;
+        } else if (stage % 30 == 0) {
+            MIN_MONSTER_SHOT_ROUNDS += 1;
         }
-
     }
 
     function playerController() {
         //Reviso cuantas veces cabe el 70000 en el score actual para sacar el multiplo
-        let currentMultiplier = Math.floor(playerScore / 70000)
+        let currentMultiplier = Math.floor(playerScore / 70000);
 
         //Si el score actual es mayor o igual a 20000 y la primera vida no ha sido reclamada
         if (playerScore >= 20000 && !firstLifeMilestone) {
             //Reclamo la vida y cambio el estado, sumo una vida y reprodusco un sonido
-            firstLifeMilestone = true
+            firstLifeMilestone = true;
             playerLifes += 1;
-            playSound("/sounds/life-sound.mp3")
-        } else if(playerScore >= 50000 && !secondLifeMilestone){
-            secondLifeMilestone = true
+            playSound("/sounds/life-sound.mp3");
+        } else if (playerScore >= 50000 && !secondLifeMilestone) {
+            secondLifeMilestone = true;
             playerLifes += 1;
-            playSound("/sounds/life-sound.mp3")
-        }else if(currentMultiplier > lastLifeMultiplier){
+            playSound("/sounds/life-sound.mp3");
+        } else if (currentMultiplier > lastLifeMultiplier) {
             //Por cada vuelta compruebo si el ultimo multiplicador guardado es menor al numero de veces que cae el 70000 en el score (currentMultiplier)
             lastLifeMultiplier = currentMultiplier;
             playerLifes += 1;
-            playSound("/sounds/life-sound.mp3")
+            playSound("/sounds/life-sound.mp3");
         }
 
         //Compruebo si no quedan vidas
         if (playerLifes < 0) {
-            endGameEvents()
+            endGameEvents();
         }
-    }   
+    }
 
     function draw() {
         cleanCanvas();

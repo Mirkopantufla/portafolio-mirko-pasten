@@ -8,6 +8,7 @@ export default defineConfig({
   experimental: {
     env: {
       schema: {
+        EMAILJS_PK: envField.string({ context: "client", access: "public"}),
         EMAILJS_SERVICE: envField.string({ context: "client", access: "public"}),
         EMAILJS_TEMPLATE: envField.string({ context: "client", access: "public"})
       }

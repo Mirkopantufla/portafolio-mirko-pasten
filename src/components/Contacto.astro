@@ -1,12 +1,17 @@
 ---
-import FormularioContacto from "./Contacto/FormularioContacto.astro"
+import FormularioContacto from "./Contacto/FormularioContacto.astro";
 ---
 
 <section
     id="contacto"
-    class="h-[100vh] flex flex-col justify-center items-center bg-black text-white"
+    class="min-h-[100vh] grid grid-cols-12 grid-rows-12 place-items-center gap-10 bg-black text-white p-5 md:p-10 lg:p-12 xl:p-16 2xl:p-24"
 >
-    <div class="z-10 bg-slate-950 p-30">
-        <FormularioContacto/>
+    <div
+        class="col-span-12 row-span-2 p-5 px-24 bg-white-transparent rounded-ee-full rounded-tl-full"
+    >
+        <h1 class="text-white text-5xl">Contacto</h1>
+    </div>
+    <div class="row-span-10 col-start-3 col-span-8 my-auto">
+        <FormularioContacto />
     </div>
 </section>
