@@ -3,22 +3,16 @@ import "@fontsource/press-start-2p";
 ---
 
 <section
-    id="galaga-container"
-    class="flex flex-col justify-center items-center"
+    id="game-container"
+    class="flex flex-col justify-center items-center min-h-[100vh]"
 >
-    <a href="#galaga-container">
-        <button type="button" id="startGame" class="mb-4 galagaButton">
+        <button type="button" id="startGame" class="mb-4 galagaButton z-20">
             Play!
         </button>
-    </a>
-    <canvas class="hidden mb-6"></canvas>
+    <canvas class="mb-6"></canvas>
 </section>
 
 <style>
-    section {
-        background-color: #000;
-    }
-
     .scoreFont {
         font-family: "Press Start 2P", system-ui;
     }
@@ -26,9 +20,9 @@ import "@fontsource/press-start-2p";
     .galagaButton {
         background-color: rgba(255, 255, 255, 0.11);
         font-size: 15px;
+        position: absolute;
         padding-inline: 40px;
         padding-block: 5px;
-        margin-bottom: 10px;
         border: 1px solid gray;
         border-top-left-radius: 25px;
         border-bottom-right-radius: 25px;
@@ -99,7 +93,7 @@ import "@fontsource/press-start-2p";
     let openGameWindow: boolean = false;
     let startGame: boolean = false;
 
-    contenedor = document.querySelector("#galaga-container") as HTMLElement;
+    contenedor = document.querySelector("#game-container") as HTMLElement;
     btnOpenGame = document.getElementById("startGame");
     canvas = document.querySelector("canvas") as HTMLCanvasElement;
     context = canvas.getContext("2d") as CanvasRenderingContext2D;
@@ -230,10 +224,9 @@ import "@fontsource/press-start-2p";
             stars4.style.animationDuration = "30s";
 
             //Cambio el mensaje del boton al estar abierto
-            btnOpenGame.innerHTML = "Cerrar";
+            btnOpenGame.style.display = "none"
 
             //Habilito el contenedor
-            contenedor.style.minHeigth = "100vh";
             contenedor.style.scrollSnapAlign = "end";
             canvas.style.display = "block";
 
@@ -244,8 +237,7 @@ import "@fontsource/press-start-2p";
             stars2.style.animationDuration = "100s";
             stars3.style.animationDuration = "150s";
             stars4.style.animationDuration = "600s";
-            btnOpenGame.innerHTML = "Play!";
-            contenedor.style.height = "";
+            btnOpenGame.style.display = "block"
             contenedor.style.scrollSnapAlign = "none";
             canvas.style.display = "none";
             endGameEvents();
@@ -331,10 +323,10 @@ import "@fontsource/press-start-2p";
     function drawShip(): any {
         if (isShipAlive) {
             var shipImage = new Image();
-            shipImage.src = SPRITE_SHEET;
+            shipImage.src = LIFE_BADGES_SHEET;
             shipImage.crossOrigin = "true";
 
-            var position = spritePositionToImagePosition(6, 0);
+            var position = spriteCordinates(0, 0);
 
             // context.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
             // - sx is the horizontal offset into the source image
@@ -349,10 +341,10 @@ import "@fontsource/press-start-2p";
             context.beginPath();
             context.drawImage(
                 shipImage,
-                position.x + 0.3,
-                position.y + 0.3,
-                SPRITE_WIDTH - 1.5,
-                SPRITE_HEIGHT - 0.6,
+                position.x + 0.6,
+                position.y + 0.6,
+                SPRITE_WIDTH - 1.1,
+                SPRITE_HEIGHT - 1.1,
                 shipXPosition,
                 shipYPosition,
                 SCREEN_PIXELS,
@@ -400,10 +392,10 @@ import "@fontsource/press-start-2p";
             context.beginPath();
             context.drawImage(
                 bulletImage,
-                bullet.spriteX + 0.3, // Para quitar los bordes de las imagenes, les agrego estas 4 sumas al ancho y alto
-                bullet.spriteY + 0.3,
-                SPRITE_WIDTH - 0.6,
-                SPRITE_HEIGHT - 0.6,
+                bullet.spriteX + 0.6, // Para quitar los bordes de las imagenes, les agrego estas 4 sumas al ancho y alto
+                bullet.spriteY + 0.6,
+                SPRITE_WIDTH - 1.1,
+                SPRITE_HEIGHT - 1.1,
                 bullet.x,
                 bullet.y + SPRITE_HEIGHT,
                 SCREEN_PIXELS,
@@ -501,10 +493,10 @@ import "@fontsource/press-start-2p";
             context.beginPath();
             context.drawImage(
                 monsterbulletImage,
-                monsterBullet.spriteX + 0.3, // Para quitar los bordes de las imagenes, les agrego estas 4 sumas al ancho y alto
-                monsterBullet.spriteY + 0.3,
-                SPRITE_WIDTH - 0.6,
-                SPRITE_HEIGHT - 0.6,
+                monsterBullet.spriteX + 0.6, // Para quitar los bordes de las imagenes, les agrego estas 4 sumas al ancho y alto
+                monsterBullet.spriteY + 0.6,
+                SPRITE_WIDTH - 1.1,
+                SPRITE_HEIGHT - 1.1,
                 monsterBullet.x,
                 monsterBullet.y + SPRITE_HEIGHT,
                 SCREEN_PIXELS,
@@ -547,10 +539,10 @@ import "@fontsource/press-start-2p";
 
         context.drawImage(
             monsterImg,
-            position.x + 0.3,
-            position.y + 0.3,
-            SPRITE_WIDTH - 0.6,
-            SPRITE_HEIGHT - 0.6,
+            position.x + 0.6,
+            position.y + 0.6,
+            SPRITE_WIDTH - 1.1,
+            SPRITE_HEIGHT - 1.1,
             monster.x,
             monster.y,
             SCREEN_PIXELS,
@@ -744,10 +736,10 @@ import "@fontsource/press-start-2p";
 
                 context.drawImage(
                     monsterDeathImage,
-                    position.x + 0.3,
-                    position.y + 0.3,
-                    SPRITE_WIDTH - 0.6,
-                    SPRITE_HEIGHT - 0.6,
+                    position.x + 0.6,
+                    position.y + 0.6,
+                    SPRITE_WIDTH - 1,
+                    SPRITE_HEIGHT - 1,
                     explosion.x,
                     explosion.y,
                     SCREEN_PIXELS,
@@ -770,10 +762,10 @@ import "@fontsource/press-start-2p";
 
                 context.drawImage(
                     monsterExplosionImage,
-                    explosionPosition.x + 0.3,
-                    explosionPosition.y + 0.3,
-                    SPRITE_WIDTH * 2 - 0.6,
-                    SPRITE_HEIGHT * 2 - 0.6,
+                    explosionPosition.x + 0.6,
+                    explosionPosition.y + 0.6,
+                    SPRITE_WIDTH * 2 - 1.1,
+                    SPRITE_HEIGHT * 2 - 1.1,
                     explosion.x - SPRITE_WIDTH,
                     explosion.y - SPRITE_HEIGHT,
                     SCREEN_PIXELS * 2,
@@ -804,10 +796,10 @@ import "@fontsource/press-start-2p";
 
                 context.drawImage(
                     shipExplosionImage,
-                    explosionPosition.x + 0.3,
-                    explosionPosition.y + 0.3,
-                    SPRITE_WIDTH * 2 - 0.6,
-                    SPRITE_HEIGHT * 2 - 0.6,
+                    explosionPosition.x + 0.6,
+                    explosionPosition.y + 0.6,
+                    SPRITE_WIDTH * 2 - 1,
+                    SPRITE_HEIGHT * 2 - 1,
                     shipXPosition - SPRITE_WIDTH,
                     shipYPosition - SPRITE_HEIGHT,
                     SCREEN_PIXELS * 2,
@@ -875,10 +867,10 @@ import "@fontsource/press-start-2p";
             context.beginPath();
             context.drawImage(
                 lifeImage,
-                position.x + 0.3,
-                position.y + 0.3,
-                SPRITE_WIDTH - 0.6,
-                SPRITE_HEIGHT - 0.6,
+                position.x + 0.6,
+                position.y + 0.6,
+                SPRITE_WIDTH - 1.1,
+                SPRITE_HEIGHT - 1.1,
                 lifeXPosition + i * SCREEN_PIXELS,
                 lifeYPosition,
                 SCREEN_PIXELS,
@@ -938,10 +930,10 @@ import "@fontsource/press-start-2p";
             context.beginPath();
             context.drawImage(
                 medalImage,
-                playerMedals[i].xPosition + 0.3,
-                1 + 0.4,
-                playerMedals[i].spriteWidth - 0.6,
-                SPRITE_HEIGHT - 0.6,
+                playerMedals[i].xPosition + 0.6,
+                1 + 0.6,
+                playerMedals[i].spriteWidth - 1.1,
+                SPRITE_HEIGHT - 1.1,
                 boardWidth - offsetXPosition,
                 boardHeigth - SCREEN_PIXELS - 10,
                 adaptedWidth * 3,

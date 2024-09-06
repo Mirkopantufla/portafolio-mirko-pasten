@@ -18,6 +18,9 @@ function validateData() {
   }else if(!nameRegex.test(from_name.value)){
     from_name.nextElementSibling.innerHTML = "Debe ser un nombre valido"
     error = true;
+  }else{
+    from_name.nextElementSibling.innerHTML = ""
+    from_name.style.outline = "3px solid green"
   }
 
   if (message_id.value === "") {
@@ -26,11 +29,17 @@ function validateData() {
   }else if(!emailRegex.test(message_id.value)){
     message_id.nextElementSibling.innerHTML = "Debe ser un email valido"
     error = true;
+  }else{
+    message_id.nextElementSibling.innerHTML = ""
+    message_id.style.outline = "3px solid green"
   }
 
   if (message.value === "") {
     message.nextElementSibling.innerHTML = "El mensaje no puede quedar vacio"
     error = true;
+  }else{
+    message.nextElementSibling.innerHTML = ""
+    message.style.outline = "3px solid green"
   }
 
   return error;

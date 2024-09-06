@@ -18,60 +18,88 @@ const { title } = Astro.props;
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
-		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+		<script
+			type="text/javascript"
+			src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"
+		></script>
 
 		<script src="../data/emailJS.js"></script>
 	</head>
 	<body>
 		<Stars />
-		<slot />
+		<main
+			id="main-container"
+			class="overflow-y-scroll max-h-[100vh] snap-mandatory snap-y"
+		>
+			<slot />
+		</main>
 	</body>
 </html>
 
 <style is:global>
 	:root {
 		color-scheme: light dark;
-		--primary-color: white;
-		--secondary-color: black;
+		--primary-color: 255, 255, 255;
+		--secondary-color: 0, 0, 0;
 		--base-color: rgba(148, 163, 184, 0.1);
 		--accent-base-color: rgba(100, 116, 139, 1);
 	}
+
+	[data-theme="dark"] {
+		--primary-color: 0, 0, 0;
+		--secondary-color: 255, 255, 255;
+	}
+
+	[data-theme="dark"] .invert-icon {
+		filter: invert(0);
+	}
+
+	[data-theme="dark"] .reverse-icon {
+		filter: invert(100%);
+	}
+
+	.invert-icon {
+		filter: invert(100%);
+	}
+
+	.reverse-icon {
+		filter: invert(0);
+	}
+
 	html {
 		font-family: "Roboto Slab Variable", serif;
 	}
-	.bg-white-transparent {
-		background-color: rgba(255, 255, 255, 0.1);
+
+	h1, h2, h3, h4, h5, h6, p, label {
+		color: rgb(var(--primary-color));
 	}
 
-	.link_custom:hover {
-        font-weight: normal;
-    }
+	button, .proyect_card{
+		background-color: rgb(var(--primary-color));
+	}
 
-    .link_custom:active {
-        transform: scale(0.97);
-    }
+	input, textarea, button, .proyect_card p{
+		color: rgb(var(--secondary-color));
+	}
+	
+	section {
+		background-color: rgb(var(--secondary-color));
+	}
 
-    .link_custom::before {
-        padding-right: 5px;
-        content: '—';
-        color: black;
-    }
+	.sombreado-negro {
+		filter: drop-shadow(1px 2px 6px rgba(var(--secondary-color), 0.4));
+	}
 
-    .link_custom::after {
-        padding-left: 5px;
-        content: '—';
-        color: black;
-    }
+	.sombreado-blanco {
+		filter: drop-shadow(1px 2px 6px rgba(var(--primary-color), 0.4));
+	}
 
-    .link_custom:hover::after {
-        padding-left: 5px;
-        content: '—';
-        color: black;
-    }
+	.bg-white-transparent {
+		background-color: rgba(var(--primary-color), 0.1);
+	}
 
-    .link_custom:hover::before {
-        padding-right: 5px;
-        content: '—';
-        color: black;
-    }
+	.bg-secondary {
+		background-color: rgb(var(--secondary-color));
+	}
+
 </style>

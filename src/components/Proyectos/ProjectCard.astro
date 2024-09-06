@@ -11,9 +11,9 @@ const { proyecto } = Astro.props;
 ---
 
 <a href={proyecto.link} target="_blank">
-    <div class="bg-amber-50 rounded-lg">
+    <div class="proyect_card rounded-lg">
         <div class="grid grid-cols-7 py-2">
-            <h1 class="col-start-2 col-span-5 text-center font-bold">{proyecto.nombre}</h1>
+            <p class="col-start-2 col-span-5 text-center font-bold">{proyecto.nombre}</p>
             <div class={`col-start-7 col-span-1 justify-self-end`}>
                 <span class=`${proyecto.deployed ? "bg-blue-300" : "bg-red-400"} rounded-md p-1 px-2 me-2`>
                     {proyecto.deployed ? "Online" : "Offline"}
@@ -25,7 +25,7 @@ const { proyecto } = Astro.props;
             urlImagenes={proyecto.imagenes}
         />
         <div class="flex items-center justify-center py-1 bg-amber-400 border-y-2 border-black">
-            <h5 class="font-bold">Stack</h5>
+            <p class="font-bold">Stack</p>
         </div>
         <IconoNombre stack={proyecto.stack}/>
     </div>

@@ -2,36 +2,49 @@
 
 ---
 
-<div class="flex flex-col justify-center items-center bg-white-transparent backdrop-blur-sm z-10 p-10 px-20">
-  <div>Puedes contactarme através del siguiente formulario.</div>
-  <form id="contactForm" method="POST" class="flex flex-col items-center">
-    <div class="flex flex-col items-center my-2">
-      <label for="from_name">Nombre</label>
-      <input type="text" name="from_name" id="from_name" class="text-black" />
-      <small class="text-red-400"></small>
-    </div>
-    <div class="flex flex-col items-center my-2">
-      <label for="message_id">Correo</label>
-      <input type="text" name="message_id" id="message_id" class="text-black" />
-      <small class="text-red-400"></small>
-    </div>
-    <div class="flex flex-col items-center my-2">
-      <label for="message">Mensaje</label>
-      <textarea name="message" id="message" class="text-black" rows="5"
-      ></textarea>
-      <small class="text-red-400"></small>
-    </div>
-    <button
-      type="submit"
-      id="buttonForm"
-      class="md:flex w-44 h-8 rounded-lg justify-center items-center bg-amber-50 text-xl font-light text-black link_custom my-2"
-    >
-      Enviar
-    </button>
-  </form>
-  
-</div>
+<form
+  id="contactForm"
+  method="POST"
+  class="flex flex-col items-center w-[80%] mx-auto"
+>
+  <div class="flex flex-col items-center my-3 relative w-full">
+    <label for="from_name">Nombre</label>
+    <input
+      type="text"
+      name="from_name"
+      id="from_name"
+      class="text-center w-full h-8"
+    />
+    <small class="text-red-400 absolute -bottom-5"></small>
+  </div>
+  <div class="flex flex-col items-center my-3 relative w-full">
+    <label for="message_id">Correo</label>
+    <input
+      type="text"
+      name="message_id"
+      id="message_id"
+      class="text-center w-full h-8"
+    />
+    <small class="text-red-400 absolute -bottom-5"></small>
+  </div>
+  <div class="flex flex-col items-center my-3 relative w-full">
+    <label for="message">Mensaje</label>
+    <textarea name="message" id="message" class="text-center w-full" rows="5"
+    ></textarea>
 
-<script>
+    <small class="text-red-400 absolute -bottom-5"></small>
+  </div>
+  <button
+    type="submit"
+    id="buttonForm"
+    class="md:flex w-44 h-8 rounded-lg justify-center items-center text-xl mt-4"
+  >
+    Enviar
+  </button>
+</form>
 
-</script>
+<style>
+  input, textarea {
+    border-radius: 10px;
+  }
+</style>

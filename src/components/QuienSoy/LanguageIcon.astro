@@ -8,57 +8,39 @@ interface Props {
 const { className, href, iconName } = Astro.props
 ---
 
-<a id={`link-${iconName}`} name="icono-animado" class='col-span-2 w-16 lg:w-24 h-16 lg:h-24 flex flex-col justify-center items-center transition ease-out duration-[80ms] z-10' target="_blank" href={href}>
-    <img class:list={[`rounded-xl p-1`, className]} src={`/icons/icono-${iconName}.png`} alt={iconName}>
+<a id={`link-${iconName}`} name="icono-animado" class='icono-animado col-span-2 flex flex-col justify-center items-center transition ease-out duration-[80ms] z-10 h-auto w-auto' target="_blank" href={href}>
+    <img class:list={[`rounded-xl p-1 w-16 h-16 lg:h-28 lg:w-28`, className]} src={`/icons/icono-${iconName}.png`} alt={iconName}>
 </a>
 
 <style>
-    .sombreado-negro {
-		filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.4));
-	}
-
-	.sombreado-blanco {
-		filter: drop-shadow(1px 1px 4px rgba(255, 255, 255, 0.4));
+    .icono-animado{
+		perspective: 1000px;
 	}
 </style>
 
 <script>
-	const imagenes = document.querySelectorAll<HTMLInputElement>('a[name="icono-animado"]');
-
+	const imagenes = document.querySelectorAll<HTMLInputElement>('.icono-animado');
+	
 	imagenes?.forEach((imagen) => {
+		const img = imagen.querySelector("img") as HTMLImageElement
+		const { width, height } = imagen.getBoundingClientRect();
+		const halfWidth = width / 2;
+		const halfHeight = height / 2;
+
 		imagen?.addEventListener("mousemove", (e) => {
-			let top = imagen.offsetTop;
-			let left = imagen.offsetLeft;
+			const {offsetX, offsetY}  = e
 
-			let ancho = imagen.clientWidth;
-			let alto = imagen.clientHeight;
+			const rotateX = ((offsetX - halfWidth) / halfWidth) * 30;
+			const rotateY = ((offsetY - halfHeight) / halfHeight) * 30;
 
-			let relativeX = e.pageX - left;
-			let relativeY = e.pageY - top;
-
-			if (relativeX >= ancho / 2 && relativeY >= alto / 2) {
-				imagen.style.transform = "rotate3d(-1,-1,0,25deg)";
-				// console.log("AbajoDerecha")
-			}
-
-			if (relativeX <= ancho / 2 && relativeY >= alto / 2) {
-				imagen.style.transform = "rotate3d(1,-1,0,25deg)";
-				// console.log("AbajoIzquierda")
-			}
-
-			if (relativeX >= ancho / 2 && relativeY <= alto / 2) {
-				imagen.style.transform = "rotate3d(-1,3,-1,-25deg)";
-				// console.log("ArribaDerecha")
-			}
-
-			if (relativeX <= ancho / 2 && relativeY <= alto / 2) {
-				imagen.style.transform = "rotate3d(1,3,1,-25deg)";
-				// console.log("ArribaIzquierda")
-			}
+			img.style.transform = `rotateX(${-rotateY}deg) rotateY(${rotateX}deg)`
 		});
+
 		imagen?.addEventListener(
 			"mouseout",
-			(e) => (imagen.style.transform = "rotate3d(0,0,0,0)"),
+			(e) => (
+				img.style.transform = "rotateX(0deg) rotateY(0deg)"
+			),
 		);
 	});
 </script>

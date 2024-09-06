@@ -1,55 +1,107 @@
 ---
 import LanguageIcon from "./QuienSoy/LanguageIcon.astro";
-import { iconosStack } from "../data/proyectos.ts"
+import { iconosStack } from "../data/proyectos.ts";
 ---
 
-<section
-	id="quien-soy"
-	class="h-[100vh] flex flex-col justify-evenly bg-black"
->
-	<div class="flex flex-col w-11/12 bg-white-transparent justify-center items-center py-10 mx-auto z-10 text-white rounded-ee-full rounded-tl-full">
-		<h1 class="text-5xl">Desarrollador FrontEnd/Backend</h1>
-		<br>
-		<p class="text-start">
-			con sólida experiencia en el área de desarrollo,
-			<br>
-			apto para absorber y aplicar nuevos conocimientos rápidamente, 
-			<br>
-			destacando por mi paciencia, persistencia y amabilidad en el trabajo colaborativo. 
-			<br>
-			Comprometido con la resolución de desafíos técnicos y el compañerismo en el equipo de trabajo.
-		</p>
-	</div>
-	<div id="icon-container" class="grid grid-rows-2 gap-y-5 bg-black py-6">
-		<div class="row-span-1 flex justify-evenly">
-		{
-			iconosStack.map((icono) => {
-				if (icono.section === "front-end") {
-					return(
-					<LanguageIcon
-							href={icono.href}
-							iconName={icono.icono}
-							className={icono.className}
-						/>
-					)
-				}
-			})
-		}
+<section id="quien-soy" class="min-h-[100vh] grid grid-cols-12 pt-20 lg:pt-0">
+	<div class="col-start-2 col-span-10 bg-white-transparent backdrop-blur-sm z-10 rounded-t-[80px] mt-auto p-4 px-8">
+		<div class="flex max-lg:flex-col lg:flex justify-center ">
+			<div>
+				<h1 class="text-2xl xl:text-3xl text-center">
+					Mirko Sergei Pasten Carcamo
+				</h1>
+					<img
+					class="w-1/2 h-auto pb-3 mx-auto"
+					src="/images/mirko-pasten-lite-removebg.png"
+					alt=""
+					>
+	
+				<h2 class="text-2xl xl:text-3xl text-center">
+					Desarrollador Fullstack
+				</h2>
+			</div>
+			<div class="my-2 gap-4">
+				<p class="font-light text-center mt-3">
+					Sólida experiencia en el área de desarrollo, apto para absorber y aplicar nuevos conocimientos rápidamente.
+					<br />
+					Destacando por mi paciencia, persistencia y amabilidad en el trabajo
+					colaborativo.
+					<br>
+					Me gustan los animales, las estrellas, cocinar, los juegos de pc y ser maestro chasquilla
+					<br>
+					<br>
+					Si tienes tiempo, prueba mi copia a galaga hecho con javascript!
+					<a href="/game" class="galagaButton flex justify-center">
+						<img class="invert-icon h-8" src="/icons/play-icon.png" alt="" />
+					</a>
+				</p>
+			</div>
 		</div>
-		<div class="row-span-1 flex justify-evenly">
+	</div>
+	<div id="icon-container" class="col-start-2 col-span-10 mb-auto py-7">
+		<div class="flex justify-evenly items-center my-2">
+			{
+				iconosStack.map((icono) => {
+					if (icono.section === "front-end") {
+						return (
+							<LanguageIcon
+								href={icono.href}
+								iconName={icono.icono}
+								className={icono.className}
+							/>
+						);
+					}
+				})
+			}
+		</div>
+		<div class="flex justify-evenly items-center my-2">
 			{
 				iconosStack.map((icono) => {
 					if (icono.section === "back-end") {
-						return(
-						<LanguageIcon
-							href={icono.href}
-							iconName={icono.icono}
-							className={icono.className}
-						/>
-						)
+						return (
+							<LanguageIcon
+								href={icono.href}
+								iconName={icono.icono}
+								className={icono.className}
+							/>
+						);
 					}
 				})
 			}
 		</div>
 	</div>
 </section>
+
+
+<style>
+	.galagaButton {
+        animation: flotating 1.5s linear infinite;
+    }
+
+    @keyframes flotating {
+        0% {
+            translate: 0px 0px;
+            color: red;
+        }
+
+        25% {
+            translate: 0px 2px;
+            color: cyan;
+        }
+
+        50% {
+            translate: 0px 0px;
+            color: green;
+        }
+
+        75% {
+            translate: 0px -2px;
+            color: yellow;
+        }
+
+        100% {
+            translate: 0px 0px;
+            color: orange;
+        }
+    }
+</style>

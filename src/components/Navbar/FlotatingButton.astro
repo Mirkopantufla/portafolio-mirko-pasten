@@ -1,0 +1,27 @@
+---
+---
+
+<button 
+    id="flotating-button" 
+    class="absolute rounded-full top-8 right-12 p-3 hover:scale-90 z-30"
+    >
+    <img id="theme-image" class="h-8" src="/icons/sun-icon.png" alt="" />
+</button>
+
+<script>
+    import { changeTheme } from "../../utils/theme.ts"
+    let themeButton = document.querySelector("#flotating-button") as HTMLElement;
+    let image = document.querySelector("#theme-image") as HTMLElement;
+
+    themeButton.addEventListener("click", function() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+
+        if (currentTheme === "dark") {
+            image.setAttribute("src", "/icons/sun-icon.png")
+        }else if(currentTheme === "light"){
+            image.setAttribute("src", "/icons/moon-icon.png")
+        }
+
+        changeTheme();
+    })
+</script>

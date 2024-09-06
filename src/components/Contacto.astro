@@ -1,17 +1,41 @@
 ---
 import FormularioContacto from "./Contacto/FormularioContacto.astro";
+import IconoRedes from "./Contacto/IconoRedes.astro";
 ---
 
-<section
-    id="contacto"
-    class="min-h-[100vh] grid grid-cols-12 grid-rows-12 place-items-center gap-10 bg-black text-white p-5 md:p-10 lg:p-12 xl:p-16 2xl:p-24"
+<section 
+    id="contacto" 
+    class="min-h-[100vh] grid grid-cols-12 grid-rows-12 place-items-center gap-10"
 >
-    <div
-        class="col-span-12 row-span-2 p-5 px-24 bg-white-transparent rounded-ee-full rounded-tl-full"
-    >
-        <h1 class="text-white text-5xl">Contacto</h1>
+    <div class="col-span-12 row-span-2 p-5 px-24 bg-white-transparent backdrop-blur-sm rounded-ee-full rounded-tl-full">
+        <h1 class="text-5xl">Contacto</h1>
     </div>
-    <div class="row-span-10 col-start-3 col-span-8 my-auto">
-        <FormularioContacto />
+    <div
+        class="flex col-span-10 col-start-2 row-span-10 bg-white-transparent backdrop-blur-sm rounded-3xl w-full"
+    >
+        <div class="flex flex-col justify-evenly py-4 w-full">
+            <div class="flex items-center justify-evenly">
+                <IconoRedes
+                    src="/icons/logo-email.png"
+                    href="mailto:mirko.pasten.dev@gmail.com"
+                />
+                <IconoRedes
+                    src="/icons/logo-whatsapp.png"
+                    href="https://wa.me/56940550785?text=Hola%20me%20gustaría%20saber%20más%20sobre%20sus%20servicios"
+                />
+                <IconoRedes
+                    src="/icons/logo-linkedin.png"
+                    href="https://www.linkedin.com/in/mirko-pasten-carcamo/"
+                />
+                <IconoRedes
+                    src="/icons/logo-github.png"
+                    href="https://github.com/Mirkopantufla"
+                />
+            </div>
+            <div class="w-full z-10">
+                <FormularioContacto />
+            </div>
+        </div>
+        
     </div>
 </section>

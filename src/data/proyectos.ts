@@ -27,7 +27,7 @@ export const proyectosDisponibles: Proyectos[] = [
             { iconos: "django", nombre: "Django" },
             { iconos: "postgresql", nombre: "PostgreSQL" },
         ],
-        deployed: true
+        deployed: false
     },
     {
         id: "only_flans",
@@ -43,7 +43,7 @@ export const proyectosDisponibles: Proyectos[] = [
             { iconos: "django", nombre: "Django" },
             { iconos: "postgresql", nombre: "PostgreSQL" },
         ],
-        deployed: true
+        deployed: false
     },
     {
         id: "battleship",
@@ -143,7 +143,7 @@ export const iconosStack: MiStack[] = [
         href: "https://getbootstrap.com/docs/5.3/getting-started/introduction/", 
         icono: "bootstrap",
         section: "front-end",
-        className: "" 
+        className: "sombreado-negro" 
     },
     { 
         href: "https://tailwindcss.com/docs/installation", 
@@ -161,19 +161,19 @@ export const iconosStack: MiStack[] = [
         href: "https://flask.palletsprojects.com/en/3.0.x/", 
         icono: "flask",
         section: "back-end",
-        className: "invert" 
+        className: "invert-icon w-24 h-14 lg:h-20 lg:w-32" 
     },
     { 
         href: "https://docs.djangoproject.com/en/4.2/", 
         icono: "django",
         section: "back-end",
-        className: "invert" 
+        className: "invert-icon" 
     },
     { 
         href: "https://docs.sqlalchemy.org/en/14/", 
         icono: "sqlAlchemy",
         section: "back-end",
-        className: "" 
+        className: "w-32 h-12 lg:h-14 lg:w-36" 
     },
     { 
         href: "https://www.postgresql.org/", 
