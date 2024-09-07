@@ -46,6 +46,10 @@ const { title } = Astro.props;
 		--accent-base-color: rgba(100, 116, 139, 1);
 	}
 
+	html {
+		font-family: "Roboto Slab Variable", serif;
+	}
+
 	[data-theme="dark"] {
 		--primary-color: 0, 0, 0;
 		--secondary-color: 255, 255, 255;
@@ -65,10 +69,6 @@ const { title } = Astro.props;
 
 	.reverse-icon {
 		filter: invert(0);
-	}
-
-	html {
-		font-family: "Roboto Slab Variable", serif;
 	}
 
 	h1, h2, h3, h4, h5, h6, p, label {
@@ -101,6 +101,10 @@ const { title } = Astro.props;
 
 	.bg-secondary {
 		background-color: rgb(var(--secondary-color));
+	}
+
+	.primary-color {
+		color: rgb(var(--primary-color));
 	}
 
 </style>

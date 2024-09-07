@@ -49,14 +49,14 @@ function validateData() {
   return error;
 }
 
-form.addEventListener('submit', function (e) {
+form?.addEventListener('submit', function (e) {
   e.preventDefault();
 
   if (!validateData()) {
     btn.innerHTML = 'Enviando...';
 
-    const serviceID = EMAILJS_SERVICE;
-    const templateID = EMAILJS_TEMPLATE;
+    const serviceID: string = EMAILJS_SERVICE;
+    const templateID: string = EMAILJS_TEMPLATE;
 
     emailjs.sendForm(serviceID, templateID, this)
       .then(() => {

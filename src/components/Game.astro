@@ -9,7 +9,7 @@ import "@fontsource/press-start-2p";
         <button type="button" id="startGame" class="mb-4 galagaButton z-20">
             Play!
         </button>
-    <canvas class="mb-6"></canvas>
+    <canvas class="my-6"></canvas>
 </section>
 
 <style>
@@ -58,7 +58,8 @@ import "@fontsource/press-start-2p";
 </style>
 
 <script>
-    import {
+    import { isWhiteSpaceLike } from "typescript";
+import {
         type Monster,
         type Bullet,
         type Medal,
@@ -92,6 +93,7 @@ import "@fontsource/press-start-2p";
     let boardHeigth: number = 880;
     let openGameWindow: boolean = false;
     let startGame: boolean = false;
+    let actualPrimaryColor: 'rgb(var(--primary-color))';
 
     contenedor = document.querySelector("#game-container") as HTMLElement;
     btnOpenGame = document.getElementById("startGame");
@@ -100,8 +102,7 @@ import "@fontsource/press-start-2p";
 
     canvas.width = boardWidth;
     canvas.height = boardHeigth;
-    canvas.style.backgroundColor = "rgba(255, 255, 255, 0)";
-    canvas.style.border = "2px solid white";
+    canvas.style.border = `2px solid rgb(var(--primary-color))`;
     canvas.style.zIndex = "10";
 
     // Player
@@ -826,6 +827,9 @@ import "@fontsource/press-start-2p";
 
     function drawScore(): any {
         let yPosition = 0;
+        let color = document.documentElement.getAttribute('data-theme');
+        color = color === "dark" ? "black" : "white";
+
         if (playerScore > playerHighScore) {
             playerHighScore = playerScore;
         }
@@ -840,7 +844,7 @@ import "@fontsource/press-start-2p";
         
         //Posicion de valores
         yPosition = 50 * scale;
-        context.fillStyle = "white";
+        context.fillStyle = color
         context.fillText(playerScore, 10* scale, yPosition);
         context.fillText(playerHighScore, boardWidth / 2 - 100 * scale, yPosition);
         context.fillText(actualStage, boardWidth - 100 * scale, yPosition);
