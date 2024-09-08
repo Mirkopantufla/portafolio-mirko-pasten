@@ -58,8 +58,7 @@ import "@fontsource/press-start-2p";
 </style>
 
 <script>
-    import { isWhiteSpaceLike } from "typescript";
-import {
+    import {
         type Monster,
         type Bullet,
         type Medal,
@@ -67,6 +66,18 @@ import {
         type Explosion,
     } from "../data/game.ts";
     import { monsterSpects, medalsSpects } from "../data/game.ts";
+
+    // context.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
+    // - sx is the horizontal offset into the source image
+    // - sy is the vertical offset into the source image
+    // - sWidth is the width of the source image
+    // - sHeight is the height of the source image
+    // - dx is the horizontal offset into the destination canvas
+    // - dy is the vertical offset into the destination canvas
+    // - dWidth is the width of the destination canvas
+    // - dHeight is the height of the destination canvas
+
+
     //Sprites
     const SPRITE_SHEET: string = "/sprites/sprites-galaga.png";
     const SHOOT_SHEET: string = "/sprites/galaga-shoots.png";
@@ -79,10 +90,36 @@ import {
     let SPRITE_HEIGHT: number = 16; //Alto Sprite
     let SCREEN_PIXELS: number = SPRITE_HEIGHT * 3; //Alto Sprite o ancho de sprite en pantalla (48px)
 
-    //Animetion & intervals/timeouts
+    // Animetion & intervals/timeouts
     let animationFrame: any;
     let intervaloAnimacion: any;
     let monsterAtackTimeOut: any = undefined;
+
+    // Carga de imagenes
+        // Monstruos
+    const monsterImg = new Image();
+    monsterImg.src = SPRITE_SHEET;
+    monsterImg.crossOrigin = "true";
+        //Ship
+    const shipImage = new Image();
+    shipImage.src = LIFE_BADGES_SHEET;
+    shipImage.crossOrigin = "true";
+        //Ship Explosion
+    const shipExplosionImage = new Image();
+    shipExplosionImage.src = SHIP_EXPLOSION_SHEET;
+    shipExplosionImage.crossOrigin = "true";
+        //Bullet
+    const bulletImage = new Image();
+    bulletImage.src = SHOOT_SHEET;
+    bulletImage.crossOrigin = "true";
+        //Monster Death
+    const monsterDeathImage = new Image();
+    monsterDeathImage.src = SPRITE_SHEET;
+    monsterDeathImage.crossOrigin = "true";
+        //Monster Explosion
+    const monsterExplosionImage = new Image();
+    monsterExplosionImage.src = EXPLOSION_SHEET;
+    monsterExplosionImage.crossOrigin = "true";
 
     // Tablero
     let contenedor: any;
@@ -93,7 +130,6 @@ import {
     let boardHeigth: number = 880;
     let openGameWindow: boolean = false;
     let startGame: boolean = false;
-    let actualPrimaryColor: 'rgb(var(--primary-color))';
 
     contenedor = document.querySelector("#game-container") as HTMLElement;
     btnOpenGame = document.getElementById("startGame");
@@ -123,11 +159,12 @@ import {
     // Monsters
     let monsterArray: Monster[] = [];
     let monsterNumber: number = 44;
-    let monsterSpaceBetween: number = 55;
+    let monsterXSpaceBetween: number = 55;
+    let monsterYSpaceBetween: number = 55;
     let initialMonsterXPos: number = 80;
     let initialMonsterYPos: number = 100;
     let waveDirection: boolean = false; //False = right | True = left
-    let totalMonsterWidth: number = SCREEN_PIXELS + monsterSpaceBetween * 9;
+    let totalMonsterWidth: number = SCREEN_PIXELS + monsterXSpaceBetween * 9;
     let switcher: boolean = false;
     let indexTargetMonster: number = 0;
     let MONSTER_VELOCITY: number = 0.5;
@@ -172,8 +209,8 @@ import {
         SCREEN_PIXELS = SCREEN_PIXELS * scale;
         scoreFontSize = scoreFontSize * scale;
         initialMonsterYPos = initialMonsterYPos * scale
-        monsterSpaceBetween = monsterSpaceBetween * scale;
-        totalMonsterWidth = SCREEN_PIXELS + monsterSpaceBetween * 9;
+        monsterXSpaceBetween = monsterXSpaceBetween * scale;
+        totalMonsterWidth = SCREEN_PIXELS + monsterXSpaceBetween * 9;
         shipXPosition = boardWidth / 2 - SPRITE_WIDTH * scale;
         shipYPosition = boardHeigth - 120 * scale;
         initialShipXPosition = boardWidth / 2 - SPRITE_WIDTH * scale;
@@ -323,9 +360,6 @@ import {
 
     function drawShip(): any {
         if (isShipAlive) {
-            var shipImage = new Image();
-            shipImage.src = LIFE_BADGES_SHEET;
-            shipImage.crossOrigin = "true";
 
             var position = spriteCordinates(0, 0);
 
@@ -380,8 +414,7 @@ import {
 
     function bulletController(): any {
         for (let i = 0; i < bulletsArray.length; i++) {
-            var bulletImage = new Image();
-            bulletImage.src = SHOOT_SHEET;
+            
 
             let bullet = bulletsArray[i];
             bullet.y += BULLET_VELOCITY;
@@ -512,19 +545,6 @@ import {
     }
 
     function drawMonster(monster: Monster): any {
-        var monsterImg = new Image();
-        monsterImg.src = SPRITE_SHEET;
-        monsterImg.crossOrigin = "true";
-
-        // context.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
-        // - sx is the horizontal offset into the source image
-        // - sy is the vertical offset into the source image
-        // - sWidth is the width of the source image
-        // - sHeight is the height of the source image
-        // - dx is the horizontal offset into the destination canvas
-        // - dy is the vertical offset into the destination canvas
-        // - dWidth is the width of the destination canvas
-        // - dHeight is the height of the destination canvas
 
         let colIncreaser = monster.spriteX;
 
@@ -561,20 +581,20 @@ import {
         for (let i = 0; i < numberOfMonsters; i++) {
             if (i === 0) {
                 monsterSwitcher = 2; // Los primeros 4 deben ser galagas
-                monsterXPosition += monsterSpaceBetween * 4;
+                monsterXPosition += monsterXSpaceBetween * 4;
             } else if (i === 4) {
                 monsterSwitcher = 1; // Los 20 posteriores deben ser mariposas
-                monsterXPosition -= monsterSpaceBetween * 6;
-                monsterYPosition += monsterSpaceBetween - SPRITE_HEIGHT;
+                monsterXPosition -= monsterXSpaceBetween * 6;
+                monsterYPosition += monsterYSpaceBetween - SPRITE_HEIGHT;
             } else if (i === 14 || i === 34) {
-                monsterXPosition -= monsterSpaceBetween * 9;
-                monsterYPosition += monsterSpaceBetween - SPRITE_HEIGHT - 5;
+                monsterXPosition -= monsterXSpaceBetween * 9;
+                monsterYPosition += monsterYSpaceBetween - SPRITE_HEIGHT;
             } else if (i === 24) {
                 monsterSwitcher = 0; // Los 20 ultimos deben ser abejas
-                monsterXPosition -= monsterSpaceBetween * 9;
-                monsterYPosition += monsterSpaceBetween - SPRITE_HEIGHT - 5;
+                monsterXPosition -= monsterXSpaceBetween * 9;
+                monsterYPosition += monsterYSpaceBetween - SPRITE_HEIGHT;
             } else {
-                monsterXPosition += monsterSpaceBetween;
+                monsterXPosition += monsterXSpaceBetween;
             }
 
             newMonster = JSON.parse(
@@ -726,9 +746,6 @@ import {
             let frameDiference = animationFrame - explosion.frame;
 
             if (frameDiference < DEATH_FRAME_DURATION) {
-                var monsterDeathImage = new Image();
-                monsterDeathImage.src = SPRITE_SHEET;
-                monsterDeathImage.crossOrigin = "true";
 
                 var position = spritePositionToImagePosition(
                     explosion.monterSpriteX + 8,
@@ -756,10 +773,6 @@ import {
                     frameDiference / DEATH_FRAME_DURATION,
                 );
                 let explosionPosition = spriteCordinates(autoIncrement - 1, 32);
-
-                var monsterExplosionImage = new Image();
-                monsterExplosionImage.src = EXPLOSION_SHEET;
-                monsterExplosionImage.crossOrigin = "true";
 
                 context.drawImage(
                     monsterExplosionImage,
@@ -790,10 +803,6 @@ import {
                     frameDiference / DEATH_FRAME_DURATION,
                 );
                 let explosionPosition = spriteCordinates(autoIncrement - 1, 32);
-
-                var shipExplosionImage = new Image();
-                shipExplosionImage.src = SHIP_EXPLOSION_SHEET;
-                shipExplosionImage.crossOrigin = "true";
 
                 context.drawImage(
                     shipExplosionImage,
@@ -852,9 +861,6 @@ import {
 
     function drawLifes(): any {
         for (let i = 0; i < playerLifes; i++) {
-            var lifeImage = new Image();
-            lifeImage.src = LIFE_BADGES_SHEET;
-            lifeImage.crossOrigin = "true";
 
             var position = spriteCordinates(0, 0);
 
@@ -870,7 +876,7 @@ import {
 
             context.beginPath();
             context.drawImage(
-                lifeImage,
+                shipImage,
                 position.x + 0.6,
                 position.y + 0.6,
                 SPRITE_WIDTH - 1.1,
@@ -909,9 +915,6 @@ import {
     function drawMedals(): any {
         let offsetXPosition = 0;
         for (let i = 0; i < playerMedals.length; i++) {
-            let medalImage = new Image();
-            medalImage.src = LIFE_BADGES_SHEET;
-            medalImage.crossOrigin = "true";
 
             let adaptedWidth = playerMedals[i].spriteWidth * scale;
 
@@ -933,7 +936,7 @@ import {
 
             context.beginPath();
             context.drawImage(
-                medalImage,
+                shipImage,
                 playerMedals[i].xPosition + 0.6,
                 1 + 0.6,
                 playerMedals[i].spriteWidth - 1.1,
