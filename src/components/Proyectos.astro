@@ -5,38 +5,14 @@ import { proyectosDisponibles } from "../data/proyectos.ts"
 ---
 
 <section id="proyectos" class="min-h-[100vh] grid grid-rows-auto grid-cols-12 place-items-center gap-2 md:gap-10 p-5 md:p-10 lg:p-12 xl:p-16 2xl:p-24">
-    <div class="col-span-12 row-span-2 p-5 px-24 bg-white-transparent backdrop-blur-sm rounded-ee-full rounded-tl-full">
+    <div class="col-span-12 p-5 px-24 bg-white-transparent backdrop-blur-sm rounded-ee-full rounded-tl-full vanish">
         <h1 class="text-2xl lg:text-5xl">Proyectos</h1>
     </div>
     {
         proyectosDisponibles.map(proyecto => 
-            <div  class="row-span-3 col-span-12 md:col-span-6 xl:col-span-4 z-10  vanish">
+            <div  class="row-span-3 col-span-12 md:col-span-6 xl:col-span-4 z-10 vanish">
                 <ProjectCard proyecto={proyecto}/>
             </div>
         )
     }
 </section>
-
-<style>
-    @keyframes show {
-        from {
-            opacity: 0;
-            scale: 25%;
-        }
-
-        to {
-            opacity: 1;
-            scale: 100%;
-        }
-    }
-
-    .vanish{
-        view-timeline-name: --card;
-        view-timeline-axis: block;
-
-        animation-timeline: --card;
-        animation-name: show;
-        animation-range: entry 20% cover 30%;
-        animation-fill-mode: both;
-    }
-</style>

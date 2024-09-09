@@ -6,9 +6,46 @@ import "@fontsource/press-start-2p";
   id="game-container"
   class="flex flex-col justify-center items-center min-h-[100vh]"
 >
-  <button type="button" id="startGame" class="mb-4 galagaButton z-20">
-    Play!
-  </button>
+  <div id="show-buttons" class="absolute flex flex-col justify-center z-20">
+    <button type="button" id="startGame" class="mb-4 galagaButton text-center">
+      Play!
+    </button>
+
+    <p class="text-center">Izquierda</p>
+    <div class="flex justify-center">
+      <img
+        class="w-10 lg:w-16 xl:w-20 invert-icon"
+        src="/icons/a-key-icon.png"
+        alt=""
+      />
+      <img
+        class="w-10 lg:w-16 xl:w-20 invert-icon"
+        src="/icons/left-key-icon.png"
+        alt=""
+      />
+    </div>
+
+    <p class="text-center">Derecha</p>
+    <div class="flex justify-center">
+      <img
+        class="w-10 lg:w-16 xl:w-20 invert-icon"
+        src="/icons/d-key-icon.png"
+        alt=""
+      />
+      <img
+        class="w-10 lg:w-16 xl:w-20 invert-icon"
+        src="/icons/right-key-icon.png"
+        alt=""
+      />
+    </div>
+
+    <p class="text-center">Disparar</p>
+    <img
+      class="w-14 lg:w-20 xl:w-28 invert-icon self-center"
+      src="/icons/space-key-icon.png"
+      alt=""
+    />
+  </div>
   <canvas class="my-6"></canvas>
 </section>
 
@@ -20,7 +57,6 @@ import "@fontsource/press-start-2p";
   .galagaButton {
     background-color: rgba(255, 255, 255, 0.11);
     font-size: 15px;
-    position: absolute;
     padding-inline: 40px;
     padding-block: 5px;
     border: 1px solid gray;
@@ -126,6 +162,7 @@ import "@fontsource/press-start-2p";
   // Tablero
   let contenedor: any;
   let btnOpenGame: any;
+  let showButtons: any;
   let canvas: any;
   let context: any;
   let boardWidth: number = 750;
@@ -134,6 +171,7 @@ import "@fontsource/press-start-2p";
   let startGame: boolean = false;
 
   contenedor = document.querySelector("#game-container") as HTMLElement;
+  showButtons = document.querySelector("#show-buttons") as HTMLElement;
   btnOpenGame = document.getElementById("startGame");
   canvas = document.querySelector("canvas") as HTMLCanvasElement;
   context = canvas.getContext("2d") as CanvasRenderingContext2D;
@@ -213,7 +251,7 @@ import "@fontsource/press-start-2p";
     scoreFontSize = scoreFontSize * scale;
     initialMonsterYPos = initialMonsterYPos * scale;
     monsterXSpaceBetween = monsterXSpaceBetween * scale;
-    monsterYSpaceBetween = (SCREEN_PIXELS* (1.5));
+    monsterYSpaceBetween = SCREEN_PIXELS * 1.5;
     totalMonsterWidth = SCREEN_PIXELS + monsterXSpaceBetween * 9;
     shipXPosition = boardWidth / 2 - SPRITE_WIDTH * scale;
     shipYPosition = boardHeigth - 120 * scale;
@@ -222,10 +260,9 @@ import "@fontsource/press-start-2p";
     lifeXPosition = 20;
     lifeYPosition = boardHeigth - SCREEN_PIXELS - 10;
 
-    if(boardWidth >= 536) {
-      monsterYSpaceBetween = (SCREEN_PIXELS* (1.1));
+    if (boardWidth >= 536) {
+      monsterYSpaceBetween = SCREEN_PIXELS * 1.1;
     }
-
 
     //Velocidad de las balas tambien disminuye, ya que es menor la distancia requerida
     MONSTER_BULLET_VELOCITY = MONSTER_BULLET_VELOCITY * scale;
@@ -271,7 +308,7 @@ import "@fontsource/press-start-2p";
       stars4.style.animationDuration = "30s";
 
       //Cambio el mensaje del boton al estar abierto
-      btnOpenGame.style.display = "none";
+      showButtons.style.display = "none";
 
       //Habilito el contenedor
       contenedor.style.scrollSnapAlign = "end";
@@ -284,7 +321,8 @@ import "@fontsource/press-start-2p";
       stars2.style.animationDuration = "100s";
       stars3.style.animationDuration = "150s";
       stars4.style.animationDuration = "600s";
-      btnOpenGame.style.display = "block";
+      showButtons.style.display = "flex";
+      showButtons.style.flexDirection = "column";
       contenedor.style.scrollSnapAlign = "none";
       canvas.style.display = "none";
       endGameEvents();
@@ -298,17 +336,16 @@ import "@fontsource/press-start-2p";
   });
 
   function initGameTouchEvents() {
-    let canvasSpects = canvas.getBoundingClientRect()
-    let leftCanvas = canvasSpects.left
-    let topCanvas = canvasSpects.top
-    let canvasHeight = canvasSpects.height
-    let touchableMovementSpace = topCanvas + shipYPosition
+    let canvasSpects = canvas.getBoundingClientRect();
+    let leftCanvas = canvasSpects.left;
+    let topCanvas = canvasSpects.top;
+    let canvasHeight = canvasSpects.height;
+    let touchableMovementSpace = topCanvas + shipYPosition;
 
-
-    console.log(canvasSpects)
+    console.log(canvasSpects);
     canvas.addEventListener("touchstart", (e: any) => {
-      [...e.changedTouches].forEach(touch => {
-        e.preventDefault()
+      [...e.changedTouches].forEach((touch) => {
+        e.preventDefault();
 
         if (touch.clientY < touchableMovementSpace) {
           if (bulletsArray.length < BULLET_LIMIT && isShipAlive) {
@@ -317,56 +354,61 @@ import "@fontsource/press-start-2p";
           }
         }
 
-        if (touch.clientX <= leftCanvas + shipXPosition && touch.clientY > touchableMovementSpace) {
+        if (
+          touch.clientX <= leftCanvas + shipXPosition &&
+          touch.clientY > touchableMovementSpace
+        ) {
           rightPressed = false;
           leftPressed = true;
-          console.log("LEFT")
-        }else if (touch.clientX >= leftCanvas + shipXPosition + SCREEN_PIXELS && touch.clientY > touchableMovementSpace){
+          console.log("LEFT");
+        } else if (
+          touch.clientX >= leftCanvas + shipXPosition + SCREEN_PIXELS &&
+          touch.clientY > touchableMovementSpace
+        ) {
           leftPressed = false;
           rightPressed = true;
-          console.log("RIGHT")
-        }else{
+          console.log("RIGHT");
+        } else {
           leftPressed = false;
           rightPressed = false;
         }
-        
-
-      })
-      
-    })
+      });
+    });
 
     canvas.addEventListener("touchmove", (e: any) => {
-      [...e.changedTouches].forEach(touch => {
-        e.preventDefault()
+      [...e.changedTouches].forEach((touch) => {
+        e.preventDefault();
 
-        if (touch.clientX <= leftCanvas + shipXPosition && touch.clientY > touchableMovementSpace) {
+        if (
+          touch.clientX <= leftCanvas + shipXPosition &&
+          touch.clientY > touchableMovementSpace
+        ) {
           rightPressed = false;
           leftPressed = true;
-          console.log("LEFT")
-        }else if (touch.clientX >= leftCanvas + shipXPosition + SCREEN_PIXELS && touch.clientY > touchableMovementSpace){
+          console.log("LEFT");
+        } else if (
+          touch.clientX >= leftCanvas + shipXPosition + SCREEN_PIXELS &&
+          touch.clientY > touchableMovementSpace
+        ) {
           leftPressed = false;
           rightPressed = true;
-          console.log("RIGHT")
-        }else{
+          console.log("RIGHT");
+        } else {
           leftPressed = false;
           rightPressed = false;
         }
-
-      })
-      
-    })
+      });
+    });
 
     canvas.addEventListener("touchend", (e: any) => {
-      [...e.changedTouches].forEach(touch => {
+      [...e.changedTouches].forEach((touch) => {
         leftPressed = false;
         rightPressed = false;
-      })
-      
-    })
+      });
+    });
   }
 
   function initGameEvents() {
-    
     startGame = true;
     isShipAlive = true;
     monsterArray = [];
@@ -375,8 +417,7 @@ import "@fontsource/press-start-2p";
     playerMedals = [...levelToMedal(actualStage)];
     document.addEventListener("keydown", keyDownHandler);
     document.addEventListener("keyup", keyUpHandler);
-    initGameTouchEvents()
-
+    initGameTouchEvents();
   }
 
   function keyDownHandler(e: any) {
@@ -469,13 +510,11 @@ import "@fontsource/press-start-2p";
   }
 
   function shipMovement(): any {
-
     if (rightPressed && shipXPosition < canvas.width - SCREEN_PIXELS) {
       shipXPosition += shipVelocity;
     } else if (leftPressed && shipXPosition - 2 > 0) {
       shipXPosition -= shipVelocity;
     }
-
   }
 
   function shipBullet(): any {
