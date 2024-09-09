@@ -302,7 +302,7 @@ import "@fontsource/press-start-2p";
     let leftCanvas = canvasSpects.left
     let topCanvas = canvasSpects.top
     let canvasHeight = canvasSpects.height
-    let touchableMovementSpace = shipYPosition + SCREEN_PIXELS
+    let touchableMovementSpace = topCanvas + shipYPosition
 
 
     console.log(canvasSpects)
@@ -311,10 +311,10 @@ import "@fontsource/press-start-2p";
         e.preventDefault()
 
         if (touch.clientY < touchableMovementSpace) {
-          if (bulletsArray.length < BULLET_LIMIT) {
-          shipBullet();
-          playSound("/sounds/galaga-shot-sound.mp3");
-        }
+          if (bulletsArray.length < BULLET_LIMIT && isShipAlive) {
+            shipBullet();
+            playSound("/sounds/galaga-shot-sound.mp3");
+          }
         }
 
         if (touch.clientX <= leftCanvas + shipXPosition && touch.clientY > touchableMovementSpace) {
@@ -338,6 +338,7 @@ import "@fontsource/press-start-2p";
     canvas.addEventListener("touchmove", (e: any) => {
       [...e.changedTouches].forEach(touch => {
         e.preventDefault()
+
         if (touch.clientX <= leftCanvas + shipXPosition && touch.clientY > touchableMovementSpace) {
           rightPressed = false;
           leftPressed = true;
