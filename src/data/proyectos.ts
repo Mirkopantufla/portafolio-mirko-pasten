@@ -43,7 +43,7 @@ export const proyectosDisponibles: Proyectos[] = [
             { iconos: "django", nombre: "Django" },
             { iconos: "postgresql", nombre: "PostgreSQL" },
         ],
-        deployed: false
+        deployed: true
     },
     {
         id: "battleship",
@@ -161,7 +161,7 @@ export const iconosStack: MiStack[] = [
         href: "https://flask.palletsprojects.com/en/3.0.x/", 
         icono: "flask",
         section: "back-end",
-        className: "invert-icon w-24 h-10 md:h-14 lg:h-16 lg:w-32" 
+        className: "invert-icon w-24 h-10 md:h-14 lg:h-16 lg:w-44" 
     },
     { 
         href: "https://docs.djangoproject.com/en/4.2/", 
@@ -173,7 +173,7 @@ export const iconosStack: MiStack[] = [
         href: "https://docs.sqlalchemy.org/en/14/", 
         icono: "sqlAlchemy",
         section: "back-end",
-        className: "w-32 h-10 md:h-12 lg:h-12 lg:w-36" 
+        className: "w-32 h-10 md:h-12 lg:h-12 lg:w-44" 
     },
     { 
         href: "https://www.postgresql.org/", 
