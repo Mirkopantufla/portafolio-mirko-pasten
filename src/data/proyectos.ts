@@ -161,7 +161,7 @@ export const iconosStack: MiStack[] = [
         href: "https://flask.palletsprojects.com/en/3.0.x/", 
         icono: "flask",
         section: "back-end",
-        className: "invert-icon h-10 w-24 md:h-11 md:w-24 lg:h-16 lg:w-44 xl:h-20 xl:w-44" 
+        className: "invert-icon h-10 w-24 md:h-11 md:w-24 lg:h-16 lg:w-44 xl:h-24 xl:w-44" 
     },
     { 
         href: "https://docs.djangoproject.com/en/4.2/", 
@@ -173,7 +173,7 @@ export const iconosStack: MiStack[] = [
         href: "https://docs.sqlalchemy.org/en/14/", 
         icono: "sqlAlchemy",
         section: "back-end",
-        className: "h-10 h-12 w-32 md:h-10 md:w-32 lg:h-14 lg:w-44 xl:h-14 xl:w-44" 
+        className: "h-9 w-32 md:h-10 md:w-32 lg:h-14 lg:w-44 xl:h-16 xl:w-44" 
     },
     { 
         href: "https://www.postgresql.org/", 
