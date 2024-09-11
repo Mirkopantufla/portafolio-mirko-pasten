@@ -1,0 +1,25 @@
+---
+interface Props {
+    informacion: string;
+	imagenSrc1: string;
+    imagenSrc2: string;
+}
+
+const { imagenSrc1, imagenSrc2, informacion } = Astro.props;
+---
+
+<div class="flex flex-col justify-center">
+    <p class="text-center">{informacion}</p>
+    <div class="flex">
+      <img
+        class="w-10 lg:w-16 xl:w-20 invert-icon"
+        src={imagenSrc1}
+        alt=""
+      />
+      <img
+        class="w-10 lg:w-16 xl:w-20 invert-icon"
+        src={imagenSrc2}
+        alt=""
+      />
+    </div>
+  </div>

@@ -1,5 +1,6 @@
 ---
 import "@fontsource/press-start-2p";
+import TeclasInformativas from "./Game/TeclasInformativas.astro";
 ---
 
 <section
@@ -11,40 +12,19 @@ import "@fontsource/press-start-2p";
       Play!
     </button>
 
-    <p class="text-center">Izquierda</p>
-    <div class="flex justify-center">
+    <div class="flex gap-6">
+      <TeclasInformativas informacion="Izquierda" imagenSrc1="/icons/a-key-icon.png" imagenSrc2="/icons/left-key-icon.png"/>
+      <TeclasInformativas informacion="Derecha" imagenSrc1="/icons/right-key-icon.png" imagenSrc2="/icons/d-key-icon.png"/>
+    </div>
+
+    <div class="flex flex-col justify-center">
+      <p class="text-center">Disparar</p>
       <img
-        class="w-10 lg:w-16 xl:w-20 invert-icon"
-        src="/icons/a-key-icon.png"
-        alt=""
-      />
-      <img
-        class="w-10 lg:w-16 xl:w-20 invert-icon"
-        src="/icons/left-key-icon.png"
+        class="w-14 lg:w-20 xl:w-28 invert-icon self-center"
+        src="/icons/space-key-icon.png"
         alt=""
       />
     </div>
-
-    <p class="text-center">Derecha</p>
-    <div class="flex justify-center">
-      <img
-        class="w-10 lg:w-16 xl:w-20 invert-icon"
-        src="/icons/d-key-icon.png"
-        alt=""
-      />
-      <img
-        class="w-10 lg:w-16 xl:w-20 invert-icon"
-        src="/icons/right-key-icon.png"
-        alt=""
-      />
-    </div>
-
-    <p class="text-center">Disparar</p>
-    <img
-      class="w-14 lg:w-20 xl:w-28 invert-icon self-center"
-      src="/icons/space-key-icon.png"
-      alt=""
-    />
   </div>
   <canvas class="my-6"></canvas>
 </section>
@@ -130,7 +110,13 @@ import "@fontsource/press-start-2p";
   let intervaloAnimacion: any;
   let monsterAtackTimeOut: any = undefined;
 
-  // Touch variables
+  //Estrellas
+  let stars = document.getElementById("stars") as HTMLElement;
+  let stars2 = document.getElementById("stars2") as HTMLElement;
+  let stars3 = document.getElementById("stars3") as HTMLElement;
+  let stars4 = document.getElementById("stars4") as HTMLElement;
+
+  // Variables Touch
   let lastTouchPosition: number;
 
   // Carga de imagenes
@@ -190,6 +176,8 @@ import "@fontsource/press-start-2p";
   let lifeXPosition: number = 20;
   let lifeYPosition: number = boardHeigth - SCREEN_PIXELS - 10;
   let scoreFontSize: number = 20;
+  let levelFinishedFrames: number = 0;
+  let LEVEL_DELAY_FRAMES: number = 400;
 
   //Earn Lifes
   let firstLifeMilestone: boolean = false;
@@ -208,6 +196,7 @@ import "@fontsource/press-start-2p";
   let switcher: boolean = false;
   let indexTargetMonster: number = 0;
   let MONSTER_VELOCITY: number = 0.5;
+  let monstersAlive: boolean = false;
   const DEATH_FRAME_DURATION: number = 3;
 
   // Monster Bullets
@@ -228,7 +217,7 @@ import "@fontsource/press-start-2p";
   let SHIP_RESPAWN_FRAMES: number = 300;
 
   // Ship Bullets
-  let BULLET_LIMIT: number = 2;
+  let BULLET_LIMIT: number = 20;
   let BULLET_VELOCITY: number = -12;
   let bulletsArray: Bullet[] = [];
 
@@ -293,10 +282,7 @@ import "@fontsource/press-start-2p";
   }
 
   function openGame() {
-    let stars = document.getElementById("stars") as HTMLElement;
-    let stars2 = document.getElementById("stars2") as HTMLElement;
-    let stars3 = document.getElementById("stars3") as HTMLElement;
-    let stars4 = document.getElementById("stars4") as HTMLElement;
+    
     // Si el usuario apreta el boton, se activa el juego
     openGameWindow = !openGameWindow;
 
@@ -317,14 +303,6 @@ import "@fontsource/press-start-2p";
       initGameEvents();
       draw();
     } else {
-      stars.style.animationDuration = "50s";
-      stars2.style.animationDuration = "100s";
-      stars3.style.animationDuration = "150s";
-      stars4.style.animationDuration = "600s";
-      showButtons.style.display = "flex";
-      showButtons.style.flexDirection = "column";
-      contenedor.style.scrollSnapAlign = "none";
-      canvas.style.display = "none";
       endGameEvents();
     }
   }
@@ -342,7 +320,6 @@ import "@fontsource/press-start-2p";
     let canvasHeight = canvasSpects.height;
     let touchableMovementSpace = topCanvas + shipYPosition;
 
-    console.log(canvasSpects);
     canvas.addEventListener("touchstart", (e: any) => {
       [...e.changedTouches].forEach((touch) => {
         e.preventDefault();
@@ -360,14 +337,14 @@ import "@fontsource/press-start-2p";
         ) {
           rightPressed = false;
           leftPressed = true;
-          console.log("LEFT");
+          // console.log("LEFT");
         } else if (
           touch.clientX >= leftCanvas + shipXPosition + SCREEN_PIXELS &&
           touch.clientY > touchableMovementSpace
         ) {
           leftPressed = false;
           rightPressed = true;
-          console.log("RIGHT");
+          // console.log("RIGHT");
         } else {
           leftPressed = false;
           rightPressed = false;
@@ -385,14 +362,14 @@ import "@fontsource/press-start-2p";
         ) {
           rightPressed = false;
           leftPressed = true;
-          console.log("LEFT");
+          // console.log("LEFT");
         } else if (
           touch.clientX >= leftCanvas + shipXPosition + SCREEN_PIXELS &&
           touch.clientY > touchableMovementSpace
         ) {
           leftPressed = false;
           rightPressed = true;
-          console.log("RIGHT");
+          // console.log("RIGHT");
         } else {
           leftPressed = false;
           rightPressed = false;
@@ -411,12 +388,14 @@ import "@fontsource/press-start-2p";
   function initGameEvents() {
     startGame = true;
     isShipAlive = true;
+    monstersAlive = true;
     monsterArray = [];
     createMonsters(monsterNumber);
     intervaloAnimacion = setInterval(animate, 1000);
     playerMedals = [...levelToMedal(actualStage)];
     document.addEventListener("keydown", keyDownHandler);
     document.addEventListener("keyup", keyUpHandler);
+    loadScoreLocal();
     initGameTouchEvents();
   }
 
@@ -425,9 +404,19 @@ import "@fontsource/press-start-2p";
 
     if (isShipAlive) {
       // Si esta presionada la tecla es por que va hacia el lado indicado
-      if (key === "Right" || key === "ArrowRight" || key === "d") {
+      if (
+        key === "Right" ||
+        key === "ArrowRight" ||
+        key === "d" ||
+        key === "D"
+      ) {
         rightPressed = true;
-      } else if (key === "Left" || key === "ArrowLeft" || key === "a") {
+      } else if (
+        key === "Left" ||
+        key === "ArrowLeft" ||
+        key === "a" ||
+        key === "A"
+      ) {
         leftPressed = true;
       }
 
@@ -449,9 +438,19 @@ import "@fontsource/press-start-2p";
 
     if (isShipAlive) {
       // Si sueltan la tecla es por que quedara quieto
-      if (key === "Right" || key === "ArrowRight" || key === "d") {
+      if (
+        key === "Right" ||
+        key === "ArrowRight" ||
+        key === "d" ||
+        key === "D"
+      ) {
         rightPressed = false;
-      } else if (key === "Left" || key === "ArrowLeft" || key === "a") {
+      } else if (
+        key === "Left" ||
+        key === "ArrowLeft" ||
+        key === "a" ||
+        key === "A"
+      ) {
         leftPressed = false;
       }
     } else {
@@ -461,7 +460,15 @@ import "@fontsource/press-start-2p";
   }
 
   function endGameEvents() {
+    cancelAnimationFrame(animationFrame)
     clearInterval(intervaloAnimacion);
+    stars.style.animationDuration = "50s";
+    stars2.style.animationDuration = "100s";
+    stars3.style.animationDuration = "150s";
+    stars4.style.animationDuration = "600s";
+    showButtons.style.display = "flex";
+    showButtons.style.flexDirection = "column";
+    saveScoreLocal(playerHighScore);
     playerMedals = [];
     actualStage = 1;
     playerLifes = 2;
@@ -475,8 +482,10 @@ import "@fontsource/press-start-2p";
     shipVelocity = 5 * scale;
     isShipAlive = false;
     startGame = false;
+    openGameWindow = false;
     document.removeEventListener("keydown", keyDownHandler);
     document.removeEventListener("keyup", keyUpHandler);
+    cleanCanvas();
   }
 
   function drawShip(): any {
@@ -728,12 +737,6 @@ import "@fontsource/press-start-2p";
       }, AFTER_ATACK_DELAY);
     }
 
-    if (startGame === false) {
-      monsterArray = [];
-      createMonsters(monsterNumber);
-      startGame = true;
-    }
-
     for (let i = 0; i < monsterArray.length; i++) {
       let monster = monsterArray[i];
 
@@ -834,6 +837,8 @@ import "@fontsource/press-start-2p";
 
       if (monsterCuantityChecker === 0 && startGame === true) {
         startGame = false;
+        monstersAlive = false;
+        levelFinishedFrames = animationFrame;
         actualStage += 1;
         gameDificulty(actualStage);
         playerMedals = [...levelToMedal(actualStage)];
@@ -1093,25 +1098,75 @@ import "@fontsource/press-start-2p";
     //Compruebo si no quedan vidas
     if (playerLifes < 0) {
       endGameEvents();
+      
+    }
+  }
+
+  function loadScoreLocal() {
+    let savedScore: number = 0;
+
+      if (localStorage.getItem('highScore')) {
+        savedScore = parseInt(localStorage.getItem('highScore') || "0");
+      }
+
+      playerHighScore = savedScore;
+  }
+
+  function saveScoreLocal(currentHighScore: number) {
+    let savedScore: number = 0;
+    let stringAux: string = "";
+
+      if (localStorage.getItem('highScore')) {
+        savedScore = parseInt(localStorage.getItem('highScore') || "0");
+      }
+
+      if (currentHighScore >= savedScore) {
+        stringAux = currentHighScore.toString()
+        localStorage.setItem('highScore', stringAux);
+      }
+
+      stringAux = "";
+  }
+
+  function drawNextLevelAnimation() {
+    let framesDiference = animationFrame - levelFinishedFrames;
+
+    if (!startGame && !monstersAlive) {
+      let yPosition = boardHeigth / 2;
+      let xPosition = boardWidth / 2 - scoreFontSize * 4;
+      let currentLevel = actualStage;
+
+      context.font = `${scoreFontSize}px 'Press Start 2P'`;
+      context.fillStyle = "red";
+      context.fillText(`LEVEL ${currentLevel}`, xPosition, yPosition);
+    }
+
+    if (!startGame && !monstersAlive && framesDiference >= LEVEL_DELAY_FRAMES) {
+      monsterArray = [];
+      levelFinishedFrames = 0;
+      createMonsters(monsterNumber);
+      startGame = true;
+      monstersAlive = true;
     }
   }
 
   function draw() {
-    cleanCanvas();
-    drawShip();
-    drawScore();
-    drawLifes();
-    drawMedals();
-
-    shipMovement();
-    playerController();
-    bulletController();
-    monsterController();
-    monsterBulletController();
-    monsterDeathAnimation();
-    drawShipDeath();
-
+    
     if (openGameWindow) {
+      cleanCanvas();
+      drawShip();
+      drawScore();
+      drawLifes();
+      drawMedals();
+
+      shipMovement();
+      playerController();
+      bulletController();
+      monsterController();
+      monsterBulletController();
+      monsterDeathAnimation();
+      drawShipDeath();
+      drawNextLevelAnimation();
       animationFrame = requestAnimationFrame(draw);
     } else {
       cancelAnimationFrame(animationFrame);
