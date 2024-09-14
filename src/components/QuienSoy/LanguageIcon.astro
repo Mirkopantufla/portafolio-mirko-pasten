@@ -8,8 +8,8 @@ interface Props {
 const { className, href, iconName } = Astro.props
 ---
 
-<a id={`link-${iconName}`} name="icono-animado" class='icono-animado col-span-2 flex flex-col justify-center items-center transition ease-out duration-[80ms] z-10 h-auto w-auto' target="_blank" href={href}>
-    <img class:list={[`rounded-xl p-1 w-16 h-16 md:h-20 md:w-20 xl:h-28 xl:w-28`, className]} src={`/icons/icono-${iconName}.png`} alt={iconName}>
+<a id={`link-${iconName}`} name="icono-animado" class='icono-animado col-span-2 flex flex-col justify-center items-center transition ease-out duration-[80ms] z-10 h-auto w-auto sombreado-blanco' target="_blank" href={href}>
+    <img class:list={[`rounded-xl p-1 w-16 h-16 md:h-20 md:w-20 xl:h-28 xl:w-28 invert-icon`, className]} src={`/icons/icono-${iconName}.png`} alt={iconName}>
 </a>
 
 <style>

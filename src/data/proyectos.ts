@@ -119,66 +119,66 @@ export const iconosStack: MiStack[] = [
         href: "https://www.w3schools.com/html/",
         icono: "html-5",
         section: "front-end",
-        className: "sombreado-blanco"
+        className: ""
     },
     { 
         href: "https://www.w3schools.com/js/", 
         icono: "js", 
         section: "front-end",
-        className: "sombreado-blanco" 
+        className: "" 
     },
     { 
         href: "https://react.dev/", 
         icono: "react",
         section: "front-end",
-        className: "sombreado-blanco"
+        className: ""
     },
     { 
         href: "https://www.w3schools.com/css/", 
         icono: "css-3",
         section: "front-end",
-        className: "sombreado-blanco"
+        className: ""
     },
     { 
         href: "https://getbootstrap.com/docs/5.3/getting-started/introduction/", 
         icono: "bootstrap",
         section: "front-end",
-        className: "sombreado-negro" 
+        className: "" 
     },
     { 
         href: "https://tailwindcss.com/docs/installation", 
         icono: "tailwind",
         section: "front-end",
-        className: "sombreado-blanco" 
+        className: "" 
     },
     { 
         href: "https://docs.python.org/3.11/", 
         icono: "python", 
         section: "back-end",
-        className: "sombreado-blanco" 
+        className: "" 
     },
     { 
         href: "https://flask.palletsprojects.com/en/3.0.x/", 
         icono: "flask",
         section: "back-end",
-        className: "invert-icon h-10 w-24 md:h-11 md:w-24 lg:h-16 lg:w-44 xl:h-20 xl:w-44" 
+        className: "h-10 w-24 md:h-11 md:w-24 lg:h-16 lg:w-44 xl:h-20 xl:w-44" 
     },
     { 
         href: "https://docs.djangoproject.com/en/4.2/", 
         icono: "django",
         section: "back-end",
-        className: "invert-icon" 
+        className: "" 
     },
     { 
         href: "https://docs.sqlalchemy.org/en/14/", 
         icono: "sqlAlchemy",
         section: "back-end",
-        className: "h-9 w-32 md:h-10 md:w-32 lg:h-14 lg:w-44 xl:h-14 xl:w-44" 
+        className: "h-9 w-32 md:h-10 md:w-32 lg:h-14 lg:w-44 xl:h-12 xl:w-44" 
     },
     { 
         href: "https://www.postgresql.org/", 
         icono: "postgresql",
         section: "back-end",
-        className: "sombreado-blanco" 
+        className: "" 
     },
 ]
