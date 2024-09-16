@@ -1,5 +1,5 @@
 ---
-import LanguageIcon from "./LanguageIcon.astro";
+import IconoLenguaje from "./IconoLenguaje.astro";
 import { iconosStack } from "../../data/proyectos.ts";
 
 interface Props {
@@ -9,12 +9,12 @@ interface Props {
 const { seccion } = Astro.props
 ---
 
-<div class="flex justify-evenly items-center my-2">
+<div class="flex flex-wrap justify-evenly items-center my-2">
     {
       iconosStack.map((icono) => {
         if (icono.section === seccion) {
           return (
-            <LanguageIcon
+            <IconoLenguaje
               href={icono.href}
               iconName={icono.icono}
               className={icono.className}
