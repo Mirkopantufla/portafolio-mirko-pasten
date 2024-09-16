@@ -3,39 +3,83 @@ import FormularioContacto from "./Contacto/FormularioContacto.astro";
 import IconoRedes from "./Contacto/IconoRedes.astro";
 ---
 
-<section 
-    id="contacto" 
-    class="min-h-[100vh] grid grid-cols-12 grid-rows-12 place-items-center"
+<section
+  id="contacto"
+  class="min-h-[100vh] grid grid-cols-12 grid-rows-12 place-items-center"
 >
-    <div class="col-span-12 row-span-2 p-5 px-24 bg-white-transparent backdrop-blur-sm rounded-ee-full rounded-tl-full vanish">
-        <h1 class="text-2xl lg:text-5xl">Contacto</h1>
+  <div
+    class="col-span-12 row-span-2 p-5 px-24 bg-white-transparent backdrop-blur-sm rounded-ee-full rounded-tl-full vanish"
+  >
+    <h1 class="text-2xl lg:text-5xl">Contacto</h1>
+  </div>
+  <div
+    class="flex col-span-10 col-start-2 lg:col-span-8 lg:col-start-3 row-span-10 bg-white-transparent backdrop-blur-sm rounded-3xl w-full vanish"
+  >
+    <div class="flex flex-col justify-evenly py-4 w-full">
+      <p class="text-center py-5 text-xl font-bold px-10">
+        Puedes buscarme en mis redes sociales o contactarme con el siguiente
+        formulario
+      </p>
+      <div class="flex items-center justify-evenly">
+        <IconoRedes
+          src="/icons/logo-email.png"
+          href="mailto:mirko.pasten.dev@gmail.com"
+        />
+        <IconoRedes
+          src="/icons/logo-whatsapp.png"
+          href="https://wa.me/56940550785?text=Hola%20me%20gustaría%20saber%20más%20sobre%20sus%20servicios"
+        />
+        <IconoRedes
+          src="/icons/logo-linkedin.png"
+          href="https://www.linkedin.com/in/mirko-pasten-carcamo/"
+        />
+        <IconoRedes
+          src="/icons/logo-github.png"
+          href="https://github.com/Mirkopantufla"
+        />
+      </div>
+      <div class="w-full my-5 z-10">
+        <FormularioContacto />
+      </div>
+      <p class="font-bold p-4 text-center">
+        Si tienes tiempo, puedes probar mi 'galaga' hecho con typescript
+        <a href="/game" class="galagaButton flex justify-center">
+          <img class="invert-icon h-10" src="/icons/play-icon.png" alt="" />
+        </a>
+      </p>
     </div>
-    <div
-        class="flex col-span-10 col-start-2 lg:col-span-8 lg:col-start-3 row-span-10 bg-white-transparent backdrop-blur-sm rounded-3xl w-full vanish"
-    >
-        <div class="flex flex-col justify-evenly py-4 w-full">
-            <div class="flex items-center justify-evenly">
-                <IconoRedes
-                    src="/icons/logo-email.png"
-                    href="mailto:mirko.pasten.dev@gmail.com"
-                />
-                <IconoRedes
-                    src="/icons/logo-whatsapp.png"
-                    href="https://wa.me/56940550785?text=Hola%20me%20gustaría%20saber%20más%20sobre%20sus%20servicios"
-                />
-                <IconoRedes
-                    src="/icons/logo-linkedin.png"
-                    href="https://www.linkedin.com/in/mirko-pasten-carcamo/"
-                />
-                <IconoRedes
-                    src="/icons/logo-github.png"
-                    href="https://github.com/Mirkopantufla"
-                />
-            </div>
-            <div class="w-full z-10">
-                <FormularioContacto />
-            </div>
-        </div>
-        
-    </div>
+  </div>
 </section>
+
+<style>
+  .galagaButton {
+    animation: flotating 1.5s linear infinite;
+  }
+
+  @keyframes flotating {
+    0% {
+      translate: 0px 0px;
+      color: red;
+    }
+
+    25% {
+      translate: 0px 2px;
+      color: cyan;
+    }
+
+    50% {
+      translate: 0px 0px;
+      color: green;
+    }
+
+    75% {
+      translate: 0px -2px;
+      color: yellow;
+    }
+
+    100% {
+      translate: 0px 0px;
+      color: orange;
+    }
+  }
+</style>

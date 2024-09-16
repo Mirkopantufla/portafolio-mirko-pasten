@@ -1,6 +1,5 @@
 ---
-import LanguageIcon from "./QuienSoy/LanguageIcon.astro";
-import { iconosStack } from "../data/proyectos.ts";
+import ExpositorIconos from "./QuienSoy/ExpositorIconos.astro";
 ---
 
 <section id="quien-soy" class="min-h-[100vh] grid grid-cols-12 pt-20 lg:pt-0">
@@ -26,14 +25,12 @@ import { iconosStack } from "../data/proyectos.ts";
           Desarrollador Fullstack
         </h2>
       </div>
-      <div class="my-auto text-center lg:px-20">
+      <div class="my-auto text-center lg:px-20 lg:w-4/5">
         <p class="font-light text-md xl:text-xl mt-3">
-          Destacando por mi paciencia, persistencia y amabilidad en el trabajo
-          colaborativo.
-          <br />
-          <br>
-          Me gustan los animales, las estrellas, cocinar, los juegos de pc, ser maestro
-          chasquilla y sobretodo programar!
+          ¡Hola! Soy un apasionado desarrollador web con experiencia en el desarrollo de
+          aplicaciones tanto front-end como back-end, me enfoco en ofrecer
+          productos que no solo cumplan con las expectativas técnicas, sino que
+          también proporcionen una experiencia de usuario fluida y atractiva.
           <br />
           <br />
           Aqui puedes descargar mi CV
@@ -45,37 +42,9 @@ import { iconosStack } from "../data/proyectos.ts";
         </div>
       </div>
     </div>
-    <div class="py-5">
-      <div class="flex justify-evenly items-center my-2">
-        {
-          iconosStack.map((icono) => {
-            if (icono.section === "front-end") {
-              return (
-                <LanguageIcon
-                  href={icono.href}
-                  iconName={icono.icono}
-                  className={icono.className}
-                />
-              );
-            }
-          })
-        }
-      </div>
-      <div class="flex justify-evenly items-center my-2">
-        {
-          iconosStack.map((icono) => {
-            if (icono.section === "back-end") {
-              return (
-                <LanguageIcon
-                  href={icono.href}
-                  iconName={icono.icono}
-                  className={icono.className}
-                />
-              );
-            }
-          })
-        }
-      </div>
+    <div class="py-10 lg:py-2">
+      <ExpositorIconos seccion="front-end"/>
+      <ExpositorIconos seccion="back-end"/>
     </div>
     <div
       class="bg-white-transparent backdrop-blur-sm rounded-ee-[70px] text-center p-4 z-10"
@@ -107,46 +76,6 @@ import { iconosStack } from "../data/proyectos.ts";
           </p>
         </div>
       </div>
-
-      <p class="font-bold p-4">
-        Si tienes tiempo, prueba mi copia barata de galaga hecho con javascript!
-        <a href="/game" class="galagaButton flex justify-center">
-          <img class="invert-icon h-10" src="/icons/play-icon.png" alt="" />
-        </a>
-      </p>
     </div>
   </div>
 </section>
-
-<style>
-  .galagaButton {
-    animation: flotating 1.5s linear infinite;
-  }
-
-  @keyframes flotating {
-    0% {
-      translate: 0px 0px;
-      color: red;
-    }
-
-    25% {
-      translate: 0px 2px;
-      color: cyan;
-    }
-
-    50% {
-      translate: 0px 0px;
-      color: green;
-    }
-
-    75% {
-      translate: 0px -2px;
-      color: yellow;
-    }
-
-    100% {
-      translate: 0px 0px;
-      color: orange;
-    }
-  }
-</style>
