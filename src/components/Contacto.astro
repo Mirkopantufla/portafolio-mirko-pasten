@@ -16,11 +16,7 @@ import IconoRedes from "./Contacto/IconoRedes.astro";
     class="flex col-span-10 col-start-2 lg:col-span-8 lg:col-start-3 row-span-10 bg-white-transparent backdrop-blur-sm rounded-3xl w-full vanish"
   >
     <div class="flex flex-col justify-evenly py-4 w-full">
-      <p class="text-center py-5 text-xl font-bold px-10">
-        Puedes buscarme en mis redes sociales o contactarme con el siguiente
-        formulario
-      </p>
-      <div class="flex items-center justify-evenly">
+      <div class="flex items-center justify-evenly w-full lg:w-4/5 self-center my-5">
         <IconoRedes
           src="/icons/logo-email.png"
           href="mailto:mirko.pasten.dev@gmail.com"
@@ -38,15 +34,21 @@ import IconoRedes from "./Contacto/IconoRedes.astro";
           href="https://github.com/Mirkopantufla"
         />
       </div>
-      <div class="w-full my-5 z-10">
+      <p class="text-center my-5 text-xl font-bold px-10">
+        Puedes buscarme en mis redes sociales o contactarme con el siguiente
+        formulario.
+      </p>
+      <div class="w-full lg:w-4/5 my-5 z-10 self-center">
         <FormularioContacto />
       </div>
       <p class="font-bold p-4 text-center">
-        Si tienes tiempo, puedes probar mi 'galaga' hecho con typescript
-        <a href="/game" class="galagaButton flex justify-center">
+        Si tienes tiempo, puedes probar mi 'galaga' hecho con typescript.
+      </p>
+      <div class="m-auto">
+        <a href="/game" class="galagaButton flex justify-center w-auto">
           <img class="invert-icon h-10" src="/icons/play-icon.png" alt="" />
         </a>
-      </p>
+      </div>
     </div>
   </div>
 </section>

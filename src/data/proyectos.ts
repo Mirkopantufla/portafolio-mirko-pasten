@@ -46,22 +46,26 @@ export const proyectosDisponibles: Proyectos[] = [
         deployed: true
     },
     {
-        id: "battleship",
-        nombre: "Juego Battleship",
-        link: "https://battle-ship-react.vercel.app/",
-        imagenes: ["battleship/battleship-1.JPG", "battleship/battleship-2.JPG", "battleship/battleship-3.JPG", "battleship/battleship-4.JPG", "battleship/battleship-4.JPG"],
+        id: "fake_store",
+        nombre: "E-commerce Fake Store",
+        link: "https://github.com/Mirkopantufla/nextjs-tailwind-fake-store",
+        imagenes: ["fake_store/fake_store-1.JPG", "fake_store/fake_store-2.JPG", "fake_store/fake_store-3.JPG", "fake_store/fake_store-4.JPG", "fake_store/fake_store-5.JPG", "fake_store/fake_store-6.JPG"],
         stack: [
             { iconos: "html-5", nombre: "HTML 5" },
             { iconos: "js", nombre: "JavaScript" },
             { iconos: "css-3", nombre: "CSS 3" },
-            { iconos: "bootstrap", nombre: "Bootstrap" },
+            { iconos: "tailwind", nombre: "Tailwind" },
             { iconos: "react", nombre: "React JS" },
+            { iconos: "python", nombre: "Python" },
+            { iconos: "sqlAlchemy", nombre: "SqlAlchemy" },
+            { iconos: "flask", nombre: "Flask" },
+            { iconos: "postgresql", nombre: "PostgreSQL" },
         ],
-        deployed: true
+        deployed: false
     },
     {
         id: "pajaros_chilenos",
-        nombre: "Guia de Pajaros Chilenos",
+        nombre: "Guía de Pajaros Chilenos",
         link: "https://api-pajaros-chilenos.vercel.app/",
         imagenes: ["pajaros_chilenos/pajaros_chilenos-1.JPG", "pajaros_chilenos/pajaros_chilenos-2.JPG", "pajaros_chilenos/pajaros_chilenos-3.JPG", "pajaros_chilenos/pajaros_chilenos-4.JPG"],
         stack: [
@@ -88,23 +92,19 @@ export const proyectosDisponibles: Proyectos[] = [
         deployed: true
     },
     {
-        id: "fake_store",
-        nombre: "E-commerce Fake Store",
-        link: "https://github.com/Mirkopantufla/nextjs-tailwind-fake-store",
-        imagenes: ["fake_store/fake_store-1.JPG", "fake_store/fake_store-2.JPG", "fake_store/fake_store-3.JPG", "fake_store/fake_store-4.JPG", "fake_store/fake_store-5.JPG", "fake_store/fake_store-6.JPG"],
+        id: "battleship",
+        nombre: "Juego Battleship",
+        link: "https://battle-ship-react.vercel.app/",
+        imagenes: ["battleship/battleship-1.JPG", "battleship/battleship-2.JPG", "battleship/battleship-3.JPG", "battleship/battleship-4.JPG", "battleship/battleship-4.JPG"],
         stack: [
             { iconos: "html-5", nombre: "HTML 5" },
             { iconos: "js", nombre: "JavaScript" },
             { iconos: "css-3", nombre: "CSS 3" },
-            { iconos: "tailwind", nombre: "Tailwind" },
+            { iconos: "bootstrap", nombre: "Bootstrap" },
             { iconos: "react", nombre: "React JS" },
-            { iconos: "python", nombre: "Python" },
-            { iconos: "sqlAlchemy", nombre: "SqlAlchemy" },
-            { iconos: "flask", nombre: "Flask" },
-            { iconos: "postgresql", nombre: "PostgreSQL" },
         ],
-        deployed: false
-    }
+        deployed: true
+    },
 ]
 
 export interface MiStack {
