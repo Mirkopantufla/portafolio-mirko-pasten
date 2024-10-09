@@ -16,9 +16,9 @@ const { stack } = Astro.props
                     <div class="max-h-9 max-w-9 flex flex-col items-center hover:-translate-y-full transition ease-out duration-[500ms]">
                         <div class="flex-1 flex justify-center items-center min-w-9 max-w-9 min-h-9 max-h-9">
                             <img
-                            class={`drop-shadow-lg invert-icon`}
+                            class={`drop-shadow-lg invert-icon max-h-9`}
                             src={`/icons/icono-${item.iconos}.png`}
-                            alt=""
+                            alt={`Icono ${item.nombre}`}
                         />
                         </div>
                         <div class="min-h-9 flex-1 flex justify-center items-center text-center whitespace-nowrap">
