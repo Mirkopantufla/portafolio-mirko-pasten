@@ -42,7 +42,7 @@ const { proyecto } = Astro.props;
 
     function toggleAccordion(e: any) {
         const id = e.currentTarget.dataset.id as string;
-        console.log(id)
+
         const content = document.getElementById(`content-${id}`) as HTMLElement;
         const icon = document.getElementById(`icon-${id}`) as HTMLElement;
    

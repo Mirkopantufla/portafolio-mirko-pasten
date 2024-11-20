@@ -53,7 +53,7 @@ export const proyectosDisponibles: Proyectos[] = [
             { iconos: "django", nombre: "Django" },
             { iconos: "postgresql", nombre: "PostgreSQL" },
         ],
-        deployed: false
+        deployed: true
     },
     {
         id: "only_flans",
