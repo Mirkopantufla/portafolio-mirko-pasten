@@ -9,20 +9,20 @@ const { stack } = Astro.props
 ---
 
 <div class="flex flex-col">
-    <div class="p-2 flex justify-evenly">
+    <div class="flex flex-wrap justify-evenly p-2">
         {
             stack.map((item) => (
                 <div class="overflow-y-clip">
                     <div class="max-h-9 max-w-9 flex flex-col items-center hover:-translate-y-full transition ease-out duration-[500ms]">
-                        <div class="flex-1 flex justify-center items-center min-w-9 max-w-9 min-h-9 max-h-9">
+                        <div class="flex justify-center items-center min-w-9 max-w-9 min-h-9 max-h-9">
                             <img
                             class={`drop-shadow-lg invert-icon max-h-9`}
                             src={`/icons/icono-${item.iconos}.png`}
                             alt={`Icono ${item.nombre}`}
                         />
                         </div>
-                        <div class="min-h-9 flex-1 flex justify-center items-center text-center whitespace-nowrap">
-                            <h6 class="text-sm bg-secondary rounded-md border border-1 border-black p-1 px-2 z-20">
+                        <div class="min-h-9 flex justify-center items-center text-center whitespace-nowrap">
+                            <h6 class="text-sm bg-secondary rounded-md border border-1 border-black p-1 px-2">
                                 {item.nombre}
                             </h6>
                         </div>

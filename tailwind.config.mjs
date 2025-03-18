@@ -2,7 +2,12 @@
 export default {
 	content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
 	theme: {
-		extend: {},
+		extend: {
+			screens: {
+				'2xs': '320px',
+				'xs': '420px', // Agrega el breakpoint personalizado
+			},
+		},
 	},
 	plugins: [],
 }
